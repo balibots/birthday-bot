@@ -4,7 +4,7 @@
     "module": "CommonJS",
     "outDir": "dist",
     "esModuleInterop": true,
-    "typeRoots" : ["./node_modules/@types", "./typings"]
+    "typeRoots": ["./node_modules/@types", "./typings"]
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]

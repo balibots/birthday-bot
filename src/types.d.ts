@@ -1,9 +1,11 @@
+export type Gender = 'male' | 'female' | null;
+
 export interface BirthdayData {
   name: string;
   date: string;
-  tgId?: number;
+  tgId?: number; // telegram id
   chatId: number;
-  pronoun: "a" | "o";
+  gender: Gender;
 }
 
 export interface BirthdayListData {

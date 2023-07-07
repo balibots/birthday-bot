@@ -1,8 +1,8 @@
-import { DateTime, Interval } from "luxon";
-import { BirthdayListData } from "./types";
+import { DateTime, Interval } from 'luxon';
+import { BirthdayListData } from './types';
 
 export const sortClosestDate = (a: BirthdayListData, b: BirthdayListData) => {
-  const dt = DateTime.now().startOf("day");
+  const dt = DateTime.now().startOf('day');
 
   let dateA = DateTime.fromISO(a.date).set({ year: dt.year });
   if (dt > dateA) dateA = dateA.set({ year: dt.year + 1 });
@@ -22,10 +22,10 @@ export const sortAbsoluteDate = (a: BirthdayListData, b: BirthdayListData) => {
 };
 
 export const daysToBirthday = (strdate: string) => {
-  const dt = DateTime.now().startOf("day");
+  const dt = DateTime.now().startOf('day');
 
   let bdate = DateTime.fromISO(strdate).set({ year: dt.year });
   if (dt > bdate) bdate = bdate.set({ year: dt.year + 1 });
 
-  return Math.ceil(Interval.fromDateTimes(dt, bdate).length("days"));
+  return Math.ceil(Interval.fromDateTimes(dt, bdate).length('days'));
 };
