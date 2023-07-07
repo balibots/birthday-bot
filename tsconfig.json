@@ -1,0 +1,11 @@
+{
+  "extends": "@tsconfig/node12/tsconfig.json",
+  "compilerOptions": {
+    "module": "CommonJS",
+    "outDir": "dist",
+    "esModuleInterop": true,
+    "typeRoots" : ["./node_modules/@types", "./typings"]
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
+}
