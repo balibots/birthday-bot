@@ -9,7 +9,7 @@ It's currently using:
  - Cyclic.sh, for deployment, including data persistence on DynamoDB
  - Jest, as a test runner
 
-## Usage
+## Usage
 
 After adding the bot to your Telegram group, birthdays can be added by group admins by calling /add:
 
@@ -53,4 +53,5 @@ Locally, the bot uses long polling but it uses webhooks in prod (`NODE_ENV === '
 
 ```
   /add John, 1999-09-22, -123456
+  /list -123456
 ```
