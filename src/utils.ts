@@ -1,8 +1,8 @@
-import { DateTime, Interval } from 'luxon';
-import { BirthdayListData, Gender } from './types';
+import { DateTime, Interval } from "luxon";
+import { BirthdayListEntry, Gender } from "./types";
 
-export const sortClosestDate = (a: BirthdayListData, b: BirthdayListData) => {
-  const dt = DateTime.now().startOf('day');
+export const sortClosestDate = (a: BirthdayListEntry, b: BirthdayListEntry) => {
+  const dt = DateTime.now().startOf("day");
 
   let dateA = DateTime.fromISO(a.date).set({ year: dt.year });
   if (dt > dateA) dateA = dateA.set({ year: dt.year + 1 });
@@ -15,22 +15,26 @@ export const sortClosestDate = (a: BirthdayListData, b: BirthdayListData) => {
   return ia.length() - ib.length();
 };
 
-export const sortAbsoluteDate = (a: BirthdayListData, b: BirthdayListData) => {
+export const sortAbsoluteDate = (
+  a: BirthdayListEntry,
+  b: BirthdayListEntry
+) => {
   let dateA = DateTime.fromISO(a.date);
   let dateB = DateTime.fromISO(b.date);
-  return dateA > dateB ? 1 : -1;
+  return dateA > dateB ? 1 : dateA === dateB ? 0 : -1;
 };
 
 export const daysToBirthday = (strdate: string) => {
-  const dt = DateTime.now().startOf('day');
+  const dt = DateTime.now().startOf("day");
 
   let bdate = DateTime.fromISO(strdate).set({ year: dt.year });
   if (dt > bdate) bdate = bdate.set({ year: dt.year + 1 });
 
-  return Math.ceil(Interval.fromDateTimes(dt, bdate).length('days'));
+  return Math.ceil(Interval.fromDateTimes(dt, bdate).length("days"));
 };
 
-const capitalizeFirstChar = (text: string) => text.charAt(0).toUpperCase() + text.substring(1);
+const capitalizeFirstChar = (text: string) =>
+  text.charAt(0).toUpperCase() + text.substring(1);
 
 // Simple sanitization, we might need to add something more complex in the future
 export const sanitizeName = (name: string): string => {
@@ -41,11 +45,11 @@ export const sanitizeName = (name: string): string => {
 
 export const getPronoun = (gender: Gender): string => {
   switch (gender) {
-    case 'male':
-      return 'o';
-    case 'female':
-      return 'a';
+    case "male":
+      return "o";
+    case "female":
+      return "a";
     default:
-      return 'o/a';
+      return "o/a";
   }
 };
