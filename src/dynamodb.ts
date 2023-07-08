@@ -50,7 +50,13 @@ const parseList = (dbList: { results: any[] }): BirthdayListEntry[] => {
 };
 
 const parseRecord = (dbRecord: any): BirthdayRecord => {
-  const { gender, date, name, tgId, chatId, day, month } = dbRecord.props;
+  let { gender, date, name, tgId, chatId, day, month } = dbRecord.props;
+
+  // TODO: here for backwards compatibility, remove one day
+  // it has a ! so we know we still haven't migrated those records to the new data format
+  if (!name) {
+    name = '!' + dbRecord.key.split(':')[1];
+  }
 
   return {
     date,
@@ -94,4 +100,14 @@ export async function getRecordsByDayAndMonth({
   day: number;
 }): Promise<BirthdayListEntry[]> {
   return parseList(await birthdays.filter({ month, day }));
+}
+
+export async function removeAllByChatId(chatId: number) {
+  if (!chatId || isNaN(chatId)) {
+    throw new Error('Invalid chat id, got: ' + chatId);
+  }
+
+  for (let record of (await birthdays.index('chatId').find(chatId)).results) {
+    await record.delete();
+  }
 }
