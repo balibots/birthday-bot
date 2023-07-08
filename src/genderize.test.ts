@@ -12,7 +12,7 @@ describe('getGender', () => {
   });
 
   it('returns null for unknown names', async () => {
-    const result = await getGender('asdfasdfasdfasdfasdfasdf');
+    const result = await getGender('asdfasdf');
     expect(result).toBeNull();
   });
 });

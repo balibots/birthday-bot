@@ -1,5 +1,5 @@
 import { DateTime, Interval } from 'luxon';
-import { BirthdayListData } from './types';
+import { BirthdayListData, Gender } from './types';
 
 export const sortClosestDate = (a: BirthdayListData, b: BirthdayListData) => {
   const dt = DateTime.now().startOf('day');
@@ -28,4 +28,24 @@ export const daysToBirthday = (strdate: string) => {
   if (dt > bdate) bdate = bdate.set({ year: dt.year + 1 });
 
   return Math.ceil(Interval.fromDateTimes(dt, bdate).length('days'));
+};
+
+const capitalizeFirstChar = (text: string) => text.charAt(0).toUpperCase() + text.substring(1);
+
+// Simple sanitization, we might need to add something more complex in the future
+export const sanitizeName = (name: string): string => {
+  const sanitized = capitalizeFirstChar(name.trim().toLowerCase());
+
+  return sanitized;
+};
+
+export const getPronoun = (gender: Gender): string => {
+  switch (gender) {
+    case 'male':
+      return 'o';
+    case 'female':
+      return 'a';
+    default:
+      return 'o/a';
+  }
 };

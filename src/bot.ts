@@ -3,15 +3,17 @@ import { Bot, CommandContext, Context, MiddlewareFn, webhookCallback } from 'gra
 import { ageLine, birthdayLine, nextBirthday } from './interface';
 import {
   addRecord,
-  getRecords,
   getRecord,
   removeRecord,
   clearDB,
-  getRecordByDate,
+  getRecordsByChatId,
+  getRecordsByDayAndMonth,
+  getRecords,
 } from './dynamodb';
-import salutations from './salutations';
-import { sortAbsoluteDate, sortClosestDate } from './utils';
+import generateSalutation from './salutations';
+import { sanitizeName, sortAbsoluteDate, sortClosestDate } from './utils';
 import { DateTime } from 'luxon';
+import { getGender } from './genderize';
 
 type MyContext = Context & { chatId: number };
 const bot = new Bot<MyContext>(process.env.TELEGRAM_TOKEN);
@@ -24,6 +26,7 @@ const withChatId: MiddlewareFn<MyContext> = async (ctx, next) => {
   } else {
     // on a private 1:1, need to supply chatId on the message
     chatId = parseInt(typeof ctx.match === 'string' ? ctx.match : '');
+
     if (!ctx.match) {
       return ctx.reply(`Need a Chat ID on a private chat.`);
     }
@@ -38,7 +41,7 @@ const withChatId: MiddlewareFn<MyContext> = async (ctx, next) => {
 };
 
 bot.command(['aniversarios', 'birthdays'], withChatId, async (ctx) => {
-  const birthdays = (await getRecords(ctx.chatId)).sort(sortClosestDate);
+  const birthdays = (await getRecordsByChatId(ctx.chatId)).sort(sortClosestDate);
 
   if (birthdays.length === 0) {
     return ctx.reply('No birthdays yet');
@@ -50,7 +53,7 @@ bot.command(['aniversarios', 'birthdays'], withChatId, async (ctx) => {
 });
 
 bot.command(['list', 'idades'], withChatId, async (ctx) => {
-  const birthdays = (await getRecords(ctx.chatId)).sort(sortAbsoluteDate);
+  const birthdays = (await getRecordsByChatId(ctx.chatId)).sort(sortAbsoluteDate);
 
   if (birthdays.length === 0) {
     return ctx.reply('No birthdays yet');
@@ -62,15 +65,19 @@ bot.command(['list', 'idades'], withChatId, async (ctx) => {
 });
 
 bot.command(['proximo', 'next'], withChatId, async (ctx) => {
-  const birthdays = await getRecords(ctx.chatId);
+  const birthdays = await getRecordsByChatId(ctx.chatId);
   const next = birthdays.sort(sortClosestDate)[0];
+
   if (!next) {
     return ctx.reply('No birthdays yet');
   }
+
   const nextRecord = await getRecord(next);
+
   if (!nextRecord) {
     return ctx.reply('Error getting data');
   }
+
   return ctx.reply(nextBirthday(nextRecord), { parse_mode: 'MarkdownV2' });
 });
 
@@ -84,19 +91,18 @@ bot.on('message:new_chat_members:me', async (ctx) => {
   }
 });
 
-// commands for admins
+// /add name, date
+// /add name, date, chatId (for private chats)
 bot.command('add', async (ctx) => {
   let [name, date, chatId] = ctx.match?.split(',').map((s) => s.trim()) || [];
 
-  let intChatId = parseInt(chatId);
+  let intChatId = Number(chatId);
 
   // if we're sending commands from a group, will get the id from the message
   if (ctx.chat.type === 'group') intChatId = ctx.chat.id;
 
   if (isNaN(intChatId) || !intChatId) {
-    return ctx.reply(`Invalid Chat ID, got ${chatId}`, {
-      parse_mode: 'MarkdownV2',
-    });
+    return ctx.reply(`Invalid Chat ID, got ${chatId}`);
   }
 
   if (!name || !date) {
@@ -124,17 +130,30 @@ bot.command('add', async (ctx) => {
     return ctx.reply('Group ID not found probably: ' + (e as Error).message);
   }
 
-  const adate = DateTime.fromISO(date);
+  const parsedDate = DateTime.fromISO(date);
 
-  if (!adate.isValid) {
+  if (!parsedDate.isValid) {
     return ctx.reply(
       "Couldn't parse date, please provide a date in this format: `/add John, 1999-11-25`",
       { parse_mode: 'MarkdownV2' },
     );
   }
 
-  await addRecord({ name, date, chatId: intChatId });
-  return ctx.reply(`Aniversariante adicionado: ${name} — ${date}`);
+  const sanitized = sanitizeName(name);
+  const gender = await getGender(sanitized);
+
+  const params = {
+    name: sanitized,
+    date: parsedDate.toFormat('yyyy-MM-dd'),
+    month: parsedDate.month,
+    day: parsedDate.day,
+    gender,
+    chatId: intChatId,
+  };
+
+  const record = await addRecord(params);
+
+  return ctx.reply(`Aniversariante adicionado: ${record.name} — ${record.date}`);
 });
 
 bot.command('remove', async (ctx) => {
@@ -177,10 +196,18 @@ bot.command('remove', async (ctx) => {
   }
 
   try {
-    await removeRecord({ name, date, chatId: intChatId });
+    const record = {
+      name: sanitizeName(name),
+      date: DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
+      chatId: intChatId,
+    };
+
+    console.log(`Removing record: ${JSON.stringify(record, null, 2)}`);
+
+    await removeRecord(record);
     return ctx.reply(`Aniversariante removido: ${name} - ${date}`);
   } catch (e) {
-    return ctx.reply(`Nao encontrei esse aniversariante (mas ok).`);
+    return ctx.reply(`Nao encontrei esse aniversariante (${e}).`);
   }
 });
 
@@ -224,27 +251,24 @@ app.listen(PORT, () => {
 });
 
 app.post('/trigger', async (req, res) => {
-  // no chat to notify, returning
-  if (!process.env.CHAT_ID) return;
+  const today = DateTime.now();
+  const birthdays = await getRecordsByDayAndMonth({ day: today.day, month: today.month });
 
-  /* TODO
-  const birthday = await getNext({ sort: "diff" });
-  if (birthday.diff === 0) {
-    const message = salutations[Math.floor(Math.random() * salutations.length)];
-    console.log(message);
-    const formattedMsg = message(birthday);
+  birthdays.forEach((birthday) => {
+    const formattedMsg = generateSalutation(birthday);
 
-    bot.api.sendMessage(process.env.CHAT_ID as string, formattedMsg, {
-      parse_mode: "Markdown",
+    bot.api.sendMessage(birthday.chatId, formattedMsg, {
+      parse_mode: 'Markdown',
     });
-  }
+  });
 
-  res.json({ birthday });
-  */
+  res.json({ birthdays });
 });
 
-app.get('/status', async (req, res) => {
-  res.json({ status: 'OK' });
+app.get('/list/:chatId', async (req, res) => {
+  const birthdays = await getRecordsByChatId(parseInt(req.params.chatId));
+
+  res.json({ birthdays });
 });
 
 // Start the server

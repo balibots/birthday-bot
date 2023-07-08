@@ -1,13 +1,13 @@
-import { BirthdayListData } from './types';
+import { BirthdayListEntry } from './types';
 import { daysToBirthday, sortAbsoluteDate, sortClosestDate } from './utils';
 
-const records: BirthdayListData[] = [
-  { name: 'Rui', date: '1984-12-26', chatId: 0 },
-  { name: 'Ricardo', date: '1980-07-01', chatId: 0 },
-  { name: 'Ines', date: '1986-06-11', chatId: 0 },
-  { name: 'Carlota', date: '2023-05-09', chatId: 0 },
-  { name: 'Francisca', date: '2020-06-16', chatId: 0 },
-  { name: 'Xavier', date: '2018-08-20', chatId: 0 },
+const records: BirthdayListEntry[] = [
+  { name: 'Rui', date: '1984-12-26', gender: 'male', chatId: 0 },
+  { name: 'Ricardo', date: '1980-07-01', gender: 'male', chatId: 0 },
+  { name: 'Ines', date: '1986-06-11', gender: 'female', chatId: 0 },
+  { name: 'Carlota', date: '2023-05-09', gender: 'female', chatId: 0 },
+  { name: 'Francisca', date: '2020-06-16', gender: 'female', chatId: 0 },
+  { name: 'Xavier', date: '2018-08-20', gender: 'male', chatId: 0 },
 ];
 
 describe('utils tests', () => {

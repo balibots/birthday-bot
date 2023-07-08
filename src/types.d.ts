@@ -1,15 +1,20 @@
+import { DateTime } from 'luxon';
+
 export type Gender = 'male' | 'female' | null;
 
-export interface BirthdayData {
+export interface BirthdayRecord {
   name: string;
   date: string;
-  tgId?: number; // telegram id
   chatId: number;
+  day: number;
+  month: number;
+  tgId?: number; // telegram id
   gender: Gender;
 }
 
-export interface BirthdayListData {
-  name: string;
-  date: string;
-  chatId: number;
-}
+// What we get from the database, not every field is useful after getting a record,
+// so we pick only the ones we need
+export type BirthdayListEntry = Pick<
+  BirthdayRecord,
+  'name' | 'date' | 'gender' | 'chatId' | 'tgId'
+>;

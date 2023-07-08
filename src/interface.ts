@@ -1,5 +1,5 @@
-import { DateTime, DateTimeFormatOptions, Duration } from 'luxon';
-import { BirthdayData, BirthdayListData } from './types';
+import { DateTime, DateTimeFormatOptions } from 'luxon';
+import { BirthdayRecord, BirthdayListData } from './types';
 import { daysToBirthday } from './utils';
 
 export function formatDate(date: string): string {
@@ -15,7 +15,8 @@ export function formatDate(date: string): string {
 }
 
 export function getAge(date: string): number {
-  return DateTime.fromISO(date).diffNow('years').years * -1;
+  const computedAge = DateTime.fromISO(date).diffNow('years').years * -1;
+  return Math.round(computedAge);
 }
 
 export function birthdayLine(record: BirthdayListData): string {
@@ -30,7 +31,7 @@ export function ageLine(record: BirthdayListData): string {
   return `\`${formatDate(record.date)}\` — ${record.name}, ${Math.floor(age)}`;
 }
 
-export function nextBirthday(record: BirthdayData): string {
+export function nextBirthday(record: BirthdayRecord): string {
   const age = getAge(record.date);
   const diff = daysToBirthday(record.date);
 

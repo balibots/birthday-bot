@@ -1,29 +1,35 @@
 import CyclicDb from '@cyclic.sh/dynamodb';
-import { BirthdayData, BirthdayListData } from './types';
-const db = CyclicDb(process.env.CYCLIC_DB);
+import { BirthdayRecord, BirthdayListEntry } from './types';
 
+const db = CyclicDb(process.env.CYCLIC_DB);
 const birthdays = db.collection(process.env.CYCLIC_DB_COLLECTION);
 
-type AddRemoveArg = Pick<BirthdayData, 'name' | 'date'> & { chatId: number };
+type DBKeyArgs = Pick<BirthdayRecord, 'name' | 'date' | 'chatId'>;
 
-export async function addRecord({ name, date, chatId }: AddRemoveArg) {
-  const key = `${chatId}:${name}:${date}`;
-  const birthday = await birthdays.set(
+function buildRecordKey(record: DBKeyArgs): string {
+  const { chatId, name } = record;
+
+  return `${chatId}:${name}`;
+}
+
+export async function addRecord({ ...params }: BirthdayRecord) {
+  const key = buildRecordKey(params);
+
+  console.log(`Adicionando ${key}: ${JSON.stringify(params)}`);
+
+  const record = await birthdays.set(
     key,
+    { ...params },
     {
-      date,
-      chatId,
-    },
-    {
-      $index: ['date', 'chatId'],
+      $index: ['chatId'],
     },
   );
 
-  return birthday;
+  return parseRecord(record);
 }
 
-export async function removeRecord({ name, date, chatId }: AddRemoveArg) {
-  const key = `${chatId}:${name}:${date}`;
+export async function removeRecord({ ...params }: DBKeyArgs) {
+  const key = buildRecordKey(params);
   const record = await birthdays.get(key);
 
   if (record) {
@@ -39,36 +45,47 @@ export async function clearDB() {
   }
 }
 
-const parseList = (dbList: { results: any[] }): BirthdayListData[] =>
-  dbList.results.reduce((acc, el) => {
-    const [chatId, name, date] = el.key.split(':');
-    acc.push({ name, date, chatId: parseInt(chatId) });
-    return acc;
-  }, []);
+const parseList = (dbList: { results: any[] }): BirthdayListEntry[] => {
+  return dbList.results.map((result) => parseRecord(result));
+};
 
-const parseRecord = (dbRecord: any): BirthdayData => {
-  const [chatId, name, date] = dbRecord.key.split(':');
+const parseRecord = (dbRecord: any): BirthdayListEntry => {
+  const { gender, date, name, tgId, chatId } = dbRecord.props;
+
   return {
-    name,
     date,
-    chatId: parseInt(chatId),
-    pronoun: 'a', // TODO
+    name,
+    gender,
+    tgId,
+    chatId,
   };
 };
 
-export async function getRecord({
-  name,
-  date,
-  chatId,
-}: AddRemoveArg): Promise<BirthdayData | undefined> {
-  const k = `${chatId}:${name}:${date}`;
-  return parseRecord(await birthdays.get(k));
+export async function getRecord({ ...params }: DBKeyArgs): Promise<BirthdayListEntry> {
+  const key = buildRecordKey(params);
+  const record = await birthdays.get(key);
+
+  return parseRecord(record);
 }
 
-export async function getRecordsByChatId(chatId: number): Promise<BirthdayListData[]> {
-  return parseList(await birthdays.index('chatId').find(chatId));
+export async function getRecords(): Promise<BirthdayListEntry[]> {
+  const list = await birthdays.list();
+
+  return parseList(list);
 }
 
-export async function getRecordByDate(date: string, chatId: number): Promise<BirthdayListData[]> {
-  return parseList(await birthdays.filter({ date, chatId }));
+export async function getRecordsByChatId(chatId: number): Promise<BirthdayListEntry[]> {
+  const list = await birthdays.index('chatId').find(chatId);
+
+  return parseList(list);
+}
+
+export async function getRecordsByDayAndMonth({
+  day,
+  month,
+}: {
+  month: number;
+  day: number;
+}): Promise<BirthdayListEntry[]> {
+  return parseList(await birthdays.filter({ month, day }));
 }

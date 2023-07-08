@@ -1,25 +1,37 @@
-import { BirthdayData } from './types';
+import i18next from 'i18next';
+import { BirthdayListEntry } from './types';
 import { getAge } from './interface';
+import { getPronoun } from './utils';
 
-type CongratMessage = (record: BirthdayData) => string;
+i18next.init({
+  lng: 'pt',
+  debug: false,
+  resources: {
+    pt: {
+      translation: {
+        messages: [
+          '🎂 O bebé de hoje é {{pronoun}} *{{name}}* que faz {{age}} anos! 🥳🎉 Parabéns {{name}} ❤️',
+          '🎂 Hoje é o dia d{{pronoun}} *{{name}}* que celebra {{age}} anos! 🥳🎉 Muitos parabéns {{name}} ❤️',
+          '🎂 Que dia épico! {{pronounUp}} *{{name}}* faz hoje {{age}} anos! 🥳🎉 Parabéns {{name}} ❤️',
+          '🎂 {{pronounUp}} noss{{pronoun}} *{{name}}* faz hoje {{age}} anos! 🥳🎉 Parabéns {{name}} ❤️',
+        ],
+      },
+    },
+  },
+});
 
-const messages: CongratMessage[] = [
-  ({ pronoun, name, date }) =>
-    `🎂 O bebé de hoje é ${pronoun} *${name}* que faz ${Math.round(
-      getAge(date),
-    )} anos! 🥳🎉 Parabéns ${name}, FELICIDADE SEM FIM ❤️❤️❤️`,
-  ({ pronoun, name, date }) =>
-    `🎂 Hoje é o dia d${pronoun} *${name}* que celebra ${Math.round(
-      getAge(date),
-    )} anos! 🥳🎉 Muitos parabéns ${name}, FELICIDADE SEM FIM ❤️❤️❤️`,
-  ({ pronoun, name, date }) =>
-    `🎂 Que dia épico! ${pronoun.toUpperCase()} *${name}* faz anos e conta já com ${Math.round(
-      getAge(date),
-    )} aninhos! 🥳🎉 Parabéns ${name}, FELICIDADE SEM FIM ❤️❤️❤️`,
-  ({ pronoun, name, date }) =>
-    `🎂 ${pronoun.toUpperCase()} noss${pronoun} *${name}* faz hoje ${Math.round(
-      getAge(date),
-    )} anos! 🥳🎉 Parabéns ${name}, FELICIDADE SEM FIM ❤️❤️❤️`,
-];
+// Picks a random message from the messages array and replaces the placeholders with the actual
+// values.
+export default function generateSalutation(record: BirthdayListEntry) {
+  const messages: string[] = i18next.t('messages', { returnObjects: true });
+  const rndIndex = Math.floor(Math.random() * messages.length);
 
-export default messages;
+  const replacements = {
+    name: record.name,
+    age: getAge(record.date),
+    pronoun: getPronoun(record.gender),
+    pronounUp: getPronoun(record.gender).toUpperCase(),
+  };
+
+  return i18next.t(`messages.${rndIndex}`, replacements);
+}

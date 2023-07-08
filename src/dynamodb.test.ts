@@ -1,18 +1,21 @@
 process.env.CYCLIC_DB_COLLECTION = `${process.env.CYCLIC_DB_COLLECTION}:test`;
 
+import { DateTime } from 'luxon';
 import {
   addRecord,
   getRecordsByChatId,
-  getRecordByDate,
+  getRecordsByDayAndMonth,
   removeRecord,
   clearDB,
   getRecord,
 } from './dynamodb';
+import { Gender } from './types';
 
 const chatId = 12345;
+const gender: Gender = 'male';
 
-const record = { name: 'Rui', date: '1984-12-26', chatId };
-const record2 = { name: 'Ricardo', date: '1980-07-01', chatId };
+const record = { name: 'Rui', date: '1984-12-26', month: 12, day: 26, gender, chatId };
+const record2 = { name: 'Ricardo', date: '1980-07-01', month: 7, day: 1, gender, chatId };
 const dbRecord = {
   $index: ['date', 'chatId'],
   collection: process.env.CYCLIC_DB_COLLECTION,
@@ -77,16 +80,18 @@ describe('DynamoDB tests', () => {
     });
   });
 
-  it('finds a record by date', async () => {
+  it('finds a record by month and day ', async () => {
     await addRecord(record);
     await addRecord(record2);
 
-    expect(await getRecordByDate(record2.date, chatId)).toEqual([record2]);
+    expect(await getRecordsByDayAndMonth({ day: record2.day, month: record2.month })).toEqual([
+      record2,
+    ]);
   });
 
   it('returns empty array on no match', async () => {
     await addRecord(record);
-    expect(await getRecordByDate(record2.date, chatId)).toEqual([]);
+    expect(await getRecordsByDayAndMonth({ day: record2.day, month: record2.month })).toEqual([]);
   });
 
   it('is multitenant', async () => {
@@ -98,8 +103,8 @@ describe('DynamoDB tests', () => {
     expect((await getRecordsByChatId(chatId)).length).toEqual(2);
     expect((await getRecordsByChatId(newChatId)).length).toEqual(1);
 
-    expect(await getRecordByDate(record2.date, chatId)).toEqual([record2]);
-    expect(await getRecordByDate(record2.date, newChatId)).toEqual([
+    expect(await getRecordsByDayAndMonth({ day: record2.day, month: record2.month })).toEqual([
+      record2,
       { ...record2, chatId: newChatId },
     ]);
 
@@ -113,7 +118,8 @@ describe('DynamoDB tests', () => {
     expect((await getRecordsByChatId(chatId)).length).toEqual(1);
     expect((await getRecordsByChatId(newChatId)).length).toEqual(0);
 
-    expect(await getRecordByDate(record.date, chatId)).toEqual([record]);
-    expect(await getRecordByDate(record.date, newChatId)).toEqual([]);
+    expect(await getRecordsByDayAndMonth({ day: record.day, month: record.month })).toEqual([
+      record,
+    ]);
   });
 });
