@@ -5,9 +5,9 @@ export type Gender = 'male' | 'female' | null;
 export interface BirthdayRecord {
   name: string;
   date: string;
-  chatId: number;
-  day: number;
   month: number;
+  day: number;
+  chatId: number;
   tgId?: number; // telegram id
   gender: Gender;
 }

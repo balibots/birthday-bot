@@ -1,5 +1,11 @@
 import express from 'express';
-import { Bot, CommandContext, Context, MiddlewareFn, webhookCallback } from 'grammy';
+import {
+  Bot,
+  CommandContext,
+  Context,
+  MiddlewareFn,
+  webhookCallback,
+} from 'grammy';
 import { ageLine, birthdayLine, nextBirthday } from './interface';
 import {
   addRecord,
@@ -41,7 +47,9 @@ const withChatId: MiddlewareFn<MyContext> = async (ctx, next) => {
 };
 
 bot.command(['aniversarios', 'birthdays'], withChatId, async (ctx) => {
-  const birthdays = (await getRecordsByChatId(ctx.chatId)).sort(sortClosestDate);
+  const birthdays = (await getRecordsByChatId(ctx.chatId)).sort(
+    sortClosestDate
+  );
 
   if (birthdays.length === 0) {
     return ctx.reply('No birthdays yet');
@@ -53,7 +61,9 @@ bot.command(['aniversarios', 'birthdays'], withChatId, async (ctx) => {
 });
 
 bot.command(['list', 'idades'], withChatId, async (ctx) => {
-  const birthdays = (await getRecordsByChatId(ctx.chatId)).sort(sortAbsoluteDate);
+  const birthdays = (await getRecordsByChatId(ctx.chatId)).sort(
+    sortAbsoluteDate
+  );
 
   if (birthdays.length === 0) {
     return ctx.reply('No birthdays yet');
@@ -107,13 +117,16 @@ bot.command('add', async (ctx) => {
 
   if (!name || !date) {
     if (ctx.chat.type === 'group') {
-      return ctx.reply('Please provide a name, a date in this format: `/add John, 1999-11-25`', {
-        parse_mode: 'MarkdownV2',
-      });
+      return ctx.reply(
+        'Please provide a name, a date in this format: `/add John, 1999-11-25`',
+        {
+          parse_mode: 'MarkdownV2',
+        }
+      );
     } else {
       return ctx.reply(
         'Please provide a name, a date and a chatId in this format: `/add John, 1999-11-25, -12345`',
-        { parse_mode: 'MarkdownV2' },
+        { parse_mode: 'MarkdownV2' }
       );
     }
   }
@@ -123,7 +136,7 @@ bot.command('add', async (ctx) => {
     const chatMember = await ctx.api.getChatMember(intChatId, ctx.from!.id);
     if (!['administrator', 'creator'].includes(chatMember.status)) {
       return ctx.reply(
-        'Apenas administratores do grupo podem adicionar e remover aniversariantes!',
+        'Apenas administratores do grupo podem adicionar e remover aniversariantes!'
       );
     }
   } catch (e) {
@@ -135,7 +148,7 @@ bot.command('add', async (ctx) => {
   if (!parsedDate.isValid) {
     return ctx.reply(
       "Couldn't parse date, please provide a date in this format: `/add John, 1999-11-25`",
-      { parse_mode: 'MarkdownV2' },
+      { parse_mode: 'MarkdownV2' }
     );
   }
 
@@ -153,7 +166,9 @@ bot.command('add', async (ctx) => {
 
   const record = await addRecord(params);
 
-  return ctx.reply(`Aniversariante adicionado: ${record.name} — ${record.date}`);
+  return ctx.reply(
+    `Aniversariante adicionado: ${record.name} — ${record.date}`
+  );
 });
 
 bot.command('remove', async (ctx) => {
@@ -172,13 +187,16 @@ bot.command('remove', async (ctx) => {
 
   if (!name || !date) {
     if (ctx.chat.type === 'group') {
-      return ctx.reply('Please provide a name, a date in this format: `/add John, 1999-11-25`', {
-        parse_mode: 'MarkdownV2',
-      });
+      return ctx.reply(
+        'Please provide a name, a date in this format: `/add John, 1999-11-25`',
+        {
+          parse_mode: 'MarkdownV2',
+        }
+      );
     } else {
       return ctx.reply(
         'Please provide a name, a date and a chatId in this format: `/add John, 1999-11-25, -12345`',
-        { parse_mode: 'MarkdownV2' },
+        { parse_mode: 'MarkdownV2' }
       );
     }
   }
@@ -188,7 +206,7 @@ bot.command('remove', async (ctx) => {
     const chatMember = await ctx.api.getChatMember(intChatId, ctx.from!.id);
     if (!['administrator', 'creator'].includes(chatMember.status)) {
       return ctx.reply(
-        'Apenas administratores do grupo podem adicionar e remover aniversariantes!',
+        'Apenas administratores do grupo podem adicionar e remover aniversariantes!'
       );
     }
   } catch (e) {
@@ -220,7 +238,8 @@ let commands = [
   },
   {
     command: 'idades',
-    description: 'Mostra a lista completa de idades ordenadas por data de nascimento',
+    description:
+      'Mostra a lista completa de idades ordenadas por data de nascimento',
   },
   {
     command: 'proximo',
@@ -252,7 +271,10 @@ app.listen(PORT, () => {
 
 app.post('/trigger', async (req, res) => {
   const today = DateTime.now();
-  const birthdays = await getRecordsByDayAndMonth({ day: today.day, month: today.month });
+  const birthdays = await getRecordsByDayAndMonth({
+    day: today.day,
+    month: today.month,
+  });
 
   birthdays.forEach((birthday) => {
     const formattedMsg = generateSalutation(birthday);

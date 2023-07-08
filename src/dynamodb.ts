@@ -1,10 +1,10 @@
-import CyclicDb from "@cyclic.sh/dynamodb";
-import { BirthdayRecord, BirthdayListEntry } from "./types";
+import CyclicDb from '@cyclic.sh/dynamodb';
+import { BirthdayRecord, BirthdayListEntry } from './types';
 
 const db = CyclicDb(process.env.CYCLIC_DB);
 const birthdays = db.collection(process.env.CYCLIC_DB_COLLECTION);
 
-type DBKeyArgs = Pick<BirthdayRecord, "name" | "date" | "chatId">;
+type DBKeyArgs = Pick<BirthdayRecord, 'name' | 'date' | 'chatId'>;
 
 function buildRecordKey(record: DBKeyArgs): string {
   const { chatId, name } = record;
@@ -21,7 +21,7 @@ export async function addRecord({ ...params }: BirthdayRecord) {
     key,
     { ...params },
     {
-      $index: ["chatId"],
+      $index: ['chatId'],
     }
   );
 
@@ -35,7 +35,7 @@ export async function removeRecord({ ...params }: DBKeyArgs) {
   if (record) {
     return await record.delete();
   } else {
-    throw new Error("404");
+    throw new Error('404');
   }
 }
 
@@ -49,7 +49,7 @@ const parseList = (dbList: { results: any[] }): BirthdayListEntry[] => {
   return dbList.results.map((result) => parseRecord(result));
 };
 
-const parseRecord = (dbRecord: any): BirthdayListEntry => {
+const parseRecord = (dbRecord: any): BirthdayRecord => {
   const { gender, date, name, tgId, chatId, day, month } = dbRecord.props;
 
   return {
@@ -58,6 +58,8 @@ const parseRecord = (dbRecord: any): BirthdayListEntry => {
     gender,
     tgId,
     chatId,
+    day,
+    month,
   };
 };
 
@@ -79,7 +81,7 @@ export async function getRecords(): Promise<BirthdayListEntry[]> {
 export async function getRecordsByChatId(
   chatId: number
 ): Promise<BirthdayListEntry[]> {
-  const list = await birthdays.index("chatId").find(chatId);
+  const list = await birthdays.index('chatId').find(chatId);
 
   return parseList(list);
 }
