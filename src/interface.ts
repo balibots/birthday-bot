@@ -31,7 +31,7 @@ export function ageLine(record: BirthdayListEntry): string {
   return `\`${formatDate(record.date)}\` — ${record.name}, ${Math.floor(age)}`;
 }
 
-export function nextBirthday(record: BirthdayRecord): string {
+export function nextBirthday(record: BirthdayListEntry): string {
   const age = getAge(record.date);
   const diff = daysToBirthday(record.date);
 

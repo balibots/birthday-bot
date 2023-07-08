@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { Gender } from './types';
+import axios from "axios";
+import { Gender } from "./types";
 
 type GenderizeResponse = {
   name: string;
@@ -14,6 +14,10 @@ export async function getGender(name: string): Promise<Gender> {
 
   const response = await axios.get(url);
   const data: GenderizeResponse = response.data;
+
+  // TODO if probability is < say 70% I'd save null and have some gender neutral messages for these cases
+
+  // TODO cache
 
   return data.gender;
 }

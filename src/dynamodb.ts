@@ -49,7 +49,7 @@ const parseList = (dbList: { results: any[] }): BirthdayListEntry[] => {
   return dbList.results.map((result) => parseRecord(result));
 };
 
-const parseRecord = (dbRecord: any): BirthdayRecord => {
+const parseRecord = (dbRecord: any): BirthdayListEntry => {
   const { gender, date, name, tgId, chatId, day, month } = dbRecord.props;
 
   return {
@@ -58,14 +58,12 @@ const parseRecord = (dbRecord: any): BirthdayRecord => {
     gender,
     tgId,
     chatId,
-    day,
-    month,
   };
 };
 
 export async function getRecord({
   ...params
-}: DBKeyArgs): Promise<BirthdayRecord> {
+}: DBKeyArgs): Promise<BirthdayListEntry> {
   const key = buildRecordKey(params);
   const record = await birthdays.get(key);
 
