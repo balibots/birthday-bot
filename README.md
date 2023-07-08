@@ -1,22 +1,56 @@
-# Telegram Bot, built on Cyclic 🤖
+# Telegram Birthday Bot
 
-This is a telegram bot that sends a message on people's birthdays.
-It's deployed to Cyclic (https://www.cyclic.sh/)
+This is a Telegram Bot that can be used in a Group as a reminder for everyone's birthdays.
+It holds information about people's birth dates and will send a congratulory message on their birthday.
 
-It uses the following key packages:
+It's currently using:
 
-- Grammy
-- Sqlite3
+ - Grammy, as a Telegram Bot framework
+ - Cyclic.sh, for deployment, including data persistence on DynamoDB
+ - Jest, as a test runner
 
-## Deployment
+## Usage
 
-To deploy just push to the main branch and then activate the webhook. You need to do this after testing locally.
+After adding the bot to your Telegram group, birthdays can be added by group admins by calling /add:
 
-### Activating the webhook
+```
+  /add John, 1999-09-22
+```
 
-```bash
-export TELEGRAM_API_TOKEN=... # YOUR TELEGRAM API TOKEN
-export TELEGRAM_WEBHOOK_URL=... # YOUR CYCLIC DEPLOYMENT URL
+There's a `/birthdays` command that show's everyones birth dates, ordered by the nearest one, and a `/list` command to show everyone's ages (use with caution).
 
-curl "https://api.telegram.org/bot$TELEGRAM_API_TOKEN/setWebhook?url=$TELEGRAM_WEBHOOK_URL"
+Users can be removed with the `/remove` command:
+
+```
+  /remove John
+```
+
+## Running
+
+1. Clone and install dependencies
+
+  ```
+    npm i
+  ```
+
+1. Copy the `.env.sample` file to `.env` and fill in the necessary environment variables.
+
+1. Run start
+
+  ```
+    npm start
+  ```
+
+Locally, the bot uses long polling but it uses webhooks in prod (`NODE_ENV === 'production'`). There's a script to register your webhook too:
+
+```
+  npm run register -- --token <TELEGRAM_BOT_TOKEN> --webhook https://your.webook.endpoint.com/
+```
+
+## More on Usage
+
+ - The bot can also be used in direct conversation mode. In that case, you'll need to supply the group id for each command, ie:
+
+```
+  /add John, 1999-09-22, -123456
 ```
