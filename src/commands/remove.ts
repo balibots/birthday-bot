@@ -3,6 +3,7 @@ import { DateTime } from 'luxon';
 import { MyContext } from '../bot';
 import { removeRecord } from '../dynamodb';
 import { sanitizeName } from '../utils';
+import { t } from 'i18next';
 
 export const removeCommand = async (ctx: CommandContext<MyContext>) => {
   let [name, date, chatId] = ctx.match?.split(',').map((s) => s.trim()) || [];
@@ -12,25 +13,15 @@ export const removeCommand = async (ctx: CommandContext<MyContext>) => {
   // if we're sending commands from a group, will get the id from the message
   if (ctx.chat.type === 'group') intChatId = ctx.chat.id;
 
-  if (isNaN(intChatId) || !intChatId) {
-    return ctx.reply(`Invalid Chat ID, got ${chatId}`, {
-      parse_mode: 'MarkdownV2',
-    });
-  }
-
-  if (!name || !date) {
+  if (!name) {
     if (ctx.chat.type === 'group') {
-      return ctx.reply(
-        'Please provide a name, a date in this format: `/add John, 1999-11-25`',
-        {
-          parse_mode: 'MarkdownV2',
-        }
-      );
+      return ctx.reply(t('commands.remove.missingName'), {
+        parse_mode: 'Markdown',
+      });
     } else {
-      return ctx.reply(
-        'Please provide a name, a date and a chatId in this format: `/add John, 1999-11-25, -12345`',
-        { parse_mode: 'MarkdownV2' }
-      );
+      return ctx.reply(t('commands.remove.missingGroup'), {
+        parse_mode: 'Markdown',
+      });
     }
   }
 
@@ -38,12 +29,12 @@ export const removeCommand = async (ctx: CommandContext<MyContext>) => {
   try {
     const chatMember = await ctx.api.getChatMember(intChatId, ctx.from!.id);
     if (!['administrator', 'creator'].includes(chatMember.status)) {
-      return ctx.reply(
-        'Apenas administratores do grupo podem adicionar e remover aniversariantes!'
-      );
+      return ctx.reply(t('errors.notAdmin'));
     }
-  } catch (e) {
-    return ctx.reply('Group ID not found probably: ' + (e as Error).message);
+  } catch (error) {
+    return ctx.reply(
+      t('commands.remove.error', { error: (error as Error).message })
+    );
   }
 
   try {
@@ -56,8 +47,8 @@ export const removeCommand = async (ctx: CommandContext<MyContext>) => {
     console.log(`Removing record: ${JSON.stringify(record, null, 2)}`);
 
     await removeRecord(record);
-    return ctx.reply(`Aniversariante removido: ${name} - ${date}`);
-  } catch (e) {
-    return ctx.reply(`Nao encontrei esse aniversariante (${e}).`);
+    return ctx.reply(t('commands.remove.success', { name, date }));
+  } catch (error) {
+    return ctx.reply(t('commands.remove.notFound', { error }));
   }
 };

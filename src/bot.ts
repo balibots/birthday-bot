@@ -19,6 +19,7 @@ import { getGender } from './genderize';
 import { requireKey, withChatId } from './middlewares';
 import generateSalutation from './salutations';
 import { sanitizeName } from './utils';
+import './i18n';
 
 export type MyContext = Context & { chatId: number };
 const bot = new Bot<MyContext>(process.env.TELEGRAM_TOKEN);
