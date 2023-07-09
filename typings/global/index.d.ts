@@ -3,7 +3,7 @@ declare global {
     interface ProcessEnv {
       TELEGRAM_TOKEN: string;
       CHAT_ID: string;
-      NODE_ENV?: 'development' | 'production';
+      NODE_ENV?: 'development' | 'production' | 'test';
       PORT?: string;
     }
   }

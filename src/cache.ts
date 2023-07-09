@@ -1,7 +1,8 @@
 import CyclicDb from '@cyclic.sh/dynamodb';
 
 const db = CyclicDb(process.env.CYCLIC_DB);
-const cache = db.collection('cache');
+const cacheKey = process.env.NODE_ENV === 'test' ? 'cache:test' : 'cache';
+const cache = db.collection(cacheKey);
 
 export const get = async (k: string): Promise<string | null> => {
   try {
