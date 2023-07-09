@@ -15,6 +15,7 @@ import {
   getRecordsByDayAndMonth,
   removeAllByChatId,
 } from './dynamodb';
+import { connect, disconnect } from './cache';
 import { getGender } from './genderize';
 import { requireKey, withChatId } from './middlewares';
 import generateSalutation from './salutations';
@@ -52,10 +53,6 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
-
-app.listen(PORT, () => {
-  console.log(`Bot listening on port ${PORT}`);
-});
 
 app.post('/trigger', async (req, res) => {
   const today = DateTime.now();
@@ -112,12 +109,35 @@ app.post('/:chatId/clear', requireKey, async (req, res) => {
   res.json({});
 });
 
-// Start the bot
-if (process.env.NODE_ENV === 'production') {
-  // Using Webhook in production
-  console.log('Using Webhooks');
-  app.use(webhookCallback(bot, 'express'));
-} else {
-  // Use Long Polling for development
-  bot.start();
-}
+const server = app.listen(PORT, async () => {
+  console.log('HTTP server started');
+  await connect();
+
+  // Start the bot
+  if (process.env.NODE_ENV === 'production') {
+    // Using Webhook in production
+    app.use(webhookCallback(bot, 'express'));
+  } else {
+    // Use Long Polling for development
+    bot.start();
+  }
+
+  console.log(`Bot listening on port ${PORT}`);
+});
+
+process.on('SIGTERM', () => {
+  console.log('SIGTERM signal received: closing HTTP server');
+  server.close(async () => {
+    await disconnect();
+    console.log('HTTP server closed');
+    process.exit(0);
+  });
+});
+process.on('SIGINT', () => {
+  console.log('SIGINT signal received: closing HTTP server');
+  server.close(async () => {
+    await disconnect();
+    console.log('HTTP server closed');
+    process.exit(0);
+  });
+});
