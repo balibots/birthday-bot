@@ -1,16 +1,8 @@
-import { set, get, disconnect, connect, clearCache } from './cache';
+import { set, get, clearCache } from './cache';
 
 describe('Cache tests tests', () => {
-  beforeAll(async () => {
-    await connect();
-  });
-
   beforeEach(async () => {
     await clearCache();
-  });
-
-  afterAll(async () => {
-    await disconnect();
   });
 
   it.only('works', async () => {
@@ -24,7 +16,7 @@ describe('Cache tests tests', () => {
   });
 
   it.only('deals ok with spaces', async () => {
-    const key = 'chat#Grupo sem reccoes';
+    const key = 'chatId:Grupo sem reccoes';
     const value = '-1234';
 
     await set(key, value);

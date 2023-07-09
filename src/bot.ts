@@ -15,7 +15,7 @@ import {
   getRecordsByDayAndMonth,
   removeAllByChatId,
 } from './dynamodb';
-import { connect, disconnect, set } from './cache';
+import { set } from './cache';
 import { getGender } from './genderize';
 import { requireKey, withChatId } from './middlewares';
 import generateSalutation from './salutations';
@@ -43,7 +43,7 @@ bot.command('remove', removeCommand);
 bot.on('message:new_chat_members:me', async (ctx) => {
   if ('title' in ctx.chat) {
     ctx.reply(`Howdy ${ctx.chat.title}! (id: ${ctx.chat.id})`);
-    await set(`chatIds#${ctx.chat.title}`, String(ctx.chat.id));
+    await set(`chatIds:${ctx.chat.title}`, String(ctx.chat.id));
   }
 });
 
@@ -112,7 +112,6 @@ app.post('/:chatId/clear', requireKey, async (req, res) => {
 
 const server = app.listen(PORT, async () => {
   console.log('HTTP server started');
-  await connect();
 
   // Start the bot
   if (process.env.NODE_ENV === 'production') {
@@ -124,21 +123,4 @@ const server = app.listen(PORT, async () => {
   }
 
   console.log(`Bot listening on port ${PORT}`);
-});
-
-process.on('SIGTERM', () => {
-  console.log('SIGTERM signal received: closing HTTP server');
-  server.close(async () => {
-    await disconnect();
-    console.log('HTTP server closed');
-    process.exit(0);
-  });
-});
-process.on('SIGINT', () => {
-  console.log('SIGINT signal received: closing HTTP server');
-  server.close(async () => {
-    await disconnect();
-    console.log('HTTP server closed');
-    process.exit(0);
-  });
 });

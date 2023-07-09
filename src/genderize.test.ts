@@ -1,17 +1,9 @@
-import { clearCache, connect, disconnect, get, set } from './cache';
+import { clearCache, get, set } from './cache';
 import { getGender } from './genderize';
 
 describe('getGender', () => {
-  beforeAll(async () => {
-    await connect();
-  });
-
   beforeEach(async () => {
     await clearCache();
-  });
-
-  afterAll(async () => {
-    await disconnect();
   });
 
   it('gets the right gender for females', async () => {
@@ -33,12 +25,12 @@ describe('getGender', () => {
     let result = await getGender('bernardo');
     expect(result).toEqual('male');
 
-    expect(await get(`name#bernardo`)).toEqual('male');
+    expect(await get(`name:bernardo`)).toEqual('male');
 
     result = await getGender('bernardo');
     expect(result).toEqual('male');
 
-    await set('name#bernardo', 'female');
+    await set('name:bernardo', 'female');
 
     result = await getGender('bernardo');
     expect(result).toEqual('female');
