@@ -22,4 +22,13 @@ describe('Cache tests tests', () => {
     expect(await get(key)).toEqual(value);
     expect(await get('lol')).toBeNull();
   });
+
+  it.only('deals ok with spaces', async () => {
+    const key = 'chat#Grupo sem reccoes';
+    const value = '-1234';
+
+    await set(key, value);
+
+    expect(await get(key)).toEqual(value);
+  });
 });

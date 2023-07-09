@@ -15,7 +15,7 @@ import {
   getRecordsByDayAndMonth,
   removeAllByChatId,
 } from './dynamodb';
-import { connect, disconnect } from './cache';
+import { connect, disconnect, set } from './cache';
 import { getGender } from './genderize';
 import { requireKey, withChatId } from './middlewares';
 import generateSalutation from './salutations';
@@ -43,6 +43,7 @@ bot.command('remove', removeCommand);
 bot.on('message:new_chat_members:me', async (ctx) => {
   if ('title' in ctx.chat) {
     ctx.reply(`Howdy ${ctx.chat.title}! (id: ${ctx.chat.id})`);
+    await set(`chatIds#${ctx.chat.title}`, String(ctx.chat.id));
   }
 });
 
