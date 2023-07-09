@@ -17,5 +17,5 @@ export const nextCommand = async (ctx: MyContext) => {
     return ctx.reply('Error getting data');
   }
 
-  return ctx.reply(nextBirthday(nextRecord), { parse_mode: 'MarkdownV2' });
+  return ctx.reply(nextBirthday(nextRecord), { parse_mode: 'Markdown' });
 };
