@@ -74,12 +74,12 @@ app.post('/trigger', async (req, res) => {
   res.json({ birthdays });
 });
 
-app.get('/list/:chatId', requireKey, async (req, res) => {
+app.get(':chatId/list', requireKey, async (req, res) => {
   const birthdays = await getRecordsByChatId(parseInt(req.params.chatId));
   res.json({ birthdays });
 });
 
-app.post('/import/:chatId', requireKey, async (req, res) => {
+app.post('/:chatId/import', requireKey, async (req, res) => {
   const birthdays = req.body.birthdays;
 
   if (!birthdays) {
@@ -97,7 +97,7 @@ app.post('/import/:chatId', requireKey, async (req, res) => {
       month: parsedDate.month,
       day: parsedDate.day,
       gender,
-      chatId: +req.params.chatId,
+      chatId: parseInt(req.params.chatId),
     };
 
     await addRecord(params);
@@ -106,8 +106,8 @@ app.post('/import/:chatId', requireKey, async (req, res) => {
   res.json({ birthdays });
 });
 
-app.post('/clear/:chatId', requireKey, async (req, res) => {
-  removeAllByChatId(+req.params.chatId);
+app.post('/:chatId/clear', requireKey, async (req, res) => {
+  removeAllByChatId(parseInt(req.params.chatId));
   res.json({});
 });
 
