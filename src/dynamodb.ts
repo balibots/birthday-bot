@@ -15,7 +15,7 @@ function buildRecordKey(record: DBKeyArgs): string {
 export async function addRecord({ ...params }: BirthdayRecord) {
   const key = buildRecordKey(params);
 
-  console.log(`Adicionando ${key}: ${JSON.stringify(params)}`);
+  console.log(`Adding ${key}: ${JSON.stringify(params)}`);
 
   const record = await birthdays.set(
     key,
