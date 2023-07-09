@@ -3,14 +3,14 @@
     "remove": {
       "invalidChatId": "O ID do grupo `{{chatId}}` é inválido!",
       "missingName": "O comando precisa de ser executado com o nome do aniversariante: `/remove Pedro`",
-      "missingGroup": "Falta o ID do grupo: `/remove Pedro,-123456789`",
+      "missingGroup": "Falta o ID do grupo: `/remove Pedro, -123456789`",
       "success": "Aniversariante removido: {{name}} — {{date}}.",
       "notFound": "Não encontrei esse aniversariante ({{error}})",
       "error": "Erro ao remover o aniversariante: {{error}}"
     }
   },
   "errors": {
-    "notAdmin": "Apenas administratores do grupo podem correr este comando!"
+    "notAdmin": "Apenas administradores do grupo podem correr este comando!"
   },
   "messages": [
     "🎂 O bebé de hoje é {{pronoun}} *{{name}}* que faz {{age}} anos! 🥳🎉 Parabéns {{name}} ❤️",
