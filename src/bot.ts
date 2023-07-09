@@ -74,7 +74,7 @@ app.post('/trigger', async (req, res) => {
   res.json({ birthdays });
 });
 
-app.get(':chatId/list', requireKey, async (req, res) => {
+app.get('/:chatId/list', requireKey, async (req, res) => {
   const birthdays = await getRecordsByChatId(parseInt(req.params.chatId));
   res.json({ birthdays });
 });
