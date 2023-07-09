@@ -1,7 +1,6 @@
 import i18next from 'i18next';
 import { BirthdayListEntry } from './types';
-import { getAge } from './interface';
-import { getPronoun } from './utils';
+import { getAge, getPronoun } from './utils';
 
 i18next.init({
   lng: 'pt',

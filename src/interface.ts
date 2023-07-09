@@ -1,28 +1,23 @@
-import { DateTime, DateTimeFormatOptions } from "luxon";
-import { BirthdayRecord, BirthdayListEntry } from "./types";
-import { daysToBirthday } from "./utils";
+import { DateTime, DateTimeFormatOptions } from 'luxon';
+import { BirthdayListEntry } from './types';
+import { daysToBirthday, getAge } from './utils';
 
 export function formatDate(date: string): string {
   const dateJS = new Date(date);
 
   const options: DateTimeFormatOptions = {
-    year: "numeric",
-    month: "short",
-    day: "2-digit",
+    year: 'numeric',
+    month: 'short',
+    day: '2-digit',
   };
 
-  return dateJS.toLocaleDateString("pt-PT", { ...options });
-}
-
-export function getAge(date: string): number {
-  const computedAge = DateTime.fromISO(date).diffNow("years").years * -1;
-  return Math.round(computedAge);
+  return dateJS.toLocaleDateString('pt-PT', { ...options });
 }
 
 export function birthdayLine(record: BirthdayListEntry): string {
   const days = daysToBirthday(record.date);
   return `\`${formatDate(record.date)}\` — ${record.name} — ${
-    days ? (days > 1 ? `${days} dias` : `${days} dia`) : "hoje 🎉"
+    days ? (days > 1 ? `${days} dias` : `${days} dia`) : 'hoje 🎉'
   }`;
 }
 
@@ -36,8 +31,8 @@ export function nextBirthday(record: BirthdayListEntry): string {
   const diff = daysToBirthday(record.date);
 
   const differenceToBirthday = DateTime.now()
-    .startOf("day")
-    .setLocale("pt-PT")
+    .startOf('day')
+    .setLocale('pt-PT')
     .plus({ days: diff })
     .toRelative();
 
@@ -49,7 +44,7 @@ export function nextBirthday(record: BirthdayListEntry): string {
 
   const nextAge = Math.floor(age) + (diff === 0 ? 0 : 1);
 
-  const daysToBirthdayStr = diff > 0 ? differenceToBirthday : "hoje 🎉";
+  const daysToBirthdayStr = diff > 0 ? differenceToBirthday : 'hoje 🎉';
 
   return `Próximo aniversariante — *${name}*, faz *${nextAge}* anos \\(${daysToBirthdayStr}\\)`;
 }

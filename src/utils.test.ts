@@ -1,5 +1,10 @@
 import { BirthdayListEntry } from './types';
-import { daysToBirthday, sortAbsoluteDate, sortClosestDate } from './utils';
+import {
+  daysToBirthday,
+  getAge,
+  sortAbsoluteDate,
+  sortClosestDate,
+} from './utils';
 
 const records: BirthdayListEntry[] = [
   { name: 'Rui', date: '1984-12-26', gender: 'male', chatId: 0 },
@@ -10,7 +15,30 @@ const records: BirthdayListEntry[] = [
   { name: 'Xavier', date: '2018-08-20', gender: 'male', chatId: 0 },
 ];
 
-describe('utils tests', () => {
+describe('getAge()', () => {
+  it('calculates age correctly', () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2024-10-12'));
+
+    expect(getAge('1984-12-26')).toEqual(39);
+    expect(getAge('1980-07-01')).toEqual(44);
+    expect(getAge('1980-11-12')).toEqual(43);
+  });
+});
+
+describe('daysToBirthday()', () => {
+  it('calculates days to birthday correctly', () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2020-06-12'));
+
+    expect(daysToBirthday('1999-06-12')).toEqual(0);
+    expect(daysToBirthday('1999-06-13')).toEqual(1);
+    expect(daysToBirthday('1999-06-14')).toEqual(2);
+    expect(daysToBirthday('1999-06-11')).toEqual(364);
+  });
+});
+
+describe('sortClosestDate()', () => {
   it('sorts records by closest date', () => {
     jest.useFakeTimers();
     jest.setSystemTime(new Date('2020-06-12'));
@@ -31,15 +59,5 @@ describe('utils tests', () => {
     const sorted = records.sort(sortAbsoluteDate);
     expect(sorted[0].name).toEqual('Ricardo');
     expect(sorted[5].name).toEqual('Carlota');
-  });
-
-  it('calculates days to birthday', () => {
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date('2020-06-12'));
-
-    expect(daysToBirthday('1999-06-12')).toEqual(0);
-    expect(daysToBirthday('1999-06-13')).toEqual(1);
-    expect(daysToBirthday('1999-06-14')).toEqual(2);
-    expect(daysToBirthday('1999-06-11')).toEqual(364);
   });
 });
