@@ -12,9 +12,19 @@ export const get = async (k: string): Promise<string | null> => {
     return null;
   }
 };
+
+export const getNamespace = async (ns: string) => {
+  try {
+    return await cache.filter({ ns });
+  } catch (e) {
+    console.error(e);
+  }
+};
+
 export const set = async (k: string, v: string) => {
   try {
-    return await cache.set(k, { value: v });
+    const ns = k.split(':')[0];
+    return await cache.set(k, { value: v, ns });
   } catch (e) {
     console.error(e);
   }

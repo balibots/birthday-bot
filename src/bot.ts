@@ -15,7 +15,7 @@ import {
   getRecordsByDayAndMonth,
   removeAllByChatId,
 } from './dynamodb';
-import { set } from './cache';
+import { getNamespace, set } from './cache';
 import { getGender } from './genderize';
 import { requireKey, withChatId } from './middlewares';
 import generateSalutation from './salutations';
@@ -108,6 +108,11 @@ app.post('/:chatId/import', requireKey, async (req, res) => {
 app.post('/:chatId/clear', requireKey, async (req, res) => {
   removeAllByChatId(parseInt(req.params.chatId));
   res.json({});
+});
+
+app.get('/chats', requireKey, async (req, res) => {
+  const chats = await getNamespace('chatIds');
+  res.json(chats);
 });
 
 const server = app.listen(PORT, async () => {
