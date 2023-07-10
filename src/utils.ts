@@ -42,13 +42,17 @@ export const daysToBirthday = (strdate: string) => {
 };
 
 const capitalizeFirstChar = (text: string) =>
-  text.charAt(0).toUpperCase() + text.substring(1);
+  text.charAt(0).toUpperCase() + text.toLowerCase().substring(1);
 
 // Simple sanitization, we might need to add something more complex in the future
 export const sanitizeName = (name: string): string => {
-  const sanitized = capitalizeFirstChar(name.trim().toLowerCase());
+  const sanitizedParts = name.split(/\b/).map(capitalizeFirstChar);
 
-  return sanitized;
+  // Join the parts and remove extra spaces
+  return sanitizedParts
+    .join('')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
 };
 
 export const getPronoun = (gender: Gender): string => {

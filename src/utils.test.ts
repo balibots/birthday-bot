@@ -2,6 +2,7 @@ import { BirthdayListEntry } from './types';
 import {
   daysToBirthday,
   getAge,
+  sanitizeName,
   sortAbsoluteDate,
   sortClosestDate,
 } from './utils';
@@ -59,5 +60,34 @@ describe('sortClosestDate()', () => {
     const sorted = records.sort(sortAbsoluteDate);
     expect(sorted[0].name).toEqual('Ricardo');
     expect(sorted[5].name).toEqual('Carlota');
+  });
+});
+
+describe('sanitizeName()', () => {
+  it('upcases the first letter', () => {
+    expect(sanitizeName('ricardo')).toEqual('Ricardo');
+    expect(sanitizeName('RICARDO')).toEqual('Ricardo');
+  });
+
+  it('works with names with spaces', () => {
+    const name = 'ricardo costa';
+    expect(sanitizeName(name)).toEqual('Ricardo Costa');
+  });
+
+  it('removes extra spaces', () => {
+    expect(sanitizeName('ricardo  costa')).toEqual('Ricardo Costa');
+    expect(sanitizeName('ricardo   costa')).toEqual('Ricardo Costa');
+    expect(sanitizeName(' ricardo ')).toEqual('Ricardo');
+    expect(sanitizeName('    ricardo   costa     ')).toEqual('Ricardo Costa');
+  });
+
+  it('works with names with hyphens', () => {
+    const name = 'ricardo-costa';
+    expect(sanitizeName(name)).toEqual('Ricardo-Costa');
+  });
+
+  it('works with names with apostrophes', () => {
+    const name = "ricardo o'costa";
+    expect(sanitizeName(name)).toEqual("Ricardo O'Costa");
   });
 });
