@@ -90,4 +90,11 @@ describe('sanitizeName()', () => {
     const name = "ricardo o'costa";
     expect(sanitizeName(name)).toEqual("Ricardo O'Costa");
   });
+
+  it('works with names with accents', () => {
+    const name = 'avó mãe';
+    expect(sanitizeName('avó mãe')).toEqual('Avó Mãe');
+    expect(sanitizeName('Óscar')).toEqual('Óscar');
+    expect(sanitizeName('vovÔ DÓnÃld')).toEqual('Vovô Dónãld');
+  });
 });

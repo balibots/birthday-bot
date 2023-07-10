@@ -3,6 +3,7 @@ import { Chat } from 'grammy/types';
 import { DateTime, Interval } from 'luxon';
 import { MyContext } from './bot';
 import { BirthdayListEntry, Gender } from './types';
+import { titleCase } from 'title-case';
 
 export function getAge(date: string): number {
   const computedAge = DateTime.fromISO(date).diffNow('years').years * -1;
@@ -41,17 +42,11 @@ export const daysToBirthday = (strdate: string) => {
   return Math.ceil(Interval.fromDateTimes(dt, bdate).length('days'));
 };
 
-const capitalizeFirstChar = (text: string) =>
-  text.charAt(0).toUpperCase() + text.toLowerCase().substring(1);
-
 // Simple sanitization, we might need to add something more complex in the future
 export const sanitizeName = (name: string): string => {
-  const sanitizedParts = name.split(/\b/).map(capitalizeFirstChar);
-
-  // Join the parts and remove extra spaces
-  return sanitizedParts
-    .join('')
-    .replace(/\s{2,}/g, ' ')
+  return titleCase(name.toLowerCase())
+    .replace(/\s{2,}/g, ' ') // replace multiple spaces with a single one
+    .replace(/'\w/, (word) => word.toUpperCase()) // capitalize words after apostrophes
     .trim();
 };
 
