@@ -2,7 +2,7 @@ import { CommandContext } from 'grammy';
 import { DateTime } from 'luxon';
 import { MyContext } from '../bot';
 import { removeRecord } from '../dynamodb';
-import { sanitizeName } from '../utils';
+import { isGroup, sanitizeName } from '../utils';
 import { t } from 'i18next';
 
 export const removeCommand = async (ctx: CommandContext<MyContext>) => {
@@ -11,10 +11,12 @@ export const removeCommand = async (ctx: CommandContext<MyContext>) => {
   let intChatId = parseInt(chatId);
 
   // if we're sending commands from a group, will get the id from the message
-  if (ctx.chat.type === 'group') intChatId = ctx.chat.id;
+  if (isGroup(ctx.chat)) {
+    intChatId = ctx.chat.id;
+  }
 
   if (!name) {
-    if (ctx.chat.type === 'group') {
+    if (isGroup(ctx.chat)) {
       return ctx.reply(t('commands.remove.missingName'), {
         parse_mode: 'Markdown',
       });

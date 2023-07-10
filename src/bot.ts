@@ -41,6 +41,7 @@ bot.command('remove', removeCommand);
 
 // Triggers
 bot.on('message:new_chat_members:me', async (ctx) => {
+  console.log(ctx, ctx.chat);
   if ('title' in ctx.chat) {
     ctx.reply(`Howdy ${ctx.chat.title}! (id: ${ctx.chat.id})`);
     await set(`chatIds:${ctx.chat.title}`, String(ctx.chat.id));

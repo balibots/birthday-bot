@@ -1,4 +1,7 @@
+import { CommandContext } from 'grammy';
+import { Chat } from 'grammy/types';
 import { DateTime, Interval } from 'luxon';
+import { MyContext } from './bot';
 import { BirthdayListEntry, Gender } from './types';
 
 export function getAge(date: string): number {
@@ -57,4 +60,11 @@ export const getPronoun = (gender: Gender): string => {
     default:
       return 'o/a';
   }
+};
+
+export const isGroup = (
+  chat: Chat | undefined
+): chat is Chat.GroupChat | Chat.SupergroupChat => {
+  if (!chat) return false;
+  return chat.type === 'group' || chat.type === 'supergroup';
 };

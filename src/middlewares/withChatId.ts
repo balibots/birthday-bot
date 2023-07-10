@@ -1,10 +1,11 @@
 import { MiddlewareFn } from 'grammy';
 import { MyContext } from '../bot';
+import { isGroup } from '../utils';
 
 export const withChatId: MiddlewareFn<MyContext> = async (ctx, next) => {
   let chatId: number;
 
-  if (ctx.chat?.type === 'group') {
+  if (isGroup(ctx.chat)) {
     chatId = ctx.chat.id;
   } else {
     // on a private 1:1, need to supply chatId on the message

@@ -3,7 +3,7 @@ import { DateTime } from 'luxon';
 import { MyContext } from '../bot';
 import { addRecord } from '../dynamodb';
 import { getGender } from '../genderize';
-import { sanitizeName } from '../utils';
+import { isGroup, sanitizeName } from '../utils';
 
 export const addCommand = async (ctx: CommandContext<MyContext>) => {
   let [name, date, chatId] = ctx.match?.split(',').map((s) => s.trim()) || [];
@@ -11,14 +11,16 @@ export const addCommand = async (ctx: CommandContext<MyContext>) => {
   let intChatId = Number(chatId);
 
   // if we're sending commands from a group, will get the id from the message
-  if (ctx.chat.type === 'group') intChatId = ctx.chat.id;
+  if (isGroup(ctx.chat)) {
+    intChatId = ctx.chat.id;
+  }
 
   if (isNaN(intChatId) || !intChatId) {
     return ctx.reply(`Invalid Chat ID, got ${chatId}`);
   }
 
   if (!name || !date) {
-    if (ctx.chat.type === 'group') {
+    if (isGroup(ctx.chat)) {
       return ctx.reply(
         'Please provide a name, a date in this format: `/add John, 1999-11-25`',
         {
