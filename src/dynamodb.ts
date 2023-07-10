@@ -4,7 +4,7 @@ import { BirthdayRecord, BirthdayListEntry } from './types';
 const db = CyclicDb(process.env.CYCLIC_DB);
 const birthdays = db.collection(process.env.CYCLIC_DB_COLLECTION);
 
-type DBKeyArgs = Pick<BirthdayRecord, 'name' | 'date' | 'chatId'>;
+type DBKeyArgs = Pick<BirthdayRecord, 'name' | 'chatId'>;
 
 function buildRecordKey(record: DBKeyArgs): string {
   const { chatId, name } = record;
@@ -28,12 +28,15 @@ export async function addRecord({ ...params }: BirthdayRecord) {
   return parseRecord(record);
 }
 
-export async function removeRecord({ ...params }: DBKeyArgs) {
+export async function removeRecord({
+  ...params
+}: DBKeyArgs): Promise<BirthdayRecord> {
   const key = buildRecordKey(params);
   const record = await birthdays.get(key);
 
   if (record) {
-    return await record.delete();
+    await record.delete();
+    return parseRecord(record);
   } else {
     throw new Error('404');
   }

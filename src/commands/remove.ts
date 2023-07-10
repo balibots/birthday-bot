@@ -42,14 +42,18 @@ export const removeCommand = async (ctx: CommandContext<MyContext>) => {
   try {
     const record = {
       name: sanitizeName(name),
-      date: DateTime.fromISO(date).toFormat('yyyy-MM-dd'),
       chatId: intChatId,
     };
 
     console.log(`Removing record: ${JSON.stringify(record, null, 2)}`);
 
-    await removeRecord(record);
-    return ctx.reply(t('commands.remove.success', { name, date }));
+    const removedRecord = await removeRecord(record);
+    return ctx.reply(
+      t('commands.remove.success', {
+        name: removedRecord.name,
+        date: removedRecord.date,
+      })
+    );
   } catch (error) {
     return ctx.reply(t('commands.remove.notFound', { error }));
   }
