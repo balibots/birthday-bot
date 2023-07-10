@@ -6,7 +6,7 @@ import { isGroup, sanitizeName } from '../utils';
 import { t } from 'i18next';
 
 export const removeCommand = async (ctx: CommandContext<MyContext>) => {
-  let [name, date, chatId] = ctx.match?.split(',').map((s) => s.trim()) || [];
+  let [name, chatId] = ctx.match?.split(',').map((parts) => parts.trim()) || [];
 
   let intChatId = parseInt(chatId);
 
