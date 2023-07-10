@@ -10,9 +10,24 @@ export const handlers = [
       bernardo: 'male',
       maria: 'female',
       francisca: 'female',
+      amelinha: 'female',
       asdfasdf: null,
     };
 
-    return res(ctx.json({ name, gender: translation[name] }));
+    const probability: Record<string, number> = {
+      bernardo: 1,
+      maria: 0.99,
+      francisca: 0.71,
+      amelinha: 0.69,
+      asdfasdf: 0,
+    };
+
+    return res(
+      ctx.json({
+        name,
+        gender: translation[name],
+        probability: probability[name],
+      })
+    );
   }),
 ];

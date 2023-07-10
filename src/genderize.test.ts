@@ -21,6 +21,26 @@ describe('getGender', () => {
     expect(result).toBeNull();
   });
 
+  it('returns null for names with low probability', async () => {
+    const result = await getGender('amelinha');
+    expect(result).toBeNull();
+  });
+
+  it('returns null on error', async () => {
+    const result = await getGender('asdfasdf');
+    expect(result).toBeNull();
+  });
+
+  it('returns null on empty name', async () => {
+    const result = await getGender('');
+    expect(result).toBeNull();
+  });
+
+  it('returns the right gender for names with spaces', async () => {
+    const result = await getGender('bernardo silva');
+    expect(result).toEqual('male');
+  });
+
   it('caches results', async () => {
     let result = await getGender('bernardo');
     expect(result).toEqual('male');
