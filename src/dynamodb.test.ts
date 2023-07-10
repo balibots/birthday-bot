@@ -89,9 +89,7 @@ describe('DynamoDB tests', () => {
   it('gets a record', async () => {
     await addRecord(record);
     await addRecord(record2);
-    expect(
-      await getRecord({ name: record.name, date: record.date, chatId })
-    ).toMatchObject({
+    expect(await getRecord({ name: record.name, chatId })).toMatchObject({
       name: record.name,
       date: record.date,
       chatId,
