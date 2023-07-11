@@ -9,13 +9,13 @@ type DBKeyArgs = Pick<BirthdayRecord, 'name' | 'chatId'>;
 function buildRecordKey(record: DBKeyArgs): string {
   const { chatId, name } = record;
 
-  return `${chatId}:${name}`;
+  return `${chatId}:${name.toLowerCase()}`;
 }
 
 export async function addRecord({ ...params }: BirthdayRecord) {
   const key = buildRecordKey(params);
 
-  console.log(`Adding ${key}: ${JSON.stringify(params)}`);
+  console.info(`Adding ${key}: ${JSON.stringify(params)}`);
 
   const record = await birthdays.set(
     key,
@@ -35,6 +35,7 @@ export async function removeRecord({
   const record = await birthdays.get(key);
 
   if (record) {
+    console.info(`Removing ${key}: ${JSON.stringify(params)}`);
     await record.delete();
     return parseRecord(record);
   } else {

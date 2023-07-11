@@ -2,8 +2,9 @@ import { CommandContext } from 'grammy';
 import { Chat } from 'grammy/types';
 import { DateTime, Interval } from 'luxon';
 import { MyContext } from './bot';
-import { BirthdayListEntry, Gender } from './types';
+import { BirthdayListEntry, BirthdayRecord, Gender } from './types';
 import { titleCase } from 'title-case';
+import { getGender } from './genderize';
 
 export function getAge(date: string): number {
   const computedAge = DateTime.fromISO(date).diffNow('years').years * -1;
@@ -66,4 +67,31 @@ export const isGroup = (
 ): chat is Chat.GroupChat | Chat.SupergroupChat => {
   if (!chat) return false;
   return chat.type === 'group' || chat.type === 'supergroup';
+};
+
+export const buildRecord = async (
+  name: string,
+  date: string,
+  chatId: number
+): Promise<BirthdayRecord> => {
+  if (!name || !date || !chatId || isNaN(chatId)) {
+    throw new Error('Invalid params');
+  }
+  const parsedDate = DateTime.fromISO(date);
+
+  if (!parsedDate.isValid) {
+    throw new Error('Invalid date');
+  }
+
+  const sanitized = sanitizeName(name);
+  const gender = await getGender(sanitized);
+
+  return {
+    name: sanitized,
+    date: parsedDate.toFormat('yyyy-MM-dd'),
+    month: parsedDate.month,
+    day: parsedDate.day,
+    gender,
+    chatId: chatId,
+  };
 };

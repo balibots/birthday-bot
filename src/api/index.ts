@@ -1,9 +1,14 @@
 import { DateTime } from 'luxon';
 import { getNamespace } from '../cache';
-import { addRecord, getRecordsByChatId, removeAllByChatId } from '../dynamodb';
+import {
+  addRecord,
+  getRecordsByChatId,
+  removeAllByChatId,
+  removeRecord,
+} from '../dynamodb';
 import { getGender } from '../genderize';
 import { requireKey } from '../middlewares';
-import { sanitizeName } from '../utils';
+import { buildRecord, sanitizeName } from '../utils';
 import express from 'express';
 
 const router = express.Router();
@@ -45,6 +50,42 @@ router.post('/:chatId/import', async (req, res) => {
 router.post('/:chatId/clear', async (req, res) => {
   removeAllByChatId(parseInt(req.params.chatId));
   res.json({});
+});
+
+router.post('/:chatId/batch', async (req, res) => {
+  const records = req.body.records;
+  if (!records) {
+    return res.status(400).json({ error: 'No data' });
+  }
+  let count = 0;
+  for (const record of records) {
+    console.log(record);
+    if (record.op === 'add') {
+      try {
+        const dbRecord = await buildRecord(
+          record.name,
+          record.date,
+          parseInt(req.params.chatId)
+        );
+        addRecord(dbRecord);
+      } catch (e) {
+        console.error(e);
+        continue;
+      }
+    } else if (record.op === 'remove') {
+      try {
+        await removeRecord({
+          name: record.name,
+          chatId: parseInt(req.params.chatId),
+        });
+      } catch (e) {
+        console.error(e);
+        continue;
+      }
+    }
+    count += 1;
+  }
+  res.json({ count });
 });
 
 router.get('/chats', async (req, res) => {
