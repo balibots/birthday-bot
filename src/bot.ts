@@ -9,18 +9,13 @@ import {
   removeCommand,
   allCommands,
 } from './commands';
-import {
-  addRecord,
-  getRecordsByChatId,
-  getRecordsByDayAndMonth,
-  removeAllByChatId,
-} from './dynamodb';
-import { getNamespace, set } from './cache';
-import { getGender } from './genderize';
-import { requireKey, withChatId } from './middlewares';
+import { addRecord, getRecordsByDayAndMonth } from './dynamodb';
+import { set } from './cache';
+import { withChatId } from './middlewares';
 import generateSalutation from './salutations';
-import { sanitizeName } from './utils';
 import './i18n';
+
+import apiRoutes from './api';
 
 export type MyContext = Context & { chatId: number };
 const bot = new Bot<MyContext>(process.env.TELEGRAM_TOKEN);
@@ -56,15 +51,23 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
+app.use('/api', apiRoutes);
+
 app.post('/trigger', async (req, res) => {
+  console.log('Triggering birthday alerts at', new Date());
   const today = DateTime.now();
   const birthdays = await getRecordsByDayAndMonth({
     day: today.day,
     month: today.month,
   });
 
+  console.info(`Notifying ${birthdays.length} users today`);
+
   birthdays.forEach((birthday) => {
     const formattedMsg = generateSalutation(birthday);
+    console.info(
+      `Sending message to group ${birthday.chatId} about ${birthday.name}`
+    );
 
     bot.api.sendMessage(birthday.chatId, formattedMsg, {
       parse_mode: 'Markdown',
@@ -72,48 +75,6 @@ app.post('/trigger', async (req, res) => {
   });
 
   res.json({ birthdays });
-});
-
-app.get('/:chatId/list', requireKey, async (req, res) => {
-  const birthdays = await getRecordsByChatId(parseInt(req.params.chatId));
-  res.json({ birthdays });
-});
-
-app.post('/:chatId/import', requireKey, async (req, res) => {
-  const birthdays = req.body.birthdays;
-
-  if (!birthdays) {
-    res.status(400).json({ error: 'Need a birthdays array' });
-  }
-
-  for (const b of birthdays) {
-    const parsedDate = DateTime.fromISO(b.date);
-    const sanitized = sanitizeName(b.name);
-    const gender = await getGender(sanitized);
-
-    const params = {
-      name: sanitized,
-      date: parsedDate.toFormat('yyyy-MM-dd'),
-      month: parsedDate.month,
-      day: parsedDate.day,
-      gender,
-      chatId: parseInt(req.params.chatId),
-    };
-
-    await addRecord(params);
-  }
-
-  res.json({ birthdays });
-});
-
-app.post('/:chatId/clear', requireKey, async (req, res) => {
-  removeAllByChatId(parseInt(req.params.chatId));
-  res.json({});
-});
-
-app.get('/chats', requireKey, async (req, res) => {
-  const chats = await getNamespace('chatIds');
-  res.json(chats);
 });
 
 const server = app.listen(PORT, async () => {
