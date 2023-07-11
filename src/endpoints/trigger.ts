@@ -7,7 +7,7 @@ import { BirthdayListEntry } from '../types';
 import { get, set } from '../cache';
 
 const triggerCacheKeyFor = (today: DateTime) =>
-  `trigger:${today.toFormat('MM-dd')}`;
+  `trigger:${today.toFormat('yyyy-MM-dd')}`;
 
 const triggerEndpoint = async ({ sendMessage }: { sendMessage: any }) => {
   console.log('Triggering birthday alerts at', new Date());
