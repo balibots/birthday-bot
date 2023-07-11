@@ -29,9 +29,13 @@ export const removeCommand = async (ctx: CommandContext<MyContext>) => {
 
   // limits add commands to group admins
   try {
-    const chatMember = await ctx.api.getChatMember(intChatId, ctx.from!.id);
-    if (!['administrator', 'creator'].includes(chatMember.status)) {
-      return ctx.reply(t('errors.notAdmin'));
+    const groupConfig = await getConfigForGroup(intChatId);
+
+    if (groupConfig && groupConfig.restrictedToAdmins) {
+      const chatMember = await ctx.api.getChatMember(intChatId, ctx.from!.id);
+      if (!['administrator', 'creator'].includes(chatMember.status)) {
+        return ctx.reply(t('errors.notAdmin'));
+      }
     }
   } catch (error) {
     return ctx.reply(

@@ -10,14 +10,17 @@ import { getGender } from '../genderize';
 import { requireKey } from '../middlewares';
 import { buildRecord, sanitizeName } from '../utils';
 import express from 'express';
+import { getConfigForGroup, setConfigForGroup } from '../config';
 
 const router = express.Router();
 
 router.use(requireKey);
 
 router.get('/:chatId/list', async (req, res) => {
-  const birthdays = await getRecordsByChatId(parseInt(req.params.chatId));
-  res.json({ birthdays });
+  const chatId = parseInt(req.params.chatId);
+  const birthdays = await getRecordsByChatId(chatId);
+  const config = await getConfigForGroup(chatId);
+  res.json({ birthdays, config });
 });
 
 router.post('/:chatId/import', async (req, res) => {
@@ -78,6 +81,13 @@ router.post('/:chatId/batch', async (req, res) => {
           name: record.name,
           chatId: parseInt(req.params.chatId),
         });
+      } catch (e) {
+        console.error(e);
+        continue;
+      }
+    } else if (record.op === 'config') {
+      try {
+        await setConfigForGroup(parseInt(req.params.chatId), record.value);
       } catch (e) {
         console.error(e);
         continue;
