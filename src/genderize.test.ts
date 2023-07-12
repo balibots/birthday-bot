@@ -55,4 +55,10 @@ describe('getGender', () => {
     result = await getGender('bernardo');
     expect(result).toEqual('female');
   });
+
+  it('caches results correctly for names with spaces', async () => {
+    const result = await getGender('bernardo raposo');
+    expect(result).toEqual('male');
+    expect(await get(`name:bernardo`)).toEqual('male');
+  });
 });
