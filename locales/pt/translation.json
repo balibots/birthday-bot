@@ -18,5 +18,5 @@
     "🎂 Que dia épico! {{pronounUp}} *{{name}}* faz hoje {{age}} anos! 🥳🎉 Parabéns {{name}} ❤️",
     "🎂 {{pronounUp}} noss{{pronoun}} *{{name}}* faz hoje {{age}} anos! 🥳🎉 Parabéns {{name}} ❤️"
   ],
-  "welcomeGroup": "Ola a todos, bom conhecer-vos *{{chatTitle}}*!\n\nEu sou um prestavel bot que vos recorda daquelas datas importantes por vezes esquecidas - aniversarios dos vossos amigos! Comecem por adicionar pessoas com o comando `/add` com o nome e data separado por virgulas, por exemplo, `/add Samuel, 1994-03-21`. Podem ver toda a gente com o `/aniversarios`, o ranking das idades em `/idades` e o proximo a fazer anos: `/proximo`.\n\nNo dia do vosso aniversario, preparem-se para uma mensagem surpresa! (se bem que agora ja nao e'...)"
+  "welcomeGroup": "Ola a todos, bom conhecer-vos *{{chatTitle}}*!\n\nEu sou um prestavel bot que vos recorda daquelas datas importantes por vezes esquecidas - aniversarios dos vossos amigos! Comecem por adicionar pessoas com o comando `/add` com o nome e data separado por virgulas, por exemplo, `/add Samuel, 1994-03-21`. Podem ver toda a gente com o `/aniversarios`, o ranking das idades em `/idades` e o proximo a fazer anos: `/proximo`.\n\nNo dia do vosso aniversario, poderao ainda ter uma insesperada mensagem"
 }
