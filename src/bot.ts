@@ -39,8 +39,6 @@ bot.command('remove', removeCommand);
 // Triggers
 bot.on('message:new_chat_members:me', async (ctx) => {
   if ('title' in ctx.chat) {
-    ctx.reply(`Howdy ${ctx.chat.title}! (id: ${ctx.chat.id})`);
-
     const escapedChatTitle = ctx.chat.title.replace(/#/g, '');
 
     await set(
