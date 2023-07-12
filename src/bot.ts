@@ -14,6 +14,7 @@ import { set } from './cache';
 import { setConfigForGroup } from './config';
 import { withChatId } from './middlewares';
 import generateSalutation from './salutations';
+import { t } from 'i18next';
 import './i18n';
 
 import apiRoutes from './api';
@@ -39,6 +40,15 @@ bot.command('remove', removeCommand);
 // Triggers
 bot.on('message:new_chat_members:me', async (ctx) => {
   if ('title' in ctx.chat) {
+    const msg = t('welcomeGroup', {
+      chatId: ctx.chat.id,
+      chatTitle: ctx.chat.title,
+    });
+
+    ctx.reply(msg, {
+      parse_mode: 'Markdown',
+    });
+
     const escapedChatTitle = ctx.chat.title.replace(/#/g, '');
 
     await set(
