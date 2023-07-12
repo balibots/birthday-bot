@@ -4,6 +4,7 @@ import { MyContext } from '../bot';
 import { removeRecord } from '../dynamodb';
 import { isGroup, sanitizeName } from '../utils';
 import { t } from 'i18next';
+import { getConfigForGroup } from '../config';
 
 export const removeCommand = async (ctx: CommandContext<MyContext>) => {
   let [name, chatId] = ctx.match?.split(',').map((parts) => parts.trim()) || [];
