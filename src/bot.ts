@@ -11,6 +11,7 @@ import {
 } from './commands';
 import { addRecord, getRecordsByDayAndMonth } from './dynamodb';
 import { set } from './cache';
+import { setConfigForGroup } from './config';
 import { withChatId } from './middlewares';
 import generateSalutation from './salutations';
 import './i18n';
@@ -37,10 +38,19 @@ bot.command('remove', removeCommand);
 
 // Triggers
 bot.on('message:new_chat_members:me', async (ctx) => {
-  console.log(ctx, ctx.chat);
   if ('title' in ctx.chat) {
     ctx.reply(`Howdy ${ctx.chat.title}! (id: ${ctx.chat.id})`);
-    await set(`chatIds:${ctx.chat.title}`, String(ctx.chat.id));
+
+    const escapedChatTitle = ctx.chat.title.replace(/#/g, '');
+
+    await set(
+      `chatIds:${ctx.chat.id}-${escapedChatTitle}`,
+      String(ctx.chat.id)
+    );
+
+    const masterId = ctx.from.id;
+
+    await setConfigForGroup(ctx.chat.id, { masterId });
   }
 });
 
