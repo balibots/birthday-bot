@@ -75,11 +75,11 @@ const parseRecord = (dbRecord: any): BirthdayRecord => {
 
 export async function getRecord({
   ...params
-}: DBKeyArgs): Promise<BirthdayListEntry> {
+}: DBKeyArgs): Promise<BirthdayListEntry | null> {
   const key = buildRecordKey(params);
   const record = await birthdays.get(key);
 
-  return parseRecord(record);
+  return record ? parseRecord(record) : null;
 }
 
 export async function getRecords(): Promise<BirthdayListEntry[]> {
