@@ -6,7 +6,7 @@ const birthdays = db.collection(process.env.CYCLIC_DB_COLLECTION);
 
 type DBKeyArgs = Pick<BirthdayRecord, 'name' | 'chatId'>;
 
-function buildRecordKey(record: DBKeyArgs): string {
+export function buildRecordKey(record: DBKeyArgs): string {
   const { chatId, name } = record;
 
   return `${chatId}:${name.toLowerCase()}`;

@@ -16,6 +16,7 @@ import generateSalutation from './salutations';
 import './i18n';
 
 import apiRoutes from './api';
+import triggerEndpoint from './endpoints/trigger';
 
 export type MyContext = Context & { chatId: number };
 const bot = new Bot<MyContext>(process.env.TELEGRAM_TOKEN);
@@ -53,27 +54,8 @@ app.use(express.json());
 
 app.use('/api', apiRoutes);
 
-app.post('/trigger', async (req, res) => {
-  console.log('Triggering birthday alerts at', new Date());
-  const today = DateTime.now();
-  const birthdays = await getRecordsByDayAndMonth({
-    day: today.day,
-    month: today.month,
-  });
-
-  console.info(`Notifying ${birthdays.length} users today`);
-
-  birthdays.forEach((birthday) => {
-    const formattedMsg = generateSalutation(birthday);
-    console.info(
-      `Sending message to group ${birthday.chatId} about ${birthday.name}`
-    );
-
-    bot.api.sendMessage(birthday.chatId, formattedMsg, {
-      parse_mode: 'Markdown',
-    });
-  });
-
+app.post('/trigger', (req, res) => {
+  const birthdays = triggerEndpoint({ sendMessage: bot.api.sendMessage });
   res.json({ birthdays });
 });
 
