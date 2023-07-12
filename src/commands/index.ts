@@ -21,12 +21,10 @@ export const allCommands = [
   },
   {
     command: 'add',
-    description:
-      'Adiciona novo aniversariante. Limitado a Admins do grupo para evitar abusos de confiança.',
+    description: 'Adiciona novo aniversariante.',
   },
   {
     command: 'remove',
-    description:
-      'Remove um aniversariante. Limitado a Admins do grupo para evitar abusos de confiança.',
+    description: 'Remove um aniversariante.',
   },
 ];

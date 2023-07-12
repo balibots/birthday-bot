@@ -1,6 +1,7 @@
 import { CommandContext } from 'grammy';
 import { DateTime } from 'luxon';
 import { MyContext } from '../bot';
+import { getConfigForGroup } from '../config';
 import { addRecord } from '../dynamodb';
 import { getGender } from '../genderize';
 import { isGroup, sanitizeName } from '../utils';
@@ -37,11 +38,15 @@ export const addCommand = async (ctx: CommandContext<MyContext>) => {
 
   // limits add commands to group admins
   try {
-    const chatMember = await ctx.api.getChatMember(intChatId, ctx.from!.id);
-    if (!['administrator', 'creator'].includes(chatMember.status)) {
-      return ctx.reply(
-        'Apenas administratores do grupo podem adicionar e remover aniversariantes!'
-      );
+    const groupConfig = await getConfigForGroup(intChatId);
+
+    if (groupConfig && groupConfig.restrictedToAdmins) {
+      const chatMember = await ctx.api.getChatMember(intChatId, ctx.from!.id);
+      if (!['administrator', 'creator'].includes(chatMember.status)) {
+        return ctx.reply(
+          'Apenas administratores do grupo podem adicionar e remover aniversariantes!'
+        );
+      }
     }
   } catch (e) {
     return ctx.reply('Group ID not found probably: ' + (e as Error).message);

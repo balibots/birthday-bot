@@ -139,4 +139,36 @@ describe('DynamoDB tests', () => {
       await getRecordsByDayAndMonth({ day: record.day, month: record.month })
     ).toEqual([record]);
   });
+
+  it('upserts', async () => {
+    let record = {
+      name: 'Rui',
+      date: '1984-12-26',
+      month: 12,
+      day: 26,
+      gender,
+      chatId,
+    };
+
+    await addRecord(record);
+    await addRecord({ ...record, name: 'RUI' });
+    await addRecord({ ...record, name: 'rUi' });
+    expect((await getRecordsByChatId(chatId)).length).toEqual(1);
+  });
+
+  it('normalises keys to lowercase', async () => {
+    let record = {
+      name: 'RUI',
+      date: '1984-12-26',
+      month: 12,
+      day: 26,
+      gender,
+      chatId,
+    };
+
+    await addRecord(record);
+    expect((await getRecordsByChatId(chatId)).length).toEqual(1);
+    await removeRecord({ name: 'rUi', chatId });
+    expect((await getRecordsByChatId(chatId)).length).toEqual(0);
+  });
 });
