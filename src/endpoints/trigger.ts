@@ -31,11 +31,11 @@ const triggerEndpoint = async ({ sendMessage }: { sendMessage: any }) => {
     return acc;
   }, []);
 
-  console.info(`Notifying ${birthdays.length} users today`, birthdays);
+  console.log(`Notifying ${birthdays.length} users today`, birthdays);
 
   birthdays.forEach((birthday) => {
     const formattedMsg = generateSalutation(birthday);
-    console.info(
+    console.log(
       `Sending message to group ${birthday.chatId} about ${birthday.name}`
     );
 
