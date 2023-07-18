@@ -74,8 +74,8 @@ app.use(express.json());
 
 app.use('/api', apiRoutes);
 
-app.post('/trigger', (req, res) => {
-  const birthdays = triggerEndpoint({
+app.post('/trigger', async (req, res) => {
+  const birthdays = await triggerEndpoint({
     sendMessage: (id: number, msg: string, opts?: any) =>
       bot.api.sendMessage(id, msg, opts),
   });
