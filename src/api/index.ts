@@ -10,7 +10,11 @@ import { getGender } from '../genderize';
 import { requireKey } from '../middlewares';
 import { buildRecord, sanitizeName } from '../utils';
 import express from 'express';
-import { getConfigForGroup, setConfigForGroup } from '../config';
+import {
+  clearConfigForGroup,
+  getConfigForGroup,
+  setConfigForGroup,
+} from '../config';
 
 const router = express.Router();
 
@@ -51,8 +55,9 @@ router.post('/:chatId/import', async (req, res) => {
 });
 
 router.post('/:chatId/clear', async (req, res) => {
-  removeAllByChatId(parseInt(req.params.chatId));
-  res.json({});
+  const removed = await removeAllByChatId(parseInt(req.params.chatId));
+  await clearConfigForGroup(parseInt(req.params.chatId));
+  res.json({ removed });
 });
 
 router.post('/:chatId/batch', async (req, res) => {

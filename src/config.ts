@@ -4,7 +4,10 @@ const db = CyclicDb(process.env.CYCLIC_DB);
 const configKey = process.env.NODE_ENV === 'test' ? 'config:test' : 'config';
 const config = db.collection(configKey);
 
-type ChatConfig = { restrictedToAdmins: boolean };
+type ChatConfig = {
+  restrictedToAdmins: boolean;
+  masterId: number;
+};
 
 export const getConfigForGroup = async (
   chatId: number
@@ -20,11 +23,18 @@ export const getConfigForGroup = async (
 
 export const setConfigForGroup = async (
   chatId: number,
-  newConfig: ChatConfig
+  newConfig: Partial<ChatConfig>
 ) => {
   try {
-    return await config.set(`${chatId}`, { value: newConfig });
+    const currentConfig = await getConfigForGroup(chatId);
+    const merged = { ...(currentConfig || {}), ...newConfig };
+    return await config.set(`${chatId}`, { value: merged });
   } catch (e) {
     console.error(e);
   }
+};
+
+export const clearConfigForGroup = async (chatId: number) => {
+  const record = await config.get(`${chatId}`);
+  if (record) await record.delete();
 };

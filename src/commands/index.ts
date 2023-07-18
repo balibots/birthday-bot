@@ -3,6 +3,7 @@ export * from './list';
 export * from './next';
 export * from './add';
 export * from './remove';
+export * from './help';
 
 export const allCommands = [
   {

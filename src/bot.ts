@@ -7,12 +7,15 @@ import {
   nextCommand,
   addCommand,
   removeCommand,
+  helpCommand,
   allCommands,
 } from './commands';
 import { addRecord, getRecordsByDayAndMonth } from './dynamodb';
 import { set } from './cache';
+import { setConfigForGroup } from './config';
 import { withChatId } from './middlewares';
 import generateSalutation from './salutations';
+import { t } from 'i18next';
 import './i18n';
 
 import apiRoutes from './api';
@@ -25,6 +28,7 @@ const bot = new Bot<MyContext>(process.env.TELEGRAM_TOKEN);
 bot.command(['aniversarios', 'birthdays'], withChatId, birthdaysCommand);
 bot.command(['list', 'idades'], withChatId, listCommand);
 bot.command(['proximo', 'next'], withChatId, nextCommand);
+bot.command(['ajuda', 'help'], helpCommand);
 bot.command(['debug'], async (ctx) => {
   console.log(JSON.stringify(ctx, null, 2));
 });
@@ -37,10 +41,26 @@ bot.command('remove', removeCommand);
 
 // Triggers
 bot.on('message:new_chat_members:me', async (ctx) => {
-  console.log(ctx, ctx.chat);
   if ('title' in ctx.chat) {
-    ctx.reply(`Howdy ${ctx.chat.title}! (id: ${ctx.chat.id})`);
-    await set(`chatIds:${ctx.chat.title}`, String(ctx.chat.id));
+    const msg = t('welcomeGroup', {
+      chatId: ctx.chat.id,
+      chatTitle: ctx.chat.title,
+    });
+
+    ctx.reply(msg, {
+      parse_mode: 'Markdown',
+    });
+
+    const escapedChatTitle = ctx.chat.title.replace(/#/g, '');
+
+    await set(
+      `chatIds:${ctx.chat.id}-${escapedChatTitle}`,
+      String(ctx.chat.id)
+    );
+
+    const masterId = ctx.from.id;
+
+    await setConfigForGroup(ctx.chat.id, { masterId });
   }
 });
 
@@ -55,7 +75,10 @@ app.use(express.json());
 app.use('/api', apiRoutes);
 
 app.post('/trigger', (req, res) => {
-  const birthdays = triggerEndpoint({ sendMessage: bot.api.sendMessage });
+  const birthdays = triggerEndpoint({
+    sendMessage: (id: number, msg: string, opts?: any) =>
+      bot.api.sendMessage(id, msg, opts),
+  });
   res.json({ birthdays });
 });
 

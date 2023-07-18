@@ -107,11 +107,16 @@ export async function getRecordsByDayAndMonth({
 }
 
 export async function removeAllByChatId(chatId: number) {
+  let removed = [];
+
   if (!chatId || isNaN(chatId)) {
     throw new Error('Invalid chat id, got: ' + chatId);
   }
 
   for (let record of (await birthdays.index('chatId').find(chatId)).results) {
+    removed.push(record);
     await record.delete();
   }
+
+  return removed.map(parseRecord);
 }
