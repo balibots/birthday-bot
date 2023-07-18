@@ -7,6 +7,7 @@ import {
   nextCommand,
   addCommand,
   removeCommand,
+  helpCommand,
   allCommands,
 } from './commands';
 import { addRecord, getRecordsByDayAndMonth } from './dynamodb';
@@ -27,6 +28,7 @@ const bot = new Bot<MyContext>(process.env.TELEGRAM_TOKEN);
 bot.command(['aniversarios', 'birthdays'], withChatId, birthdaysCommand);
 bot.command(['list', 'idades'], withChatId, listCommand);
 bot.command(['proximo', 'next'], withChatId, nextCommand);
+bot.command(['ajuda', 'help'], helpCommand);
 bot.command(['debug'], async (ctx) => {
   console.log(JSON.stringify(ctx, null, 2));
 });
