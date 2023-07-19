@@ -1,3 +1,4 @@
+import { t } from 'i18next';
 import { DateTime, DateTimeFormatOptions } from 'luxon';
 import { BirthdayListEntry } from './types';
 import { daysToBirthday, getAge } from './utils';
@@ -34,7 +35,9 @@ export function ageLine(record: BirthdayListEntry): string {
     year: 'numeric',
   });
 
-  return `\`${date}\` — ${record.name}, ${Math.floor(age)}`;
+  return `\`${date}\` — ${record.name}, ${
+    age >= 0 ? Math.floor(age) : t('unborn')
+  }`;
 }
 
 export function nextBirthday(record: BirthdayListEntry): string {

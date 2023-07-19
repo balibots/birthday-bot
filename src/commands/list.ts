@@ -9,10 +9,14 @@ export const listCommand = async (ctx: MyContext) => {
   );
 
   if (birthdays.length === 0) {
-    return ctx.reply('No birthdays yet');
+    await ctx.reply('No birthdays yet');
   } else {
-    return ctx.reply(birthdays.map(ageLine).join('\n'), {
-      parse_mode: 'MarkdownV2',
-    });
+    try {
+      await ctx.reply(birthdays.map(ageLine).join('\n'), {
+        parse_mode: 'MarkdownV2',
+      });
+    } catch (e) {
+      console.error(e);
+    }
   }
 };

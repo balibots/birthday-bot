@@ -9,10 +9,14 @@ export const birthdaysCommand = async (ctx: MyContext) => {
   );
 
   if (birthdays.length === 0) {
-    return ctx.reply('No birthdays yet');
+    await ctx.reply('No birthdays yet');
   } else {
-    return ctx.reply(birthdays.map(birthdayLine).join('\n'), {
-      parse_mode: 'Markdown',
-    });
+    try {
+      await ctx.reply(birthdays.map(birthdayLine).join('\n'), {
+        parse_mode: 'Markdown',
+      });
+    } catch (e) {
+      console.error(e);
+    }
   }
 };

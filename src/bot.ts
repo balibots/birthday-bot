@@ -1,5 +1,5 @@
 import express from 'express';
-import { Bot, Context, webhookCallback } from 'grammy';
+import { Bot, Context, GrammyError, HttpError, webhookCallback } from 'grammy';
 import { DateTime } from 'luxon';
 import {
   birthdaysCommand,
@@ -82,17 +82,32 @@ app.post('/trigger', async (req, res) => {
   res.json({ birthdays });
 });
 
+// error handling
+bot.catch((err) => {
+  const ctx = err.ctx;
+  console.error(`Error while handling update ${ctx.update.update_id}:`);
+  const e = err.error;
+  if (e instanceof GrammyError) {
+    console.error('Error in request:', e);
+  } else if (e instanceof HttpError) {
+    console.error('Could not contact Telegram:', e);
+  } else {
+    console.error('Unknown error:', e);
+  }
+});
+
+// Start the bot
+if (process.env.NODE_ENV === 'production') {
+  // Using Webhook in production
+  console.log('Using webhooks');
+  app.use(webhookCallback(bot, 'express'));
+} else {
+  // Use Long Polling for development
+  console.log('Using long polling');
+  bot.start();
+}
+
 const server = app.listen(PORT, async () => {
   console.log('HTTP server started');
-
-  // Start the bot
-  if (process.env.NODE_ENV === 'production') {
-    // Using Webhook in production
-    app.use(webhookCallback(bot, 'express'));
-  } else {
-    // Use Long Polling for development
-    bot.start();
-  }
-
   console.log(`Bot listening on port ${PORT}`);
 });
