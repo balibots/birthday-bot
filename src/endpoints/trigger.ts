@@ -13,6 +13,11 @@ const triggerEndpoint = async ({ sendMessage }: { sendMessage: any }) => {
   console.log('Triggering birthday alerts at', new Date());
   const today = DateTime.now();
 
+  if (today.hour < 8) {
+    console.log('Too early, returning');
+    return;
+  }
+
   let birthdays = await getRecordsByDayAndMonth({
     day: today.day,
     month: today.month,
