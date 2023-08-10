@@ -15,7 +15,7 @@ const triggerEndpoint = async ({ sendMessage }: { sendMessage: any }) => {
 
   if (today.hour < 8) {
     console.log('Too early, returning');
-    return;
+    return [];
   }
 
   let birthdays = await getRecordsByDayAndMonth({
@@ -38,16 +38,16 @@ const triggerEndpoint = async ({ sendMessage }: { sendMessage: any }) => {
 
   console.log(`Notifying ${birthdays.length} users today`, birthdays);
 
-  birthdays.forEach((birthday) => {
+  for (let birthday of birthdays) {
     const formattedMsg = generateSalutation(birthday);
     console.log(
       `Sending message to group ${birthday.chatId} about ${birthday.name}`
     );
 
-    sendMessage(birthday.chatId, formattedMsg, {
+    await sendMessage(birthday.chatId, formattedMsg, {
       parse_mode: 'Markdown',
     });
-  });
+  }
 
   await set(
     triggerCacheKeyFor(today),
