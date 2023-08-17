@@ -14,4 +14,7 @@ i18next.use(Backend).init({
   backend: {
     loadPath: 'locales/{{lng}}/{{ns}}.json',
   },
+  interpolation: {
+    escapeValue: false,
+  },
 });
