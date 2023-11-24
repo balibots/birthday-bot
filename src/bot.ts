@@ -8,6 +8,7 @@ import {
   addCommand,
   removeCommand,
   helpCommand,
+  magicCommand,
   allCommands,
 } from './commands';
 import { addRecord, getRecordsByDayAndMonth } from './dynamodb';
@@ -33,11 +34,12 @@ bot.command(['debug'], async (ctx) => {
   console.log(JSON.stringify(ctx, null, 2));
 });
 
-// Admin commands:
 // /add name, date
 // /add name, date, chatId (for private chats)
 bot.command('add', addCommand);
 bot.command('remove', removeCommand);
+
+bot.command('birthdaybot', magicCommand);
 
 // Triggers
 bot.on('message:new_chat_members:me', async (ctx) => {

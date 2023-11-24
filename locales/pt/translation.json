@@ -7,10 +7,20 @@
       "success": "Aniversariante removido: {{name}} — {{date}}.",
       "notFound": "Não encontrei esse aniversariante ({{error}})",
       "error": "Erro ao remover o aniversariante: {{error}}"
+    },
+    "add": {
+      "success": "Aniversariante adicionado: {{name}} — {{date}}."
     }
   },
   "errors": {
-    "notAdmin": "Apenas administradores do grupo podem correr este comando!"
+    "notAdmin": "Apenas administradores do grupo podem correr este comando!",
+    "notUnderstood": "Desculpa, nao percebi.",
+    "validation": {
+      "dateMissing": "Nao consegui perceber a data do aniversario, tenta novamente.",
+      "dateInvalid": "Nao consegui perceber a data de nascimento, tenta novamente please.",
+      "yearMissing": "Desculpa, nao percebi o ano do nascimento do aniversariante, tenta novamente.",
+      "nameMissing": "Desculpa, nao percebi o nome do aniversariante, tenta novamente."
+    }
   },
   "messages": [
     "🎂 O bebé de hoje é {{pronoun}} *{{name}}* que faz {{age}} anos! 🥳🎉 Parabéns {{name}} ❤️",
@@ -21,5 +31,6 @@
   "welcomeGroup": "👋 *{{chatTitle}}*!\nSou um simpatico bot 🤖 que vos ajuda a registar todas as datas de aniversario dos membros deste grupo. Para saberem mais sobre os comandos disponiveis, facam /help.",
 
   "helpMessage": "Estes sao os comandos que podem usar:\n - /add - Para adicionar um aniversariantem, com nome e data separado por virgulas (por exemplo, `/add Samuel, 1994-03-21`)\n - /remove - Para remover um aniversariante (`/remove Pedro`)\n - /aniversarios - Lista de aniversariantes, ordenado pelo proximo a fazer anos.\n - /idades - Lista por idades.\n - /proximo - Mostra mais informacoes sobre o proximo aniversario.",
-  "unborn": "por nascer"
+  "unborn": "por nascer",
+  "inputNeeded": "Sim?..."
 }

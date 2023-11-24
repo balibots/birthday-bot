@@ -4,6 +4,7 @@ export * from './next';
 export * from './add';
 export * from './remove';
 export * from './help';
+export * from './magic';
 
 export const allCommands = [
   {
@@ -27,5 +28,9 @@ export const allCommands = [
   {
     command: 'remove',
     description: 'Remove um aniversariante.',
+  },
+  {
+    command: 'birthdaybot',
+    description: 'Interface conversacional futurista.',
   },
 ];
