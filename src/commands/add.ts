@@ -1,10 +1,9 @@
 import { CommandContext } from 'grammy';
-import { DateTime } from 'luxon';
 import { MyContext } from '../bot';
 import { getConfigForGroup } from '../config';
 import { addRecord } from '../dynamodb';
 import { getGender } from '../genderize';
-import { isGroup, sanitizeName } from '../utils';
+import { isGroup, parseDate, sanitizeName } from '../utils';
 
 export const addCommand = async (ctx: CommandContext<MyContext>) => {
   let [name, date, chatId] = ctx.match?.split(',').map((s) => s.trim()) || [];
@@ -52,7 +51,7 @@ export const addCommand = async (ctx: CommandContext<MyContext>) => {
     return ctx.reply('Group ID not found probably: ' + (e as Error).message);
   }
 
-  const parsedDate = DateTime.fromISO(date);
+  const parsedDate = parseDate(date);
 
   if (!parsedDate.isValid) {
     return ctx.reply(

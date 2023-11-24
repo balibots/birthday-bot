@@ -2,6 +2,7 @@ import { BirthdayListEntry } from './types';
 import {
   daysToBirthday,
   getAge,
+  parseDate,
   sanitizeName,
   sortAbsoluteDate,
   sortClosestDate,
@@ -97,4 +98,54 @@ describe('sanitizeName()', () => {
     expect(sanitizeName('Óscar')).toEqual('Óscar');
     expect(sanitizeName('vovÔ DÓnÃld')).toEqual('Vovô Dónãld');
   });
+});
+
+describe('parseDate()', () => {
+  it('parses dates in the ISO format', () => {
+    const dateStr = '1999-12-30';
+    const date = parseDate(dateStr);
+    expect(date.get('day')).toEqual(30);
+    expect(date.get('month')).toEqual(12);
+    expect(date.get('year')).toEqual(1999);
+  });
+
+  it.each([['1999-12-30'], ['30-12-1999'], ['30/12/1999']])(
+    'parses dates in other sensible formats too: %s',
+    (dateStr) => {
+      const date = parseDate(dateStr);
+      expect(date.get('day')).toEqual(30);
+      expect(date.get('month')).toEqual(12);
+      expect(date.get('year')).toEqual(1999);
+    }
+  );
+
+  it.each([['1999-12-1'], ['1-12-1999'], ['1/12/1999']])(
+    'parses dates in other sensible formats too: %s',
+    (dateStr) => {
+      const date = parseDate(dateStr);
+      expect(date.get('day')).toEqual(1);
+      expect(date.get('month')).toEqual(12);
+      expect(date.get('year')).toEqual(1999);
+    }
+  );
+
+  it.each([['1999-1-30'], ['30-1-1999'], ['30/1/1999']])(
+    'parses dates in other sensible formats too: %s',
+    (dateStr) => {
+      const date = parseDate(dateStr);
+      expect(date.get('day')).toEqual(30);
+      expect(date.get('month')).toEqual(1);
+      expect(date.get('year')).toEqual(1999);
+    }
+  );
+
+  it.each([['1999-1-1'], ['1-1-1999'], ['1/1/1999']])(
+    'parses dates in other sensible formats too: %s',
+    (dateStr) => {
+      const date = parseDate(dateStr);
+      expect(date.get('day')).toEqual(1);
+      expect(date.get('month')).toEqual(1);
+      expect(date.get('year')).toEqual(1999);
+    }
+  );
 });

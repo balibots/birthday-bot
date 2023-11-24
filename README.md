@@ -35,10 +35,10 @@ Users can be removed with the `/remove` command:
 
 1. Copy the `.env.sample` file to `.env` and fill in the necessary environment variables.
 
-1. Run start
+1. Run the dev script
 
   ```
-    npm start
+    npm run dev
   ```
 
 Locally, the bot uses long polling but it uses webhooks in prod (`NODE_ENV === 'production'`). There's a script to register your webhook too:
