@@ -76,8 +76,20 @@ export async function getFunctionCall(
       {
         type: 'function',
         function: {
-          name: 'show_all_birthdays',
+          name: 'show_all_birthdays_by_date',
           description: 'Gets all birthdays, sorted by the nearest one.',
+          parameters: {
+            type: 'object',
+            properties: {},
+          },
+        },
+      },
+      {
+        type: 'function',
+        function: {
+          name: 'show_ages',
+          description:
+            'Returns the ages and birthdays of everyone on the list.',
           parameters: {
             type: 'object',
             properties: {},

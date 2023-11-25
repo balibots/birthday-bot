@@ -7,6 +7,7 @@ import { t } from 'i18next';
 import { getFunctionCall } from '../openai';
 import { nextCommand } from './next';
 import { birthdaysCommand } from './birthdays';
+import { listCommand } from './list';
 
 export const magicCommand = async (ctx: MyContext) => {
   // if we're sending commands from a group, will get the id from the message
@@ -98,9 +99,12 @@ export const magicCommand = async (ctx: MyContext) => {
     } else if (functionCall.function === 'get_upcoming_birthday') {
       ctx.chatId = intChatId;
       return await nextCommand(ctx);
-    } else if (functionCall.function === 'show_all_birthdays') {
+    } else if (functionCall.function === 'show_all_birthdays_by_date') {
       ctx.chatId = intChatId;
       return await birthdaysCommand(ctx);
+    } else if (functionCall.function === 'show_ages') {
+      ctx.chatId = intChatId;
+      return await listCommand(ctx);
     } else {
       await ctx.reply(t('errors.notUnderstood'));
     }
