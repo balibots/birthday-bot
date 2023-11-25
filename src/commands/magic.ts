@@ -1,15 +1,19 @@
 import { MyContext } from '../bot';
-import OpenAI from 'openai';
 import { DateTime } from 'luxon';
-import { sanitizeName } from '../utils';
+import { sanitizeName, isGroup } from '../utils';
 import { getGender } from '../genderize';
 import { addRecord, removeRecord } from '../dynamodb';
 import { t } from 'i18next';
-
-const openai = new OpenAI();
+import { getFunctionCall } from '../openai';
+import { nextCommand } from './next';
+import { birthdaysCommand } from './birthdays';
 
 export const magicCommand = async (ctx: MyContext) => {
   // if we're sending commands from a group, will get the id from the message
+  if (!isGroup(ctx.chat)) {
+    return await ctx.reply(t('errors.needGroup'));
+  }
+
   const intChatId = ctx.chat?.id;
 
   if (!intChatId || isNaN(intChatId)) {
@@ -21,73 +25,14 @@ export const magicCommand = async (ctx: MyContext) => {
     return await ctx.reply(t('inputNeeded'));
   }
 
-  const chatCompletion = await openai.chat.completions.create({
-    messages: [{ role: 'user', content: ctx.match.toString() }],
-    tools: [
-      {
-        type: 'function',
-        function: {
-          name: 'add_birthday',
-          description: 'Adds a new birthday to the calendar',
-          parameters: {
-            type: 'object',
-            properties: {
-              day: {
-                type: 'string',
-                description:
-                  'The day of the month the birthday falls on (01-31)',
-              },
-              month: {
-                type: 'string',
-                description: 'The month the birthday falls on (01-12)',
-              },
-              year: {
-                type: 'number',
-                description: 'The year they were born',
-              },
-              name: {
-                type: 'string',
-                description:
-                  "The name of the person whose birthday we're adding",
-              },
-            },
-            required: ['day', 'month', 'year', 'name'],
-          },
-        },
-      },
-      {
-        type: 'function',
-        function: {
-          name: 'remove_birthday',
-          description: 'Removes an existing birthday from the calendar',
-          parameters: {
-            type: 'object',
-            properties: {
-              name: {
-                type: 'string',
-                description:
-                  "The name of the person whose birthday we're removing",
-              },
-            },
-            required: ['name'],
-          },
-        },
-      },
-    ],
-    model: 'gpt-3.5-turbo',
-  });
+  const functionCall = await getFunctionCall(ctx.match.toString());
 
-  if (
-    chatCompletion.choices[0]?.message?.tool_calls &&
-    chatCompletion.choices[0]?.message?.tool_calls.length
-  ) {
-    const call = chatCompletion.choices[0]?.message?.tool_calls[0];
+  console.log('Magic response', functionCall);
 
-    if (call.function.name === 'add_birthday') {
+  if (functionCall) {
+    if (functionCall.function === 'add_birthday') {
       // Adding a new birthday
-      const { day, month, year, name } = JSON.parse(
-        call.function.arguments || '{}'
-      );
+      const { day, month, year, name } = functionCall.args;
 
       if (!day || !month) {
         return await ctx.reply(t('errors.validation.dateMissing'));
@@ -123,11 +68,9 @@ export const magicCommand = async (ctx: MyContext) => {
       const record = await addRecord(params);
 
       return await ctx.reply(t('commands.add.success', record));
-    } else if (call.function.name === 'remove_birthday') {
+    } else if (functionCall.function === 'remove_birthday') {
       // Removing an existing birthday
-      const { day, month, year, name } = JSON.parse(
-        call.function.arguments || '{}'
-      );
+      const { name } = functionCall.args;
 
       if (!name) {
         return await ctx.reply(t('errors.validation.nameMissing'));
@@ -152,6 +95,12 @@ export const magicCommand = async (ctx: MyContext) => {
       } catch (error) {
         return ctx.reply(t('commands.remove.notFound', { error }));
       }
+    } else if (functionCall.function === 'get_upcoming_birthday') {
+      ctx.chatId = intChatId;
+      return await nextCommand(ctx);
+    } else if (functionCall.function === 'show_all_birthdays') {
+      ctx.chatId = intChatId;
+      return await birthdaysCommand(ctx);
     } else {
       await ctx.reply(t('errors.notUnderstood'));
     }

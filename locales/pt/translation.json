@@ -15,6 +15,7 @@
   "errors": {
     "notAdmin": "Apenas administradores do grupo podem correr este comando!",
     "notUnderstood": "Desculpa, nao percebi.",
+    "needGroup": "Este comando so funciona num grupo.",
     "validation": {
       "dateMissing": "Nao consegui perceber a data do aniversario, tenta novamente.",
       "dateInvalid": "Nao consegui perceber a data de nascimento, tenta novamente please.",
