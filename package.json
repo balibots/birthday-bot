@@ -58,6 +58,7 @@
     "i18next-fs-backend": "^2.1.5",
     "jest": "^29.6.0",
     "luxon": "^3.3.0",
+    "openai": "^4.20.0",
     "redis": "^4.6.7",
     "title-case": "^3.0.3"
   }
