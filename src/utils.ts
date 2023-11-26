@@ -95,3 +95,24 @@ export const buildRecord = async (
     chatId: chatId,
   };
 };
+
+export const parseDate = (dateStr: string) => {
+  const isoDate = DateTime.fromISO(dateStr);
+  if (isoDate.isValid) return isoDate;
+
+  const otherFormats = [
+    'dd-MM-yyyy',
+    'd-M-yyyy',
+    'dd/MM/yyyy',
+    'd/M/yyyy',
+    'yyyy-M-d',
+  ];
+
+  for (let format of otherFormats) {
+    const date = DateTime.fromFormat(dateStr, format);
+    if (date.isValid) return date;
+  }
+
+  // returning an invalid date if we cant parse it
+  return isoDate;
+};
