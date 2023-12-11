@@ -4,6 +4,7 @@ import { getConfigForGroup } from '../config';
 import { addRecord } from '../dynamodb';
 import { getGender } from '../genderize';
 import { isGroup, parseDate, sanitizeName } from '../utils';
+import { t } from 'i18next';
 
 export const addCommand = async (ctx: CommandContext<MyContext>) => {
   let [name, date, chatId] = ctx.match?.split(',').map((s) => s.trim()) || [];
@@ -16,22 +17,18 @@ export const addCommand = async (ctx: CommandContext<MyContext>) => {
   }
 
   if (isNaN(intChatId) || !intChatId) {
-    return ctx.reply(`Invalid Chat ID, got ${chatId}`);
+    return ctx.reply(t('errors.invalidChatId', { chatId: intChatId }));
   }
 
   if (!name || !date) {
     if (isGroup(ctx.chat)) {
-      return ctx.reply(
-        'Please provide a name, a date in this format: `/add John, 1999-11-25`',
-        {
-          parse_mode: 'MarkdownV2',
-        }
-      );
+      return ctx.reply(t('commands.add.missingData'), {
+        parse_mode: 'MarkdownV2',
+      });
     } else {
-      return ctx.reply(
-        'Please provide a name, a date and a chatId in this format: `/add John, 1999-11-25, -12345`',
-        { parse_mode: 'MarkdownV2' }
-      );
+      return ctx.reply(t('commands.add.missingDataWithGroupId'), {
+        parse_mode: 'MarkdownV2',
+      });
     }
   }
 
@@ -42,22 +39,21 @@ export const addCommand = async (ctx: CommandContext<MyContext>) => {
     if (groupConfig && groupConfig.restrictedToAdmins) {
       const chatMember = await ctx.api.getChatMember(intChatId, ctx.from!.id);
       if (!['administrator', 'creator'].includes(chatMember.status)) {
-        return ctx.reply(
-          'Apenas administratores do grupo podem adicionar e remover aniversariantes!'
-        );
+        return ctx.reply(t('commands.add.restrictedToAdmins'));
       }
     }
   } catch (e) {
-    return ctx.reply('Group ID not found probably: ' + (e as Error).message);
+    return ctx.reply(
+      t('errors.internalError', { message: (e as Error).message })
+    );
   }
 
   const parsedDate = parseDate(date);
 
   if (!parsedDate.isValid) {
-    return ctx.reply(
-      "Couldn't parse date, please provide a date in this format: `/add John, 1999-11-25`",
-      { parse_mode: 'MarkdownV2' }
-    );
+    return ctx.reply(t('commands.add.errorParsingDate'), {
+      parse_mode: 'MarkdownV2',
+    });
   }
 
   const sanitized = sanitizeName(name);
@@ -75,6 +71,9 @@ export const addCommand = async (ctx: CommandContext<MyContext>) => {
   const record = await addRecord(params);
 
   return ctx.reply(
-    `Aniversariante adicionado: ${record.name} — ${record.date}`
+    t('commands.add.success', {
+      name: record.name,
+      date: record.date,
+    })
   );
 };
