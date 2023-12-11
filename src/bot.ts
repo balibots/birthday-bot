@@ -28,7 +28,7 @@ const bot = new Bot<MyContext>(process.env.TELEGRAM_TOKEN);
 
 // Bot Commands:
 bot.command(['aniversarios', 'birthdays'], withChatId, birthdaysCommand);
-bot.command(['list', 'idades'], withChatId, listCommand);
+bot.command(['idades', 'list'], withChatId, listCommand);
 bot.command(['proximo', 'next'], withChatId, nextCommand);
 bot.command(['config'], withChatId, configCommand);
 bot.command(['ajuda', 'help'], helpCommand);

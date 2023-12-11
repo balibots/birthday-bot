@@ -1,7 +1,6 @@
 {
   "commands": {
     "remove": {
-      "invalidChatId": "O ID do grupo `{{chatId}}` é inválido!",
       "missingName": "O comando precisa de ser executado com o nome do aniversariante: `/remove Pedro`",
       "missingGroup": "Falta o ID do grupo: `/remove Pedro, -123456789`",
       "success": "Aniversariante removido: {{name}} — {{date}}.",
@@ -9,6 +8,7 @@
       "error": "Erro ao remover o aniversariante: {{error}}"
     },
     "add": {
+<<<<<<< HEAD
       "success": "Aniversariante adicionado: {{name}} — {{date}}."
     },
     "config": {
@@ -16,12 +16,27 @@
       "error": "Erro ao obter a configuracao para o grupo.",
       "saved": "Configuracao actualizada com sucesso",
       "errorParsingHour": "Hora invalida - deve ser um numero 0-23."
+=======
+      "missingData": "Por favor indica o nome e data de aniversario no seguinte formato: `/add Jonas, 1984-03-30`",
+      "missingDataWithGroupId": "Por favor indica o nome, data de aniversario e ID do grupo no seguinte formato: `/add Jonas, 1984-03-30, -12345`",
+      "errorParsingDate": "O formato da data e' invalido. Por favor usa YYYY-MM-DD, por exemplo: `/add Saul, 1989-01-31`",
+      "success": "Aniversariante adicionado: {{name}} — {{date}}.",
+      "restrictedToAdmins": "Apenas administratores do grupo podem adicionar e remover aniversariantes."
+    },
+    "birthdays": {
+      "sentence": "`*{{name}}*, faz *{{nextAge}}* anos no dia {{day}} ({{daysToBirthdayStr}})"
+>>>>>>> 51cbc80 (Translates everything, adss english file)
     }
   },
   "errors": {
+    "empty": "Nenhum aniversario adicionado.",
     "notAdmin": "Apenas administradores do grupo podem correr este comando!",
     "notUnderstood": "Desculpa, nao percebi.",
     "needGroup": "Este comando so funciona num grupo.",
+    "missingChatId": "Falta o ID do grupo - e' necessario num chat privado.",
+    "invalidChatId": "O ID do grupo (`{{chatId}}`) é inválido!",
+    "internalError": "Ocorreu um erro: {{message}}",
+    "internalErrorNoMessage": "Ocorreu um erro, tenta novamente.",
     "validation": {
       "dateMissing": "Nao consegui perceber a data do aniversario, tenta novamente.",
       "dateInvalid": "Nao consegui perceber a data de nascimento, tenta novamente please.",
@@ -35,7 +50,12 @@
     "🎂 Que dia épico! {{pronounUp}} *{{name}}* faz hoje {{age}} anos! 🥳🎉 Parabéns {{name}} ❤️",
     "🎂 {{pronounUp}} noss{{pronoun}} *{{name}}* faz hoje {{age}} anos! 🥳🎉 Parabéns {{name}} ❤️"
   ],
-  "welcomeGroup": "👋 *{{chatTitle}}*!\nSou um simpatico bot 🤖 que vos ajuda a registar todas as datas de aniversario dos membros deste grupo. Para saberem mais sobre os comandos disponiveis, facam /help.",
+  "words":{
+    "days": "dias",
+    "day": "dia",
+    "today": "hoje! 🎉"
+  },
+  "welcomeGroup": "👋 *{{chatTitle}}*!\nSou um bot 🤖 que vos ajuda a registar todas as datas de aniversario dos membros deste grupo. Para saberem mais sobre os comandos disponiveis, facam /help.",
 
   "helpMessage": "Estes sao os comandos que podem usar:\n - /add - Para adicionar um aniversariantem, com nome e data separado por virgulas (por exemplo, `/add Samuel, 1994-03-21`)\n - /remove - Para remover um aniversariante (`/remove Pedro`)\n - /aniversarios - Lista de aniversariantes, ordenado pelo proximo a fazer anos.\n - /idades - Lista por idades.\n - /proximo - Mostra mais informacoes sobre o proximo aniversario.",
   "unborn": "por nascer",

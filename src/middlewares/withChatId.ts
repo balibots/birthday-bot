@@ -1,6 +1,7 @@
 import { MiddlewareFn } from 'grammy';
 import { MyContext } from '../bot';
 import { isGroup } from '../utils';
+import { t } from 'i18next';
 
 export const withChatId: MiddlewareFn<MyContext> = async (ctx, next) => {
   let chatId: number;
@@ -12,7 +13,7 @@ export const withChatId: MiddlewareFn<MyContext> = async (ctx, next) => {
     const payload = typeof ctx.match === 'string' ? ctx.match : null;
 
     if (!payload) {
-      return ctx.reply(`Need a Chat ID on a private chat.`);
+      return await ctx.reply(t('errors.missingChatId'));
     }
 
     // gets the last comma seperated token.
@@ -22,11 +23,10 @@ export const withChatId: MiddlewareFn<MyContext> = async (ctx, next) => {
     chatId = parseInt(tokens.pop() || ''); // empty string and undefined will make parseInt return NaN
 
     if (isNaN(chatId)) {
-      return ctx.reply(`Invalid Chat ID provided, got '${ctx.match}'.`);
+      return await ctx.reply(t('errors.invalidChatId', { chatId: ctx.match }));
     }
   }
 
   ctx.chatId = chatId;
-
   await next();
 };
