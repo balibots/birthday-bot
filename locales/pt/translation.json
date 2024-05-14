@@ -10,6 +10,12 @@
     },
     "add": {
       "success": "Aniversariante adicionado: {{name}} — {{date}}."
+    },
+    "config": {
+      "notfound": "Configuracao invalida.",
+      "error": "Erro ao obter a configuracao para o grupo.",
+      "saved": "Configuracao actualizada com sucesso",
+      "errorParsingHour": "Hora invalida - deve ser um numero 0-23."
     }
   },
   "errors": {

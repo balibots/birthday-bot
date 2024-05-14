@@ -5,6 +5,7 @@ export * from './add';
 export * from './remove';
 export * from './help';
 export * from './magic';
+export * from './config';
 
 export const allCommands = [
   {
@@ -28,6 +29,10 @@ export const allCommands = [
   {
     command: 'remove',
     description: 'Remove um aniversariante.',
+  },
+  {
+    command: 'config',
+    description: 'Altera configuracoes do grupo.',
   },
   {
     command: 'birthdaybot',

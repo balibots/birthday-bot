@@ -5,18 +5,17 @@ import { buildRecordKey, getRecordsByDayAndMonth } from '../dynamodb';
 import generateSalutation from '../salutations';
 import { BirthdayListEntry } from '../types';
 import { get, set } from '../cache';
+import { getConfigForGroup } from '../config';
+
+const NOTIFICATION_START_HOUR = process.env.NOTIFICATION_START_HOUR || 8;
 
 const triggerCacheKeyFor = (today: DateTime) =>
   `trigger:${today.toFormat('yyyy-MM-dd')}`;
 
 const triggerEndpoint = async ({ sendMessage }: { sendMessage: any }) => {
   console.log('Triggering birthday alerts at', new Date());
-  const today = DateTime.now();
-
-  if (today.hour < 8) {
-    console.log('Too early, returning');
-    return [];
-  }
+  // this is now UTC
+  const today = DateTime.now().toUTC();
 
   let birthdays = await getRecordsByDayAndMonth({
     day: today.day,
@@ -39,6 +38,17 @@ const triggerEndpoint = async ({ sendMessage }: { sendMessage: any }) => {
   console.log(`Notifying ${birthdays.length} users today`, birthdays);
 
   for (let birthday of birthdays) {
+    const notificationTime =
+      (await getNotificationHourConfig(birthday.chatId)) ||
+      NOTIFICATION_START_HOUR;
+
+    if (today.hour < notificationTime) {
+      console.log(
+        `Too early to trigger message for group ${birthday.chatId}: today.hour: ${today.hour}, notificationTime: ${notificationTime}`
+      );
+      continue;
+    }
+
     const formattedMsg = generateSalutation(birthday);
     console.log(
       `Sending message to group ${birthday.chatId} about ${birthday.name}`
@@ -55,6 +65,11 @@ const triggerEndpoint = async ({ sendMessage }: { sendMessage: any }) => {
   );
 
   return birthdays;
+};
+
+const getNotificationHourConfig = async (chatId: number) => {
+  const config = await getConfigForGroup(chatId);
+  return config && config.notificationHour;
 };
 
 export default triggerEndpoint;

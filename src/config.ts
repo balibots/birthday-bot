@@ -4,9 +4,10 @@ const db = CyclicDb(process.env.CYCLIC_DB);
 const configKey = process.env.NODE_ENV === 'test' ? 'config:test' : 'config';
 const config = db.collection(configKey);
 
-type ChatConfig = {
+export type ChatConfig = {
   restrictedToAdmins: boolean;
   masterId: number;
+  notificationHour: number;
 };
 
 export const getConfigForGroup = async (
