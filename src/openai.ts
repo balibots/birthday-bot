@@ -1,4 +1,5 @@
 import OpenAI from 'openai';
+import { ChatCompletionMessageToolCall } from 'openai/resources';
 
 const openai = new OpenAI();
 
@@ -9,8 +10,10 @@ type FunctionCallResult = null | {
 
 export async function getFunctionCall(
   message: string
-): Promise<FunctionCallResult> {
+): Promise<ChatCompletionMessageToolCall[]> {
   const chatCompletion = await openai.chat.completions.create({
+    //model: 'gpt-3.5-turbo',
+    model: 'gpt-4',
     messages: [{ role: 'user', content: message }],
     tools: [
       {
@@ -76,8 +79,9 @@ export async function getFunctionCall(
       {
         type: 'function',
         function: {
-          name: 'show_all_birthdays_by_date',
-          description: 'Gets all birthdays, sorted by the nearest one.',
+          name: 'list_upcoming_birthdays',
+          description:
+            'Gets all birthdays, sorted by date, the next one first.',
           parameters: {
             type: 'object',
             properties: {},
@@ -97,23 +101,20 @@ export async function getFunctionCall(
         },
       },
     ],
-    model: 'gpt-3.5-turbo',
   });
+
+  console.log(JSON.stringify(chatCompletion, null, 2));
 
   try {
     if (
       chatCompletion.choices[0]?.message?.tool_calls &&
       chatCompletion.choices[0]?.message?.tool_calls.length
     ) {
-      const call = chatCompletion.choices[0]?.message?.tool_calls[0];
-      return {
-        function: call.function.name,
-        args: JSON.parse(call.function.arguments || '{}'),
-      };
+      return chatCompletion.choices[0]?.message?.tool_calls;
     }
   } catch (e) {
     console.error(e);
   }
 
-  return null;
+  return [];
 }

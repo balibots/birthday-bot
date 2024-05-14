@@ -26,32 +26,43 @@ export const magicCommand = async (ctx: MyContext) => {
     return await ctx.reply(t('inputNeeded'));
   }
 
-  const functionCall = await getFunctionCall(ctx.match.toString());
+  const functionCalls = await getFunctionCall(ctx.match.toString());
 
-  console.log('Magic response', functionCall);
+  console.log('Magic response', functionCalls);
 
-  if (functionCall) {
-    if (functionCall.function === 'add_birthday') {
+  if (!functionCalls?.length) {
+    return await ctx.reply(t('errors.notUnderstood'));
+  }
+
+  for (let functionCall of functionCalls) {
+    const fn = functionCall.function.name;
+    const fnArgs = JSON.parse(functionCall.function.arguments || '{}');
+
+    if (fn === 'add_birthday') {
       // Adding a new birthday
-      const { day, month, year, name } = functionCall.args;
+      const { day, month, year, name } = fnArgs;
 
       if (!day || !month) {
-        return await ctx.reply(t('errors.validation.dateMissing'));
+        await ctx.reply(t('errors.validation.dateMissing'));
+        continue;
       }
 
       if (!year) {
-        return await ctx.reply(t('errors.validation.yearMissing'));
+        await ctx.reply(t('errors.validation.yearMissing'));
+        continue;
       }
 
       if (!name) {
-        return await ctx.reply(t('errors.validation.nameMissing'));
+        await ctx.reply(t('errors.validation.nameMissing'));
+        continue;
       }
 
       console.log('Adding', year, month, day, name);
       const parsedDate = DateTime.fromISO(`${year}-${month}-${day}`);
 
       if (!parsedDate.isValid) {
-        return await ctx.reply(t('errors.validation.dateInvalid'));
+        await ctx.reply(t('errors.validation.dateInvalid'));
+        continue;
       }
 
       const sanitized = sanitizeName(name);
@@ -68,13 +79,14 @@ export const magicCommand = async (ctx: MyContext) => {
 
       const record = await addRecord(params);
 
-      return await ctx.reply(t('commands.add.success', record));
-    } else if (functionCall.function === 'remove_birthday') {
+      await ctx.reply(t('commands.add.success', record));
+    } else if (fn === 'remove_birthday') {
       // Removing an existing birthday
-      const { name } = functionCall.args;
+      const { name } = fnArgs;
 
       if (!name) {
-        return await ctx.reply(t('errors.validation.nameMissing'));
+        await ctx.reply(t('errors.validation.nameMissing'));
+        continue;
       }
 
       try {
@@ -87,7 +99,7 @@ export const magicCommand = async (ctx: MyContext) => {
 
         const removedRecord = await removeRecord(record);
 
-        return ctx.reply(
+        await ctx.reply(
           t('commands.remove.success', {
             name: removedRecord.name,
             date: removedRecord.date,
@@ -96,19 +108,17 @@ export const magicCommand = async (ctx: MyContext) => {
       } catch (error) {
         return ctx.reply(t('commands.remove.notFound', { error }));
       }
-    } else if (functionCall.function === 'get_upcoming_birthday') {
+    } else if (fn === 'get_upcoming_birthday') {
       ctx.chatId = intChatId;
-      return await nextCommand(ctx);
-    } else if (functionCall.function === 'show_all_birthdays_by_date') {
+      await nextCommand(ctx);
+    } else if (fn === 'list_upcoming_birthdays') {
       ctx.chatId = intChatId;
-      return await birthdaysCommand(ctx);
-    } else if (functionCall.function === 'show_ages') {
+      await birthdaysCommand(ctx);
+    } else if (fn === 'show_ages') {
       ctx.chatId = intChatId;
-      return await listCommand(ctx);
+      await listCommand(ctx);
     } else {
       await ctx.reply(t('errors.notUnderstood'));
     }
-  } else {
-    await ctx.reply(t('errors.notUnderstood'));
   }
 };
