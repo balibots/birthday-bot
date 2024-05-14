@@ -1,0 +1,54 @@
+{
+  "commands": {
+    "remove": {
+      "missingName": "You need to supply a name, eg: `/remove Pedro`",
+      "missingGroup": "Missing group ID: `/remove Pedro, -123456789`",
+      "success": "Birthday removed: {{name}} — {{date}}.",
+      "notFound": "I couldn't find that birthday ({{error}})",
+      "error": "Error while removing birthday: {{error}}"
+    },
+    "add": {
+      "missingData": "Please provide the name and birthdate in the following format: `/add Jonas, 1984-03-30`",
+      "missingDataWithGroupId": "Please provide the name, birthdate, and group ID in the following format: `/add Jonas, 1984-03-30, -12345`",
+      "errorParsingDate": "The date format is invalid. Please use YYYY-MM-DD, for example: `/add Saul, 1989-01-31`",
+      "success": "Birthday person added: {{name}} — {{date}}.",
+      "restrictedToAdmins": "Sorry, only group adminis can add and remove birthdays."
+    },
+    "birthdays": {
+      "sentence": "`*{{name}}*, turns *{{nextAge}}* years old on {{day}} ({{daysToBirthdayStr}})"
+    }
+  },
+  "errors": {
+    "empty": "No birthdays added.",
+    "notAdmin": "Sorry, only group adminis can run this command.",
+    "notUnderstood": "Sorry, I didn't understand.",
+    "needGroup": "This command only works in a group.",
+    "missingChatId": "Missing group ID - you need to supply one, when in a private chat.",
+    "invalidChatId": "The group ID (`{{chatId}}`) is invalid.",
+    "internalError": "An error occurred: {{message}}",
+    "internalErrorNoMessage": "An error occurred, please try again.",
+    "validation": {
+      "dateMissing": "Birth date missing, please try again.",
+      "dateInvalid": "I couldn't understand the birth date, please try again using the YYYY-MM-DD format.",
+      "yearMissing": "Sorry, I didn't understand the birth date's year, please try again.",
+      "nameMissing": "Sorry, I didn't understand the birthday person's name, please try again."
+    }
+  },
+  "messages": [
+    "🎂 Today's baby is *{{name}}* who turns {{age}} years old! 🥳🎉 Congratulations {{name}} ❤️",
+    "🎂 Today is the day of *{{name}}* celebrating {{age}} years! 🥳🎉 Many congratulations {{name}} ❤️",
+    "🎂 What an epic day! *{{name}}* turns {{age}} years old today! 🥳🎉 Congratulations {{name}} ❤️",
+    "🎂 Our dear *{{name}}* turns {{age}} years old today! 🥳🎉 Congratulations {{name}} ❤️"
+  ],
+  "words": {
+    "days": "days",
+    "day": "day",
+    "today": "today! 🎉"
+  },
+  "welcomeGroup": "👋 *{{chatTitle}}*!\nI'm a bot 🤖 that helps you keep track of all the birthdays of the members of this group. To learn more about the available commands, type /help.",
+
+  "helpMessage": "These are the commands you can use:\n - /add - To add a birthday person, with name and date separated by commas (for example, `/add Samuel, 1994-03-21`)\n - /remove - To remove a birthday person (`/remove Pedro`)\n - /birthdays - List of birthdays, sorted by the next one coming up.\n - /list - List by ages.\n - /next - Shows more information about the next birthday.",
+  "unborn": "unborn",
+  "inputNeeded": "Yes?..."
+}
+

@@ -18,7 +18,7 @@ export const magicCommand = async (ctx: MyContext) => {
   const intChatId = ctx.chat?.id;
 
   if (!intChatId || isNaN(intChatId)) {
-    return await ctx.reply(`Invalid Chat ID, got ${intChatId}`);
+    return ctx.reply(t('errors.invalidChatId', { chatId: intChatId }));
   }
 
   if (!ctx.match) {

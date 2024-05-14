@@ -23,7 +23,11 @@ export function formatDate(
 export function birthdayLine(record: BirthdayListEntry): string {
   const days = daysToBirthday(record.date);
   return `\`${formatDate(record.date)}\` — ${record.name} — ${
-    days ? (days > 1 ? `${days} dias` : `${days} dia`) : 'hoje 🎉'
+    days
+      ? days > 1
+        ? `${days} ${t('words.days')}`
+        : `${days} ${t('words.day')}`
+      : t('words.today')
   }`;
 }
 
@@ -52,7 +56,12 @@ export function nextBirthday(record: BirthdayListEntry): string {
     .toRelative();
 
   const nextAge = Math.floor(age) + (diff === 0 ? 0 : 1);
-  const daysToBirthdayStr = diff > 0 ? differenceToBirthday : 'hoje 🎉';
+  const daysToBirthdayStr = diff > 0 ? differenceToBirthday : t('words.today');
 
-  return `*${record.name}*, faz *${nextAge}* anos no dia ${day} (${daysToBirthdayStr})`;
+  return t('commands.birthdays.sentence', {
+    name: record.name,
+    nextAge,
+    day,
+    daysToBirthdayStr,
+  });
 }
