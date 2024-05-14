@@ -8,24 +8,21 @@
       "error": "Erro ao remover o aniversariante: {{error}}"
     },
     "add": {
-<<<<<<< HEAD
-      "success": "Aniversariante adicionado: {{name}} — {{date}}."
-    },
-    "config": {
-      "notfound": "Configuracao invalida.",
-      "error": "Erro ao obter a configuracao para o grupo.",
-      "saved": "Configuracao actualizada com sucesso",
-      "errorParsingHour": "Hora invalida - deve ser um numero 0-23."
-=======
+      "success": "Aniversariante adicionado: {{name}} — {{date}}.",
       "missingData": "Por favor indica o nome e data de aniversario no seguinte formato: `/add Jonas, 1984-03-30`",
       "missingDataWithGroupId": "Por favor indica o nome, data de aniversario e ID do grupo no seguinte formato: `/add Jonas, 1984-03-30, -12345`",
       "errorParsingDate": "O formato da data e' invalido. Por favor usa YYYY-MM-DD, por exemplo: `/add Saul, 1989-01-31`",
       "success": "Aniversariante adicionado: {{name}} — {{date}}.",
       "restrictedToAdmins": "Apenas administratores do grupo podem adicionar e remover aniversariantes."
     },
+    "config": {
+      "notfound": "Configuracao invalida.",
+      "error": "Erro ao obter a configuracao para o grupo.",
+      "saved": "Configuracao actualizada com sucesso",
+      "errorParsingHour": "Hora invalida - deve ser um numero 0-23."
+    },
     "birthdays": {
       "sentence": "`*{{name}}*, faz *{{nextAge}}* anos no dia {{day}} ({{daysToBirthdayStr}})"
->>>>>>> 51cbc80 (Translates everything, adss english file)
     }
   },
   "errors": {
