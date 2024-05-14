@@ -35,6 +35,17 @@ Users can be removed with the `/remove` command:
 
 1. Copy the `.env.sample` file to `.env` and fill in the necessary environment variables.
 
+Because we're now using Cyclic.sh (and Cyclic's provided DynamoDB instance), you will have to regularly refresh your credentials on the env file. To do this:
+
+    1. [Login into Cyclic.sh](https://app.cyclic.sh/#/)
+
+    1. Select your project and head to the Data/Storage tab
+
+    1. Copy the `Local Credentials` section and paste on `.env`, removing the keyword `export`
+
+You will have to do this every 30mins roughly.
+
+
 1. Run the dev script
 
   ```
