@@ -9,11 +9,18 @@ export const withChatId: MiddlewareFn<MyContext> = async (ctx, next) => {
     chatId = ctx.chat.id;
   } else {
     // on a private 1:1, need to supply chatId on the message
-    chatId = parseInt(typeof ctx.match === 'string' ? ctx.match : '');
+    const payload = typeof ctx.match === 'string' ? ctx.match : null;
 
-    if (!ctx.match) {
+    if (!payload) {
       return ctx.reply(`Need a Chat ID on a private chat.`);
     }
+
+    // gets the last comma seperated token.
+    // some commands take multiple tokens with a chatId at the end, some others
+    // take no payload, only the chatId (on a private bot chat)
+    const tokens = payload.split(',').map((s) => s.trim()) || [];
+    chatId = parseInt(tokens.pop() || ''); // empty string and undefined will make parseInt return NaN
+
     if (isNaN(chatId)) {
       return ctx.reply(`Invalid Chat ID provided, got '${ctx.match}'.`);
     }
