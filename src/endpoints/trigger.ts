@@ -27,13 +27,15 @@ const triggerEndpoint = async ({ sendMessage }: { sendMessage: any }) => {
 
   console.log(`${birthdays.length} users with birthdays today`, birthdays);
 
-  let notified = [];
+  let notified: string[] = [];
 
   for (let birthday of birthdays) {
     const birthdayKey = buildRecordKey(birthday);
 
     if (processed.includes(birthdayKey)) {
-      console.info(`Skipping ${birthday.name} as already notified today`);
+      console.info(
+        `Skipping ${birthday.name} (${birthday.chatId}) as already notified today`
+      );
       // not notifying the same people twice
       continue;
     }
@@ -71,7 +73,7 @@ const triggerEndpoint = async ({ sendMessage }: { sendMessage: any }) => {
     Array.from(new Set([...processed, ...notified])).join(',')
   );
 
-  return notified;
+  return birthdays.filter((b) => notified.includes(buildRecordKey(b)));
 };
 
 const getNotificationHourConfig = async (chatId: number) => {
