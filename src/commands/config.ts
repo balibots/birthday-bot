@@ -7,14 +7,14 @@ import { getConfigForGroup, setConfigForGroup } from '../config';
 import { ChatCompletion } from 'openai/resources';
 import type { ChatConfig } from '../config';
 
-// dissalowing resetting the masterId
+// disalowing resetting the masterId
 const ALLOWED_CONFIG: Partial<Record<keyof ChatConfig, keyof ChatConfig>> = {
   restrictedToAdmins: 'restrictedToAdmins',
   notificationHour: 'notificationHour',
 };
 
 export const configCommand = async (ctx: CommandContext<MyContext>) => {
-  // restric to admins
+  // restrict to admins
   const chatMember = await ctx.api.getChatMember(ctx.chatId, ctx.from!.id);
   if (!['administrator', 'creator'].includes(chatMember.status)) {
     return ctx.reply(t('errors.notAdmin'));
