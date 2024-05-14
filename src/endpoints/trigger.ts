@@ -25,19 +25,19 @@ const triggerEndpoint = async ({ sendMessage }: { sendMessage: any }) => {
   const triggerCache = await get(triggerCacheKeyFor(today));
   const processed = triggerCache ? [...triggerCache.split(',')] : [];
 
-  const birthdaysKeys = birthdays.map((record) => buildRecordKey(record));
+  console.log(`${birthdays.length} users with birthdays today`, birthdays);
 
-  birthdays = birthdaysKeys.reduce<BirthdayListEntry[]>((acc, key, i) => {
-    if (!processed.includes(key)) {
-      acc.push(birthdays[i]);
-    }
-
-    return acc;
-  }, []);
-
-  console.log(`Notifying ${birthdays.length} users today`, birthdays);
+  let notified = [];
 
   for (let birthday of birthdays) {
+    const birthdayKey = buildRecordKey(birthday);
+
+    if (processed.includes(birthdayKey)) {
+      console.info(`Skipping ${birthday.name} as already notified today`);
+      // not notifying the same people twice
+      continue;
+    }
+
     const notificationTime =
       (await getNotificationHourConfig(birthday.chatId)) ||
       NOTIFICATION_START_HOUR;
@@ -54,17 +54,24 @@ const triggerEndpoint = async ({ sendMessage }: { sendMessage: any }) => {
       `Sending message to group ${birthday.chatId} about ${birthday.name}`
     );
 
-    await sendMessage(birthday.chatId, formattedMsg, {
-      parse_mode: 'Markdown',
-    });
+    try {
+      await sendMessage(birthday.chatId, formattedMsg, {
+        parse_mode: 'Markdown',
+      });
+    } catch (e) {
+      console.error(e);
+      continue;
+    }
+
+    notified.push(birthdayKey);
   }
 
   await set(
     triggerCacheKeyFor(today),
-    Array.from(new Set([...processed, ...birthdaysKeys])).join(',')
+    Array.from(new Set([...processed, ...notified])).join(',')
   );
 
-  return birthdays;
+  return notified;
 };
 
 const getNotificationHourConfig = async (chatId: number) => {
