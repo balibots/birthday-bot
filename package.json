@@ -10,7 +10,8 @@
     "types:watch": "tsc --watch --noEmit",
     "register": "env-cmd ts-node scripts/registerWebhook.ts",
     "test": "env-cmd jest",
-    "test:watch": "env-cmd jest --watch"
+    "test:watch": "env-cmd jest --watch",
+    "i18:diff": "bash -c 'diff <(jq \".. | keys?\" locales/pt/translation.json) <(jq \".. | keys?\" locales/en/translation.json)'"
   },
   "repository": {
     "type": "git",

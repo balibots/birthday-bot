@@ -14,6 +14,12 @@
       "success": "Birthday person added: {{name}} — {{date}}.",
       "restrictedToAdmins": "Sorry, only group adminis can add and remove birthdays."
     },
+    "config": {
+      "notfound": "Invalid config",
+      "error": "Could not get the groups configuration, sorry.",
+      "saved": "Config updated successfully.",
+      "errorParsingHour": "Error parsing the notification hour - must be a number between 0 - 23."
+    },
     "birthdays": {
       "sentence": "`*{{name}}*, turns *{{nextAge}}* years old on {{day}} ({{daysToBirthdayStr}})"
     }
