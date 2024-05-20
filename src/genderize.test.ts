@@ -1,7 +1,7 @@
 import { clearCache, get, set } from './cache';
 import { getGender } from './genderize';
 
-describe.skip('getGender', () => {
+describe('getGender', () => {
   beforeEach(async () => {
     await clearCache();
   });

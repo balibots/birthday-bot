@@ -12,7 +12,7 @@ import {
 import '../i18n';
 import triggerEndpoint from './trigger';
 
-describe.skip('triggerEndpoint tests', () => {
+describe('triggerEndpoint tests', () => {
   beforeAll(async () => {
     await clearDB();
     await clearCache();
