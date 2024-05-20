@@ -1,6 +1,6 @@
 import { set, get, clearCache } from './cache';
 
-describe.skip('Cache tests tests', () => {
+describe('Cache tests tests', () => {
   beforeEach(async () => {
     await clearCache();
   });

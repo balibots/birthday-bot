@@ -5,7 +5,7 @@ import { normalizeName } from './utils';
 
 type DBKeyArgs = Pick<BirthdayRecord, 'name' | 'chatId'>;
 
-const prisma = new PrismaClient();
+let prisma = new PrismaClient();
 
 export async function addRecord({ ...params }: BirthdayRecord) {
   // extract year. doing this here to avoid changing code upstream but
@@ -23,8 +23,7 @@ export async function addRecord({ ...params }: BirthdayRecord) {
   const potentialUser = await getRecord(params);
 
   if (potentialUser) {
-    // returning early the existing user
-    return parseRecord(potentialUser);
+    throw new Error('User already exists');
   }
 
   const user = await prisma.user.create({

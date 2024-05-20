@@ -1,5 +1,4 @@
 import { DateTime } from 'luxon';
-import { getNamespace } from '../cache';
 import {
   addRecord,
   getRecordsByChatId,
@@ -104,8 +103,9 @@ router.post('/:chatId/batch', async (req, res) => {
 });
 
 router.get('/chats', async (req, res) => {
-  const chats = await getNamespace('chatIds');
-  res.json(chats);
+  // TODO
+  //const chats = await getNamespace('chatIds');
+  res.json({});
 });
 
 export default router;

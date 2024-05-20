@@ -13,7 +13,8 @@
       "missingDataWithGroupId": "Por favor indica o nome, data de aniversario e ID do grupo no seguinte formato: `/add Jonas, 1984-03-30, -12345`",
       "errorParsingDate": "O formato da data e' invalido. Por favor usa YYYY-MM-DD, por exemplo: `/add Saul, 1989-01-31`",
       "success": "Aniversariante adicionado: {{name}} — {{date}}.",
-      "restrictedToAdmins": "Apenas administratores do grupo podem adicionar e remover aniversariantes."
+      "restrictedToAdmins": "Apenas administratores do grupo podem adicionar e remover aniversariantes.",
+      "alreadyExists": "Ja existe um aniversariante com esse nome" 
     },
     "config": {
       "notfound": "Configuracao invalida.",

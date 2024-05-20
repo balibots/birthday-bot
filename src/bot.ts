@@ -58,6 +58,7 @@ bot.on('message:new_chat_members:me', async (ctx) => {
 
     const escapedChatTitle = ctx.chat.title.replace(/#/g, '');
 
+    // TODO
     await set(
       `chatIds:${ctx.chat.id}-${escapedChatTitle}`,
       String(ctx.chat.id)

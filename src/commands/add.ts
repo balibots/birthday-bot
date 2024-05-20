@@ -68,12 +68,17 @@ export const addCommand = async (ctx: CommandContext<MyContext>) => {
     chatId: intChatId,
   };
 
-  const record = await addRecord(params);
+  try {
+    const record = await addRecord(params);
 
-  return ctx.reply(
-    t('commands.add.success', {
-      name: record.name,
-      date: record.date,
-    })
-  );
+    return ctx.reply(
+      t('commands.add.success', {
+        name: record.name,
+        date: record.date,
+      })
+    );
+  } catch (e) {
+    console.error(e);
+    return ctx.reply(t('commands.add.alreadyExists'));
+  }
 };

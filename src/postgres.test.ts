@@ -62,7 +62,9 @@ describe('Postgres tests', () => {
   it('works with multiple records', async () => {
     await addRecord(record);
     await addRecord(record2);
-    await addRecord(record2); // upserts fine
+    await expect(async () => {
+      await addRecord(record2); // upserts
+    }).rejects.toThrow();
     expect((await getRecordsByChatId(chatId)).length).toEqual(2);
 
     await removeRecord(record);
@@ -138,9 +140,20 @@ describe('Postgres tests', () => {
     };
 
     await addRecord(record);
-    await addRecord({ ...record, name: 'RUI' });
-    await addRecord({ ...record, name: 'rUi' });
-    expect((await getRecordsByChatId(chatId)).length).toEqual(1);
+    await expect(
+      async () =>
+        await addRecord({ ...record, name: 'RUI', date: '1984-12-27' })
+    ).rejects.toThrow();
+
+    await expect(
+      async () =>
+        await addRecord({ ...record, name: 'rUi', date: '1984-12-28' })
+    ).rejects.toThrow();
+
+    const results = await getRecordsByChatId(chatId);
+    expect(results.length).toEqual(1);
+    expect(results[0].name).toEqual('Rui');
+    expect(results[0].date).toEqual('1984-12-26');
   });
 
   it('normalises keys to lowercase', async () => {
