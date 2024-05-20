@@ -1,6 +1,5 @@
 import { CommandContext } from 'grammy';
 import { MyContext } from '../bot';
-import { removeRecord } from '../dynamodb';
 import { isGroup, sanitizeName } from '../utils';
 import { t } from 'i18next';
 import { getConfigForGroup, setConfigForGroup } from '../config';

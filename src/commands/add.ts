@@ -1,7 +1,7 @@
 import { CommandContext } from 'grammy';
 import { MyContext } from '../bot';
 import { getConfigForGroup } from '../config';
-import { addRecord } from '../dynamodb';
+import { addRecord } from '../postgres';
 import { getGender } from '../genderize';
 import { isGroup, parseDate, sanitizeName } from '../utils';
 import { t } from 'i18next';

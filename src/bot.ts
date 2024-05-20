@@ -12,7 +12,7 @@ import {
   configCommand,
   allCommands,
 } from './commands';
-import { addRecord, getRecordsByDayAndMonth } from './dynamodb';
+import { addRecord, getRecordsByDayAndMonth } from './postgres';
 import { set } from './cache';
 import { setConfigForGroup } from './config';
 import { withChatId } from './middlewares';

@@ -116,3 +116,9 @@ export const parseDate = (dateStr: string) => {
   // returning an invalid date if we cant parse it
   return isoDate;
 };
+
+export const normalizeName = (name: string) => {
+  return name.replace(/\w\S*/g, function (txt) {
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  });
+};

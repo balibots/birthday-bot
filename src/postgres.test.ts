@@ -1,14 +1,11 @@
-process.env.CYCLIC_DB_COLLECTION = `${process.env.CYCLIC_DB_COLLECTION}:test`;
-
-import { DateTime } from 'luxon';
 import {
   addRecord,
   getRecordsByChatId,
-  getRecordsByDayAndMonth,
-  removeRecord,
   clearDB,
+  removeRecord,
   getRecord,
-} from './dynamodb';
+  getRecordsByDayAndMonth,
+} from './postgres';
 import { Gender } from './types';
 
 const chatId = 12345;
@@ -30,28 +27,15 @@ const record2 = {
   gender,
   chatId,
 };
-const dbRecord = {
-  $index: ['date', 'chatId'],
-  collection: process.env.CYCLIC_DB_COLLECTION,
-  key: `${chatId}:Rui:1984-12-26`,
-  props: {
-    chatId,
-    date: '1984-12-26',
-  },
-};
 
-console.log(
-  ` * Using collection '${process.env.CYCLIC_DB_COLLECTION}' for tests`
-);
-
-describe('DynamoDB tests', () => {
+describe('Postgres tests', () => {
   beforeEach(async () => {
     return await clearDB();
   });
 
   it('adds a record successfully', async () => {
     const birthday = await addRecord(record);
-    expect(birthday).toEqual(record);
+    expect(birthday).toEqual({ ...record, id: expect.any(Number) });
 
     const allBirthdays = await getRecordsByChatId(chatId);
 
@@ -62,7 +46,7 @@ describe('DynamoDB tests', () => {
 
   it('removes a record successfully', async () => {
     const birthday = await addRecord(record);
-    expect(birthday).toEqual(record);
+    expect(birthday).toEqual({ ...record, id: expect.any(Number) });
 
     let allBirthdays = await getRecordsByChatId(chatId);
 
@@ -102,7 +86,7 @@ describe('DynamoDB tests', () => {
 
     expect(
       await getRecordsByDayAndMonth({ day: record2.day, month: record2.month })
-    ).toEqual([record2]);
+    ).toEqual([{ ...record2, id: expect.any(Number) }]);
   });
 
   it('returns empty array on no match', async () => {
@@ -123,7 +107,10 @@ describe('DynamoDB tests', () => {
 
     expect(
       await getRecordsByDayAndMonth({ day: record2.day, month: record2.month })
-    ).toEqual([record2, { ...record2, chatId: newChatId }]);
+    ).toEqual([
+      { ...record2, id: expect.any(Number) },
+      { ...record2, chatId: newChatId, id: expect.any(Number) },
+    ]);
 
     await removeRecord(record2);
 
@@ -137,7 +124,7 @@ describe('DynamoDB tests', () => {
 
     expect(
       await getRecordsByDayAndMonth({ day: record.day, month: record.month })
-    ).toEqual([record]);
+    ).toEqual([{ ...record, id: expect.any(Number) }]);
   });
 
   it('upserts', async () => {

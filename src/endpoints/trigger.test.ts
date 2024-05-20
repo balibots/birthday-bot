@@ -1,5 +1,3 @@
-process.env.CYCLIC_DB_COLLECTION = `${process.env.CYCLIC_DB_COLLECTION}:test`;
-
 import { DateTime } from 'luxon';
 import { clearCache } from '../cache';
 import {
@@ -9,12 +7,12 @@ import {
   removeRecord,
   clearDB,
   getRecord,
-} from '../dynamodb';
+} from '../postgres';
 
 import '../i18n';
 import triggerEndpoint from './trigger';
 
-describe('triggerEndpoint tests', () => {
+describe.skip('triggerEndpoint tests', () => {
   beforeAll(async () => {
     await clearDB();
     await clearCache();

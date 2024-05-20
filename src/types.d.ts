@@ -3,12 +3,13 @@ import { DateTime } from 'luxon';
 export type Gender = 'male' | 'female' | null;
 
 export interface BirthdayRecord {
+  id?: number;
   name: string;
   date: string;
   month: number;
   day: number;
   chatId: number;
-  tgId?: number; // telegram id
+  tgId?: number; // telegram id - UNUSED
   gender: Gender;
 }
 
@@ -16,5 +17,5 @@ export interface BirthdayRecord {
 // so we pick only the ones we need
 export type BirthdayListEntry = Pick<
   BirthdayRecord,
-  'name' | 'date' | 'gender' | 'chatId' | 'tgId'
+  'id' | 'name' | 'date' | 'gender' | 'chatId' | 'tgId'
 >;

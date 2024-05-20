@@ -5,7 +5,7 @@ import {
   getRecordsByChatId,
   removeAllByChatId,
   removeRecord,
-} from '../dynamodb';
+} from '../postgres';
 import { getGender } from '../genderize';
 import { requireKey } from '../middlewares';
 import { buildRecord, sanitizeName } from '../utils';

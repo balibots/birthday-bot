@@ -2,7 +2,7 @@ import { MyContext } from '../bot';
 import { DateTime } from 'luxon';
 import { sanitizeName, isGroup } from '../utils';
 import { getGender } from '../genderize';
-import { addRecord, removeRecord } from '../dynamodb';
+import { addRecord, removeRecord } from '../postgres';
 import { t } from 'i18next';
 import { getFunctionCall } from '../openai';
 import { nextCommand } from './next';
