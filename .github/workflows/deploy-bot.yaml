@@ -5,6 +5,9 @@ on:
   pull_request:
     branches:
       - main
+  # remove this one later I guess
+  push:
+    branches: [main]
 
 jobs:
   deploy:
