@@ -22,7 +22,7 @@ model GroupChat {
 }
 
 model User {
-  id          Int       @id @default(autoincrement())
+  id          String    @id
   name        String
   date        DateTime
   day         Int

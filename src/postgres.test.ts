@@ -33,9 +33,13 @@ describe('Postgres tests', () => {
     return await clearDB();
   });
 
+  afterAll(async () => {
+    return await clearDB();
+  });
+
   it('adds a record successfully', async () => {
     const birthday = await addRecord(record);
-    expect(birthday).toEqual({ ...record, id: expect.any(Number) });
+    expect(birthday).toEqual({ ...record, id: expect.any(String) });
 
     const allBirthdays = await getRecordsByChatId(chatId);
 
@@ -46,7 +50,7 @@ describe('Postgres tests', () => {
 
   it('removes a record successfully', async () => {
     const birthday = await addRecord(record);
-    expect(birthday).toEqual({ ...record, id: expect.any(Number) });
+    expect(birthday).toEqual({ ...record, id: expect.any(String) });
 
     let allBirthdays = await getRecordsByChatId(chatId);
 
@@ -88,7 +92,7 @@ describe('Postgres tests', () => {
 
     expect(
       await getRecordsByDayAndMonth({ day: record2.day, month: record2.month })
-    ).toEqual([{ ...record2, id: expect.any(Number) }]);
+    ).toEqual([{ ...record2, id: expect.any(String) }]);
   });
 
   it('returns empty array on no match', async () => {
@@ -110,8 +114,8 @@ describe('Postgres tests', () => {
     expect(
       await getRecordsByDayAndMonth({ day: record2.day, month: record2.month })
     ).toEqual([
-      { ...record2, id: expect.any(Number) },
-      { ...record2, chatId: newChatId, id: expect.any(Number) },
+      { ...record2, id: expect.any(String) },
+      { ...record2, chatId: newChatId, id: expect.any(String) },
     ]);
 
     await removeRecord(record2);
@@ -126,7 +130,7 @@ describe('Postgres tests', () => {
 
     expect(
       await getRecordsByDayAndMonth({ day: record.day, month: record.month })
-    ).toEqual([{ ...record, id: expect.any(Number) }]);
+    ).toEqual([{ ...record, id: expect.any(String) }]);
   });
 
   it('upserts', async () => {

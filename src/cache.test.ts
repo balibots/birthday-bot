@@ -5,6 +5,10 @@ describe('Cache tests tests', () => {
     await clearCache();
   });
 
+  afterAll(async () => {
+    await clearCache();
+  });
+
   it.only('works', async () => {
     const key = 'ricardo';
     const value = 'male';

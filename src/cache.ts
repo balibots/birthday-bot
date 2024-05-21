@@ -1,6 +1,8 @@
 import { createClient } from 'redis';
 
-const cacheKey = process.env.NODE_ENV === 'test' ? 'cache:test' : 'cache';
+const CACHE_KEY = process.env.NODE_ENV === 'test' ? 'cache:test' : 'cache';
+
+const buildKey = (k: string) => `${CACHE_KEY}:${k}`;
 
 export const get = async (k: string): Promise<string | null> => {
   const client = await createClient()
@@ -9,8 +11,10 @@ export const get = async (k: string): Promise<string | null> => {
 
   let record = null;
 
+  const key = buildKey(k);
+
   try {
-    record = await client.get(k);
+    record = await client.get(key);
   } catch (e) {
     console.error(e);
   }
@@ -24,8 +28,10 @@ export const set = async (k: string, v: string) => {
     .on('error', (err) => console.log('Redis Client Error', err))
     .connect();
 
+  const key = buildKey(k);
+
   try {
-    await client.set(k, v);
+    await client.set(key, v);
     await client.disconnect();
   } catch (e) {
     console.error(e);

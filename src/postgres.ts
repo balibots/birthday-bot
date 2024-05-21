@@ -1,11 +1,14 @@
 import { PrismaClient } from '@prisma/client';
 import { BirthdayRecord, BirthdayListEntry } from './types';
 import { DateTime } from 'luxon';
-import { normalizeName } from './utils';
 
 type DBKeyArgs = Pick<BirthdayRecord, 'name' | 'chatId'>;
 
 let prisma = new PrismaClient();
+
+const buildKey = (params: DBKeyArgs) => {
+  return `${params.chatId}:${params.name.toLowerCase()}`;
+};
 
 export async function addRecord({ ...params }: BirthdayRecord) {
   // extract year. doing this here to avoid changing code upstream but
@@ -13,21 +16,13 @@ export async function addRecord({ ...params }: BirthdayRecord) {
   const year = parseInt(params.date.split('-')[0]);
   const isoDate = DateTime.utc(year, params.month, params.day).toISO();
 
-  params.name = normalizeName(params.name);
-
   if (!isoDate) {
     throw new Error(`Could not parse date ${params.date}`);
   }
 
-  // add is upsert so trying to find record first.
-  const potentialUser = await getRecord(params);
-
-  if (potentialUser) {
-    throw new Error('User already exists');
-  }
-
   const user = await prisma.user.create({
     data: {
+      id: buildKey(params),
       name: params.name,
       date: isoDate,
       day: params.day,
@@ -53,13 +48,10 @@ export async function addRecord({ ...params }: BirthdayRecord) {
 export async function removeRecord({
   ...params
 }: DBKeyArgs): Promise<BirthdayRecord> {
-  params.name = normalizeName(params.name);
-  const user = await prisma.user.deleteMany({
+  const key = buildKey(params);
+  const user = await prisma.user.delete({
     where: {
-      name: params.name,
-      GroupChat: {
-        id: params.chatId,
-      },
+      id: key,
     },
   });
 
@@ -67,20 +59,20 @@ export async function removeRecord({
 }
 
 export async function clearDB() {
-  await prisma.user.deleteMany({ where: {} });
-  await prisma.groupChat.deleteMany({ where: {} });
+  const deleteUser = prisma.user.deleteMany();
+  const deleteGroups = prisma.groupChat.deleteMany();
+
+  // The transaction runs synchronously so deleteUsers must run last.
+  await prisma.$transaction([deleteUser, deleteGroups]);
 }
 
 export async function getRecord({
   ...params
 }: DBKeyArgs): Promise<BirthdayListEntry | null> {
-  params.name = normalizeName(params.name);
+  const key = buildKey(params);
   const record = await prisma.user.findFirst({
     where: {
-      name: params.name,
-      GroupChat: {
-        id: params.chatId,
-      },
+      id: key,
     },
   });
 

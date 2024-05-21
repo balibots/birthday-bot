@@ -9,8 +9,8 @@
     "dev": "env-cmd ts-node-dev --transpile-only src/bot.ts",
     "types:watch": "tsc --watch --noEmit",
     "register": "env-cmd ts-node scripts/registerWebhook.ts",
-    "test": "env-cmd jest",
-    "test:watch": "env-cmd jest --watch",
+    "test": "env-cmd jest --runInBand",
+    "test:watch": "env-cmd jest --watch --runInBand",
     "i18:diff": "bash -c 'diff <(jq \".. | keys?\" locales/pt/translation.json) <(jq \".. | keys?\" locales/en/translation.json)'"
   },
   "repository": {

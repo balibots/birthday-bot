@@ -3,7 +3,7 @@ import { DateTime } from 'luxon';
 export type Gender = 'male' | 'female' | null;
 
 export interface BirthdayRecord {
-  id?: number;
+  id?: string;
   name: string;
   date: string;
   month: number;

@@ -6,16 +6,15 @@ import {
   sanitizeName,
   sortAbsoluteDate,
   sortClosestDate,
-  normalizeName,
 } from './utils';
 
 const records: BirthdayListEntry[] = [
-  { id: 1, name: 'Rui', date: '1984-12-26', gender: 'male', chatId: 0 },
-  { id: 2, name: 'Ricardo', date: '1980-07-01', gender: 'male', chatId: 0 },
-  { id: 3, name: 'Ines', date: '1986-06-11', gender: 'female', chatId: 0 },
-  { id: 4, name: 'Carlota', date: '2023-05-09', gender: 'female', chatId: 0 },
-  { id: 5, name: 'Francisca', date: '2020-06-16', gender: 'female', chatId: 0 },
-  { id: 6, name: 'Xavier', date: '2018-08-20', gender: 'male', chatId: 0 },
+  { name: 'Rui', date: '1984-12-26', gender: 'male', chatId: 0 },
+  { name: 'Ricardo', date: '1980-07-01', gender: 'male', chatId: 0 },
+  { name: 'Ines', date: '1986-06-11', gender: 'female', chatId: 0 },
+  { name: 'Carlota', date: '2023-05-09', gender: 'female', chatId: 0 },
+  { name: 'Francisca', date: '2020-06-16', gender: 'female', chatId: 0 },
+  { name: 'Xavier', date: '2018-08-20', gender: 'male', chatId: 0 },
 ];
 
 describe('getAge()', () => {
@@ -149,16 +148,4 @@ describe('parseDate()', () => {
       expect(date.get('year')).toEqual(1999);
     }
   );
-});
-
-describe('normalizeName', () => {
-  it('normalises names to title case', () => {
-    expect(normalizeName('rui')).toEqual('Rui');
-    expect(normalizeName('rUi')).toEqual('Rui');
-    expect(normalizeName('ruI')).toEqual('Rui');
-    expect(normalizeName('RUI')).toEqual('Rui');
-    expect(normalizeName('rui ramos')).toEqual('Rui Ramos');
-    expect(normalizeName('RUI RAMOS')).toEqual('Rui Ramos');
-    expect(normalizeName('rui-ramos')).toEqual('Rui-ramos');
-  });
 });

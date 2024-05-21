@@ -58,11 +58,13 @@ describe('triggerEndpoint tests', () => {
 
   afterAll(async () => {
     await clearCache();
+    await clearDB();
   });
 
   it('notifies the right people', async () => {
     const logMessage = jest.fn();
     const birthdays = await triggerEndpoint({ sendMessage: logMessage });
+    console.log(birthdays);
     expect(birthdays.length).toEqual(3);
     expect(logMessage).toHaveBeenCalledTimes(3);
   });
