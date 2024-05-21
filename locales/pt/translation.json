@@ -4,8 +4,8 @@
       "missingName": "O comando precisa de ser executado com o nome do aniversariante: `/remove Pedro`",
       "missingGroup": "Falta o ID do grupo: `/remove Pedro, -123456789`",
       "success": "Aniversariante removido: {{name}} — {{date}}.",
-      "notFound": "Não encontrei esse aniversariante ({{error}})",
-      "error": "Erro ao remover o aniversariante: {{error}}"
+      "notFound": "Não encontrei esse aniversariante.",
+      "error": "Erro ao remover o aniversariante."
     },
     "add": {
       "success": "Aniversariante adicionado: {{name}} — {{date}}.",
@@ -20,10 +20,11 @@
       "notfound": "Configuracao invalida.",
       "error": "Erro ao obter a configuracao para o grupo.",
       "saved": "Configuracao actualizada com sucesso.",
-      "errorParsingHour": "Hora invalida - deve ser um numero 0-23."
+      "errorParsingHour": "Hora invalida - deve ser um numero 0-23.",
+      "languageError": "Linguagem `{{language}}` nao suportada."
     },
     "birthdays": {
-      "sentence": "`*{{name}}*, faz *{{nextAge}}* anos no dia {{day}} ({{daysToBirthdayStr}})"
+      "sentence": "`{{name}}`, faz *{{nextAge}}* anos no dia {{day}} ({{daysToBirthdayStr}})"
     }
   },
   "errors": {

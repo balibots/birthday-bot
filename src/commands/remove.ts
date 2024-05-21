@@ -38,9 +38,7 @@ export const removeCommand = async (ctx: CommandContext<MyContext>) => {
       }
     }
   } catch (error) {
-    return ctx.reply(
-      t('commands.remove.error', { error: (error as Error).message })
-    );
+    return ctx.reply(t('commands.remove.error'));
   }
 
   try {
@@ -59,6 +57,6 @@ export const removeCommand = async (ctx: CommandContext<MyContext>) => {
       })
     );
   } catch (error) {
-    return ctx.reply(t('commands.remove.notFound', { error }));
+    return ctx.reply(t('commands.remove.notFound'));
   }
 };

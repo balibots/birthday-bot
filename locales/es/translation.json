@@ -4,8 +4,8 @@
       "missingName": "Debes proporcionar un nombre, por ejemplo: `/remove Pedro`",
       "missingGroup": "Falta el ID del grupo: `/remove Pedro, -123456789`",
       "success": "Cumpleaños eliminado: {{name}} — {{date}}.",
-      "notFound": "No pude encontrar ese cumpleaños ({{error}})",
-      "error": "Error al eliminar el cumpleaños: {{error}}"
+      "notFound": "No pude encontrar ese cumpleaños.",
+      "error": "Error al eliminar el cumpleaños."
     },
     "add": {
       "missingData": "Por favor, proporciona el nombre y la fecha de nacimiento en el siguiente formato: `/add Jonas, 1984-03-30`",
@@ -15,7 +15,7 @@
       "restrictedToAdmins": "Lo siento, solo los administradores del grupo pueden añadir y eliminar cumpleaños."
     },
     "birthdays": {
-      "sentence": "`*{{name}}*, cumple *{{nextAge}}* años el {{day}} ({{daysToBirthdayStr}})"
+      "sentence": "`{{name}}`, cumple *{{nextAge}}* años el {{day}} ({{daysToBirthdayStr}})"
     }
   },
   "errors": {

@@ -10,6 +10,7 @@ import type { ChatConfig } from '../config';
 const ALLOWED_CONFIG: Partial<Record<keyof ChatConfig, keyof ChatConfig>> = {
   restrictedToAdmins: 'restrictedToAdmins',
   notificationHour: 'notificationHour',
+  language: 'language',
 };
 
 export const configCommand = async (ctx: CommandContext<MyContext>) => {
@@ -27,15 +28,15 @@ export const configCommand = async (ctx: CommandContext<MyContext>) => {
     // getting the config
     try {
       const groupConfig = await getConfigForGroup(ctx.chatId);
-      return ctx.reply(JSON.stringify(groupConfig));
+      return ctx.reply('```' + JSON.stringify(groupConfig) + '```', {
+        parse_mode: 'MarkdownV2',
+      });
     } catch (error) {
       return ctx.reply(
         t('commands.config.error', { error: (error as Error).message })
       );
     }
   }
-
-  console.log(ALLOWED_CONFIG, command, ctx.match);
 
   if (!Object.keys(ALLOWED_CONFIG).includes(command)) {
     return ctx.reply(t('commands.config.notfound'));
@@ -48,15 +49,23 @@ export const configCommand = async (ctx: CommandContext<MyContext>) => {
   } else if (command === ALLOWED_CONFIG.notificationHour) {
     let numArg = parseInt(arg);
 
-    if (isNaN(numArg) || numArg < 0 || numArg > 23) {
+    try {
+      await setConfigForGroup(ctx.chatId, { notificationHour: numArg });
+      return ctx.reply(t('commands.config.saved'));
+    } catch (e) {
+      console.error(e);
       return ctx.reply(
         t('commands.config.errorParsingHour', {
           error: 'Could not parse the provided hour',
         })
       );
     }
-
-    await setConfigForGroup(ctx.chatId, { notificationHour: numArg });
-    return ctx.reply(t('commands.config.saved'));
+  } else if (command === ALLOWED_CONFIG.language) {
+    try {
+      await setConfigForGroup(ctx.chatId, { language: arg });
+      return ctx.reply(t('commands.config.saved'));
+    } catch {
+      return ctx.reply(t('commands.config.error'));
+    }
   }
 };

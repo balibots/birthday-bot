@@ -106,10 +106,23 @@ export const magicCommand = async (ctx: MyContext) => {
     } else if (functionCall.function === 'show_ages') {
       ctx.chatId = intChatId;
       return await listCommand(ctx);
-    } else if (functionCall.function === 'set_config') {
-      const { key, value } = functionCall.args;
-      await setConfigForGroup(intChatId, { [key]: value });
-      return ctx.reply(t('commands.config.saved'));
+    } else if (functionCall.function === 'set_language') {
+      const { language } = functionCall.args;
+      try {
+        await setConfigForGroup(intChatId, { language });
+        return ctx.reply(t('commands.config.saved'));
+      } catch {
+        return ctx.reply(t('commands.config.languageError', { language }));
+      }
+    } else if (functionCall.function === 'set_notification_hour') {
+      const { hour } = functionCall.args;
+      try {
+        await setConfigForGroup(intChatId, { notificationHour: hour });
+        return ctx.reply(t('commands.config.saved'));
+      } catch (e) {
+        console.error(e);
+        return ctx.reply(t('commands.config.errorParsingHour'));
+      }
     } else {
       await ctx.reply(t('errors.notUnderstood'));
     }

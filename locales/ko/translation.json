@@ -4,8 +4,8 @@
       "missingName": "명령을 실행하려면 생일자의 이름이 필요합니다: `/remove Pedro`",
       "missingGroup": "그룹 ID가 누락되었습니다: `/remove Pedro, -123456789`",
       "success": "생일자가 제거되었습니다: {{name}} — {{date}}.",
-      "notFound": "해당 생일자를 찾을 수 없습니다 ({{error}})",
-      "error": "생일자 제거 중 오류 발생: {{error}}"
+      "notFound": "해당 생일자를 찾을 수 없습니다",
+      "error": "생일자 제거 중 오류 발생"
     },
     "add": {
       "missingData": "이름과 생일을 다음 형식으로 입력해 주세요: `/add Jonas, 1984-03-30`",
@@ -15,7 +15,7 @@
       "restrictedToAdmins": "그룹 관리자만 생일자를 추가하거나 제거할 수 있습니다."
     },
     "birthdays": {
-      "sentence": "`*{{name}}*님이 {{day}}에 *{{nextAge}}*살이 됩니다 ({{daysToBirthdayStr}})"
+      "sentence": "`{{name}}` 님이 {{day}}에 *{{nextAge}}*살이 됩니다 ({{daysToBirthdayStr}})"
     }
   },
   "errors": {

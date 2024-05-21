@@ -26,9 +26,12 @@ import './i18n';
 
 import apiRoutes from './api';
 import triggerEndpoint from './endpoints/trigger';
+import setLanguage from './middlewares/setLanguage';
 
 export type MyContext = Context & { chatId: number };
 const bot = new Bot<MyContext>(process.env.TELEGRAM_TOKEN);
+
+bot.use(setLanguage);
 
 bot.command(['aniversarios', 'birthdays'], withChatId, birthdaysCommand);
 bot.command(['idades', 'list'], withChatId, listCommand);

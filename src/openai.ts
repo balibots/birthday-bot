@@ -99,18 +99,34 @@ export async function getFunctionCall(
       {
         type: 'function',
         function: {
-          name: 'set_config',
-          description: 'Changes the group configuration.',
+          name: 'set_language',
+          description: "Changes the group's language.",
           parameters: {
             type: 'object',
             properties: {
-              key: {
+              language: {
                 type: 'string',
-                description: 'The configuration key to set.',
+                enum: ['en', 'pt', 'ko', 'es'],
+                description:
+                  'The new language to set. Options are en for English, pt for Portuguese, ko for Korean and es for Spanish.',
               },
-              value: {
-                type: 'string',
-                description: 'The new value for the key provided.',
+            },
+          },
+        },
+      },
+      {
+        type: 'function',
+        function: {
+          name: 'set_notification_hour',
+          description:
+            'Changes the hour the group is notified for new birthdays',
+          parameters: {
+            type: 'object',
+            properties: {
+              hour: {
+                type: 'number',
+                description:
+                  'The new hour the group will be notified in 24h format (0-23)',
               },
             },
           },
