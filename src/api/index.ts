@@ -105,7 +105,7 @@ router.post('/:chatId/batch', async (req, res) => {
 
 router.get('/chats', async (req, res) => {
   const chats = await getGroupChats();
-  res.json(chats);
+  res.json({ chats });
 });
 
 export default router;

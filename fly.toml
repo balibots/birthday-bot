@@ -1,12 +1,15 @@
-# fly.toml app configuration file generated for birthday-bot-dev-rr on 2024-05-21T11:15:44+01:00
+# fly.toml app configuration file generated for birthday-bot-prod on 2024-05-21T15:32:21+01:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'birthday-bot-dev-rr'
+app = 'birthday-bot-prod'
 primary_region = 'lhr'
 
 [build]
+
+[deploy]
+  release_command = 'npx prisma migrate deploy'
 
 [http_service]
   internal_port = 3000
@@ -20,6 +23,3 @@ primary_region = 'lhr'
   memory = '1gb'
   cpu_kind = 'shared'
   cpus = 1
-
-[deploy]
-  release_command = "npx prisma migrate deploy"
