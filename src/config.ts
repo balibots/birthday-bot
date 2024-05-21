@@ -1,4 +1,4 @@
-import { createClient } from 'redis';
+import { getRedisClient } from './redis';
 
 const CONFIG_KEY = process.env.NODE_ENV === 'test' ? 'config:test' : 'config';
 
@@ -14,21 +14,16 @@ const buildKey = (chatId: number) => `${CONFIG_KEY}:${chatId}`;
 export const getConfigForGroup = async (
   chatId: number
 ): Promise<ChatConfig | null> => {
-  const client = await createClient()
-    .on('error', (err) => console.log('Redis Client Error', err))
-    .connect();
-
+  const client = await getRedisClient();
   const key = buildKey(chatId);
 
   try {
     let record = (await client.hGetAll(key)) as any;
     // redis doesnt represent booleans so we're converting it back and from a number
     if (record) record.restrictedToAdmins = Boolean(record.restrictedToAdmins);
-    await client.disconnect();
     return record;
   } catch (e) {
     console.error(e);
-    await client.disconnect();
     return null;
   }
 };
@@ -37,10 +32,7 @@ export const setConfigForGroup = async (
   chatId: number,
   newConfig: Partial<ChatConfig>
 ) => {
-  const client = await createClient()
-    .on('error', (err) => console.log('Redis Client Error', err))
-    .connect();
-
+  const client = await getRedisClient();
   const key = buildKey(chatId);
 
   try {
@@ -51,16 +43,10 @@ export const setConfigForGroup = async (
   } catch (e) {
     console.error(e);
   }
-
-  client.disconnect();
 };
 
 export const clearConfigForGroup = async (chatId: number) => {
-  const client = await createClient()
-    .on('error', (err) => console.log('Redis Client Error', err))
-    .connect();
-
+  const client = await getRedisClient();
   const key = buildKey(chatId);
-
   await client.del(key);
 };

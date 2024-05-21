@@ -1,4 +1,5 @@
 import { set, get, clearCache } from './cache';
+import { disconnectClient } from './redis';
 
 describe('Cache tests tests', () => {
   beforeEach(async () => {
@@ -7,6 +8,7 @@ describe('Cache tests tests', () => {
 
   afterAll(async () => {
     await clearCache();
+    await disconnectClient();
   });
 
   it.only('works', async () => {
