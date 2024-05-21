@@ -20,7 +20,8 @@ export const getConfigForGroup = async (
   try {
     let record = (await client.hGetAll(key)) as any;
     // redis doesnt represent booleans so we're converting it back and from a number
-    if (record) record.restrictedToAdmins = Boolean(record.restrictedToAdmins);
+    if (record)
+      record.restrictedToAdmins = Boolean(parseInt(record.restrictedToAdmins));
     return record;
   } catch (e) {
     console.error(e);

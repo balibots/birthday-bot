@@ -64,7 +64,7 @@ bot.on('message:new_chat_members:me', async (ctx) => {
 
     const masterId = ctx.from.id;
 
-    await setConfigForGroup(ctx.chat.id, { masterId });
+    await setConfigForGroup(ctx.chat.id, { masterId, notificationHour: 8 });
   }
 });
 

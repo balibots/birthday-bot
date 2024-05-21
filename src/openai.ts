@@ -96,6 +96,26 @@ export async function getFunctionCall(
           },
         },
       },
+      {
+        type: 'function',
+        function: {
+          name: 'set_config',
+          description: 'Changes the group configuration.',
+          parameters: {
+            type: 'object',
+            properties: {
+              key: {
+                type: 'string',
+                description: 'The configuration key to set.',
+              },
+              value: {
+                type: 'string',
+                description: 'The new value for the key provided.',
+              },
+            },
+          },
+        },
+      },
     ],
     model: 'gpt-3.5-turbo',
   });

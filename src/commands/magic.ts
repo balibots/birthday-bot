@@ -8,6 +8,7 @@ import { getFunctionCall } from '../openai';
 import { nextCommand } from './next';
 import { birthdaysCommand } from './birthdays';
 import { listCommand } from './list';
+import { setConfigForGroup } from '../config';
 
 export const magicCommand = async (ctx: MyContext) => {
   // if we're sending commands from a group, will get the id from the message
@@ -105,6 +106,10 @@ export const magicCommand = async (ctx: MyContext) => {
     } else if (functionCall.function === 'show_ages') {
       ctx.chatId = intChatId;
       return await listCommand(ctx);
+    } else if (functionCall.function === 'set_config') {
+      const { key, value } = functionCall.args;
+      await setConfigForGroup(intChatId, { [key]: value });
+      return ctx.reply(t('commands.config.saved'));
     } else {
       await ctx.reply(t('errors.notUnderstood'));
     }
