@@ -1,0 +1,19 @@
+name: Deploy bot to Fly.io
+
+# todo split this into two in the future
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    name: Deploy bot
+    runs-on: ubuntu-latest
+    environment: prod
+    concurrency: deploy-group
+    steps:
+      - uses: actions/checkout@v4
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - run: flyctl deploy -a birthday-bot-prod --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
