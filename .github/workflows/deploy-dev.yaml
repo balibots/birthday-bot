@@ -1,4 +1,4 @@
-name: Deploy dev bot to Fly.io
+name: Deploy to Fly.io dev bot
 
 # todo split this into two in the future
 on:
@@ -10,7 +10,7 @@ jobs:
     name: Deploy dev bot
     runs-on: ubuntu-latest
     environment: dev
-    concurrency: deploy-group
+    concurrency: dev-deploy-group
     steps:
       - uses: actions/checkout@v4
       - uses: superfly/flyctl-actions/setup-flyctl@master
