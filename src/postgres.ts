@@ -110,6 +110,37 @@ export async function getRecordsByDayAndMonth({
   return parseList(users);
 }
 
+export async function insertGroupChat({
+  id,
+  name,
+}: {
+  id: number;
+  name: string;
+}) {
+  return await prisma.groupChat.upsert({
+    where: {
+      id,
+    },
+    update: {
+      name,
+    },
+    create: {
+      id,
+      name,
+    },
+  });
+}
+
+export async function getGroupChats() {
+  return (await prisma.groupChat.findMany({ include: { users: true } })).map(
+    (gc) => ({
+      id: gc.id,
+      name: gc.name,
+      userCount: gc.users.length,
+    })
+  );
+}
+
 export async function removeAllByChatId(chatId: number) {
   await prisma.user.deleteMany({ where: { GroupChat: { id: chatId } } });
   await prisma.groupChat.delete({ where: { id: chatId } });

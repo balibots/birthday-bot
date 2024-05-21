@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon';
 import {
   addRecord,
+  getGroupChats,
   getRecordsByChatId,
   removeAllByChatId,
   removeRecord,
@@ -103,9 +104,8 @@ router.post('/:chatId/batch', async (req, res) => {
 });
 
 router.get('/chats', async (req, res) => {
-  // TODO
-  //const chats = await getNamespace('chatIds');
-  res.json({});
+  const chats = await getGroupChats();
+  res.json(chats);
 });
 
 export default router;

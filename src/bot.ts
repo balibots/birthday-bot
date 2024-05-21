@@ -12,7 +12,11 @@ import {
   configCommand,
   allCommands,
 } from './commands';
-import { addRecord, getRecordsByDayAndMonth } from './postgres';
+import {
+  addRecord,
+  getRecordsByDayAndMonth,
+  insertGroupChat,
+} from './postgres';
 import { set } from './cache';
 import { setConfigForGroup } from './config';
 import { withChatId } from './middlewares';
@@ -26,7 +30,6 @@ import triggerEndpoint from './endpoints/trigger';
 export type MyContext = Context & { chatId: number };
 const bot = new Bot<MyContext>(process.env.TELEGRAM_TOKEN);
 
-// Bot Commands:
 bot.command(['aniversarios', 'birthdays'], withChatId, birthdaysCommand);
 bot.command(['idades', 'list'], withChatId, listCommand);
 bot.command(['proximo', 'next'], withChatId, nextCommand);
@@ -38,7 +41,6 @@ bot.command(['debug'], async (ctx) => {
 
 // /add name, date
 // /add name, date, chatId (for private chats)
-// TODO should these not have withChatID too? not sure - check
 bot.command('add', addCommand);
 bot.command('remove', removeCommand);
 
@@ -58,11 +60,7 @@ bot.on('message:new_chat_members:me', async (ctx) => {
 
     const escapedChatTitle = ctx.chat.title.replace(/#/g, '');
 
-    // TODO
-    await set(
-      `chatIds:${ctx.chat.id}-${escapedChatTitle}`,
-      String(ctx.chat.id)
-    );
+    await insertGroupChat({ id: ctx.chat.id, name: escapedChatTitle });
 
     const masterId = ctx.from.id;
 
