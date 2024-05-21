@@ -133,7 +133,7 @@ export async function insertGroupChat({
 
 export async function getGroupChats() {
   return (await prisma.groupChat.findMany({ include: { users: true } })).map(
-    (gc) => ({
+    (gc: any) => ({
       id: gc.id,
       name: gc.name,
       userCount: gc.users.length,
