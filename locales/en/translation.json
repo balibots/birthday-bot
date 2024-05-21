@@ -4,8 +4,8 @@
       "missingName": "You need to supply a name, eg: `/remove Pedro`",
       "missingGroup": "Missing group ID: `/remove Pedro, -123456789`",
       "success": "Birthday removed: {{name}} — {{date}}.",
-      "notFound": "I couldn't find that birthday ({{error}})",
-      "error": "Error while removing birthday: {{error}}"
+      "notFound": "I couldn't find that birthday.",
+      "error": "Error while removing birthday."
     },
     "add": {
       "missingData": "Please provide the name and birthdate in the following format: `/add Jonas, 1984-03-30`",
@@ -15,13 +15,13 @@
       "restrictedToAdmins": "Sorry, only group adminis can add and remove birthdays."
     },
     "config": {
-      "notfound": "Invalid config",
+      "notfound": "Invalid config key.",
       "error": "Could not get the groups configuration, sorry.",
       "saved": "Config updated successfully.",
       "errorParsingHour": "Error parsing the notification hour - must be a number between 0 - 23."
     },
     "birthdays": {
-      "sentence": "`*{{name}}*, turns *{{nextAge}}* years old on {{day}} ({{daysToBirthdayStr}})"
+      "sentence": "`{{name}}`, turns *{{nextAge}}* years old on {{day}} ({{daysToBirthdayStr}})"
     }
   },
   "errors": {

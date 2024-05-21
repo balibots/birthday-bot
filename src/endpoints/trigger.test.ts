@@ -1,5 +1,3 @@
-process.env.CYCLIC_DB_COLLECTION = `${process.env.CYCLIC_DB_COLLECTION}:test`;
-
 import { DateTime } from 'luxon';
 import { clearCache } from '../cache';
 import {
@@ -9,7 +7,7 @@ import {
   removeRecord,
   clearDB,
   getRecord,
-} from '../dynamodb';
+} from '../postgres';
 
 import '../i18n';
 import triggerEndpoint from './trigger';
@@ -60,11 +58,13 @@ describe('triggerEndpoint tests', () => {
 
   afterAll(async () => {
     await clearCache();
+    await clearDB();
   });
 
   it('notifies the right people', async () => {
     const logMessage = jest.fn();
     const birthdays = await triggerEndpoint({ sendMessage: logMessage });
+    console.log(birthdays);
     expect(birthdays.length).toEqual(3);
     expect(logMessage).toHaveBeenCalledTimes(3);
   });

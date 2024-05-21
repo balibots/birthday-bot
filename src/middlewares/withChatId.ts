@@ -3,6 +3,11 @@ import { MyContext } from '../bot';
 import { isGroup } from '../utils';
 import { t } from 'i18next';
 
+/**
+  Middleware that extracts the chat id to the context object in one of two ways:
+   1. by getting the group chat id, if the message was sent to a group
+   2. by getting the last comma seperated token from a private message
+**/
 export const withChatId: MiddlewareFn<MyContext> = async (ctx, next) => {
   let chatId: number;
 

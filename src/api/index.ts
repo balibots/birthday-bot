@@ -1,11 +1,11 @@
 import { DateTime } from 'luxon';
-import { getNamespace } from '../cache';
 import {
   addRecord,
+  getGroupChats,
   getRecordsByChatId,
   removeAllByChatId,
   removeRecord,
-} from '../dynamodb';
+} from '../postgres';
 import { getGender } from '../genderize';
 import { requireKey } from '../middlewares';
 import { buildRecord, sanitizeName } from '../utils';
@@ -104,7 +104,7 @@ router.post('/:chatId/batch', async (req, res) => {
 });
 
 router.get('/chats', async (req, res) => {
-  const chats = await getNamespace('chatIds');
+  const chats = await getGroupChats();
   res.json(chats);
 });
 

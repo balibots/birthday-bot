@@ -1,5 +1,5 @@
 import { MyContext } from '../bot';
-import { getRecordsByChatId } from '../dynamodb';
+import { getRecordsByChatId } from '../postgres';
 import { ageLine } from '../interface';
 import { sortAbsoluteDate } from '../utils';
 import { t } from 'i18next';

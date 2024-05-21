@@ -96,6 +96,42 @@ export async function getFunctionCall(
           },
         },
       },
+      {
+        type: 'function',
+        function: {
+          name: 'set_language',
+          description: "Changes the group's language.",
+          parameters: {
+            type: 'object',
+            properties: {
+              language: {
+                type: 'string',
+                enum: ['en', 'pt', 'ko', 'es'],
+                description:
+                  'The new language to set. Options are en for English, pt for Portuguese, ko for Korean and es for Spanish.',
+              },
+            },
+          },
+        },
+      },
+      {
+        type: 'function',
+        function: {
+          name: 'set_notification_hour',
+          description:
+            'Changes the hour the group is notified for new birthdays',
+          parameters: {
+            type: 'object',
+            properties: {
+              hour: {
+                type: 'number',
+                description:
+                  'The new hour the group will be notified in 24h format (0-23)',
+              },
+            },
+          },
+        },
+      },
     ],
     model: 'gpt-3.5-turbo',
   });

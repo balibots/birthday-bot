@@ -2,12 +2,13 @@ import { MyContext } from '../bot';
 import { DateTime } from 'luxon';
 import { sanitizeName, isGroup } from '../utils';
 import { getGender } from '../genderize';
-import { addRecord, removeRecord } from '../dynamodb';
+import { addRecord, removeRecord } from '../postgres';
 import { t } from 'i18next';
 import { getFunctionCall } from '../openai';
 import { nextCommand } from './next';
 import { birthdaysCommand } from './birthdays';
 import { listCommand } from './list';
+import { setConfigForGroup } from '../config';
 
 export const magicCommand = async (ctx: MyContext) => {
   // if we're sending commands from a group, will get the id from the message
@@ -105,6 +106,23 @@ export const magicCommand = async (ctx: MyContext) => {
     } else if (functionCall.function === 'show_ages') {
       ctx.chatId = intChatId;
       return await listCommand(ctx);
+    } else if (functionCall.function === 'set_language') {
+      const { language } = functionCall.args;
+      try {
+        await setConfigForGroup(intChatId, { language });
+        return ctx.reply(t('commands.config.saved'));
+      } catch {
+        return ctx.reply(t('commands.config.languageError', { language }));
+      }
+    } else if (functionCall.function === 'set_notification_hour') {
+      const { hour } = functionCall.args;
+      try {
+        await setConfigForGroup(intChatId, { notificationHour: hour });
+        return ctx.reply(t('commands.config.saved'));
+      } catch (e) {
+        console.error(e);
+        return ctx.reply(t('commands.config.errorParsingHour'));
+      }
     } else {
       await ctx.reply(t('errors.notUnderstood'));
     }

@@ -1,42 +1,36 @@
-import CyclicDb from '@cyclic.sh/dynamodb';
+import { getRedisClient } from './redis';
 
-const db = CyclicDb(process.env.CYCLIC_DB);
-const cacheKey = process.env.NODE_ENV === 'test' ? 'cache:test' : 'cache';
-const cache = db.collection(cacheKey);
+const CACHE_KEY = process.env.NODE_ENV === 'test' ? 'cache:test' : 'cache';
+
+const buildKey = (k: string) => `${CACHE_KEY}:${k}`;
 
 export const get = async (k: string): Promise<string | null> => {
-  try {
-    const record = await cache.get(k);
-    return record ? record.props.value : null;
-  } catch (e) {
-    console.error(e);
-    return null;
-  }
-};
+  const client = await getRedisClient();
+  let record = null;
+  const key = buildKey(k);
 
-export const getNamespace = async (ns: string) => {
   try {
-    return await cache.filter({ ns });
+    record = await client.get(key);
   } catch (e) {
     console.error(e);
   }
+
+  return record;
 };
 
 export const set = async (k: string, v: string) => {
+  const client = await getRedisClient();
+  const key = buildKey(k);
+
   try {
-    const ns = k.split(':')[0];
-    return await cache.set(k, { value: v, ns });
+    await client.set(key, v);
   } catch (e) {
     console.error(e);
   }
 };
 
 export const clearCache = async () => {
-  try {
-    for (let record of (await cache.list()).results) {
-      await record.delete();
-    }
-  } catch (e) {
-    console.error(e);
-  }
+  const client = await getRedisClient();
+
+  await client.flushAll();
 };

@@ -1,7 +1,7 @@
 import express, { Handler } from 'express';
 import { MiddlewareFn } from 'grammy';
 import { DateTime } from 'luxon';
-import { buildRecordKey, getRecordsByDayAndMonth } from '../dynamodb';
+import { getRecordsByDayAndMonth } from '../postgres';
 import generateSalutation from '../salutations';
 import { BirthdayListEntry } from '../types';
 import { get, set } from '../cache';
@@ -30,9 +30,7 @@ const triggerEndpoint = async ({ sendMessage }: { sendMessage: any }) => {
   let notified: string[] = [];
 
   for (let birthday of birthdays) {
-    const birthdayKey = buildRecordKey(birthday);
-
-    if (processed.includes(birthdayKey)) {
+    if (processed.includes(String(birthday.id))) {
       console.info(
         `Skipping ${birthday.name} (${birthday.chatId}) as already notified today`
       );
@@ -65,7 +63,7 @@ const triggerEndpoint = async ({ sendMessage }: { sendMessage: any }) => {
       continue;
     }
 
-    notified.push(birthdayKey);
+    notified.push(String(birthday.id));
   }
 
   await set(
@@ -73,7 +71,7 @@ const triggerEndpoint = async ({ sendMessage }: { sendMessage: any }) => {
     Array.from(new Set([...processed, ...notified])).join(',')
   );
 
-  return birthdays.filter((b) => notified.includes(buildRecordKey(b)));
+  return birthdays.filter((b) => notified.includes(String(b.id)));
 };
 
 const getNotificationHourConfig = async (chatId: number) => {

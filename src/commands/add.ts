@@ -1,7 +1,7 @@
 import { CommandContext } from 'grammy';
 import { MyContext } from '../bot';
 import { getConfigForGroup } from '../config';
-import { addRecord } from '../dynamodb';
+import { addRecord } from '../postgres';
 import { getGender } from '../genderize';
 import { isGroup, parseDate, sanitizeName } from '../utils';
 import { t } from 'i18next';
@@ -68,12 +68,17 @@ export const addCommand = async (ctx: CommandContext<MyContext>) => {
     chatId: intChatId,
   };
 
-  const record = await addRecord(params);
+  try {
+    const record = await addRecord(params);
 
-  return ctx.reply(
-    t('commands.add.success', {
-      name: record.name,
-      date: record.date,
-    })
-  );
+    return ctx.reply(
+      t('commands.add.success', {
+        name: record.name,
+        date: record.date,
+      })
+    );
+  } catch (e) {
+    console.error(e);
+    return ctx.reply(t('commands.add.alreadyExists'));
+  }
 };

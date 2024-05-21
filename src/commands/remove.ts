@@ -1,6 +1,6 @@
 import { CommandContext } from 'grammy';
 import { MyContext } from '../bot';
-import { removeRecord } from '../dynamodb';
+import { removeRecord } from '../postgres';
 import { isGroup, sanitizeName } from '../utils';
 import { t } from 'i18next';
 import { getConfigForGroup } from '../config';
@@ -38,9 +38,7 @@ export const removeCommand = async (ctx: CommandContext<MyContext>) => {
       }
     }
   } catch (error) {
-    return ctx.reply(
-      t('commands.remove.error', { error: (error as Error).message })
-    );
+    return ctx.reply(t('commands.remove.error'));
   }
 
   try {
@@ -59,6 +57,6 @@ export const removeCommand = async (ctx: CommandContext<MyContext>) => {
       })
     );
   } catch (error) {
-    return ctx.reply(t('commands.remove.notFound', { error }));
+    return ctx.reply(t('commands.remove.notFound'));
   }
 };

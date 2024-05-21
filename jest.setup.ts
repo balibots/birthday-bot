@@ -1,4 +1,5 @@
-import { server } from "./src/mocks/server";
+import { disconnectClient } from './src/redis';
+import { server } from './src/mocks/server';
 
 // Establish API mocking before all tests.
 beforeAll(() =>
@@ -19,4 +20,7 @@ beforeAll(() =>
 afterEach(() => server.resetHandlers());
 
 // Clean up after the tests are finished.
-afterAll(() => server.close());
+afterAll(() => {
+  disconnectClient();
+  server.close();
+});

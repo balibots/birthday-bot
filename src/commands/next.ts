@@ -1,5 +1,5 @@
 import { MyContext } from '../bot';
-import { getRecord, getRecordsByChatId } from '../dynamodb';
+import { getRecord, getRecordsByChatId } from '../postgres';
 import { nextBirthday } from '../interface';
 import { sortClosestDate } from '../utils';
 import { t } from 'i18next';
@@ -12,6 +12,7 @@ export const nextCommand = async (ctx: MyContext) => {
     return await ctx.reply(t('errors.empty'));
   }
 
+  // TODO is this needed??? we should already have the record
   const nextRecord = await getRecord(next);
 
   if (!nextRecord) {
