@@ -3,7 +3,8 @@ name: Deploy to Fly.io dev bot
 # todo split this into two in the future
 on:
   pull_request:
-    branches: [main]
+    branches: 
+      - main
 
 jobs:
   deploy:

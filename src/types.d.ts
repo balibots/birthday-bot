@@ -8,6 +8,7 @@ export interface BirthdayRecord {
   date: string;
   month: number;
   day: number;
+  year?: number;
   chatId: number;
   tgId?: number; // telegram id - UNUSED
   gender: Gender;

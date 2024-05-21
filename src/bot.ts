@@ -61,9 +61,7 @@ bot.on('message:new_chat_members:me', async (ctx) => {
       parse_mode: 'Markdown',
     });
 
-    const escapedChatTitle = ctx.chat.title.replace(/#/g, '');
-
-    await insertGroupChat({ id: ctx.chat.id, name: escapedChatTitle });
+    await insertGroupChat({ id: ctx.chat.id, name: ctx.chat.title });
 
     const masterId = ctx.from.id;
 

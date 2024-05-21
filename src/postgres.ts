@@ -153,7 +153,7 @@ const parseList = (dbList: any[]): BirthdayListEntry[] => {
 
 // TODO remove from here to utils?
 const parseRecord = (dbRecord: any): BirthdayRecord => {
-  let { id, gender, date, name, groupChatId, day, month } = dbRecord;
+  let { id, gender, date, name, groupChatId, day, month, year } = dbRecord;
 
   return {
     id,
@@ -163,5 +163,6 @@ const parseRecord = (dbRecord: any): BirthdayRecord => {
     chatId: groupChatId,
     day,
     month,
+    year,
   };
 };

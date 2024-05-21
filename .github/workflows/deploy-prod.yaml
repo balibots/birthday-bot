@@ -3,7 +3,8 @@ name: Deploy to Fly.io PROD
 # todo split this into two in the future
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   deploy:
