@@ -1,0 +1,2 @@
+*/5 * * * * echo $(date) :: $(curl -s -X POST https://birthday-bot-prod.fly.dev/trigger 2>&1)
+
