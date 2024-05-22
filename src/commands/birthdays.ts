@@ -10,7 +10,11 @@ export const birthdaysCommand = async (ctx: MyContext) => {
   );
 
   if (birthdays.length === 0) {
-    await ctx.reply(t('errors.empty'));
+    try {
+      await ctx.reply(t('errors.empty'));
+    } catch (e) {
+      console.error(e);
+    }
   } else {
     try {
       await ctx.reply(birthdays.map(birthdayLine).join('\n'), {
