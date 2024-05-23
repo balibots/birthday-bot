@@ -6,7 +6,9 @@ It holds information about people's birth dates and will send a congratulory mes
 It's currently using:
 
  - Grammy, as a Telegram Bot framework
- - Cyclic.sh, for deployment, including data persistence on DynamoDB
+ - PostgreSQL as a DB, with Prisma ORM
+ - Redis for KV store / caching
+ - Fly.io as hosting platform
  - Jest, as a test runner
 
 ## Usage
@@ -25,6 +27,8 @@ Users can be removed with the `/remove` command:
   /remove John
 ```
 
+There's a bunch more commands nowadays, use the `/help` command to see what's available.
+
 ## Running
 
 1. Clone and install dependencies
@@ -35,16 +39,12 @@ Users can be removed with the `/remove` command:
 
 1. Copy the `.env.sample` file to `.env` and fill in the necessary environment variables.
 
-Because we're now using Cyclic.sh (and Cyclic's provided DynamoDB instance), you will have to regularly refresh your credentials on the env file. To do this:
+1. Run the Docker `compose.yml` file
+```
+  docker compose up -d
+```
 
-    1. [Login into Cyclic.sh](https://app.cyclic.sh/#/)
-
-    1. Select your project and head to the Data/Storage tab
-
-    1. Copy the `Local Credentials` section and paste on `.env`, removing the keyword `export`
-
-You will have to do this every 30mins roughly.
-
+This will start PostgreSQL, an admin interface if you need it and Redis.
 
 1. Run the dev script
 
@@ -57,6 +57,13 @@ Locally, the bot uses long polling but it uses webhooks in prod (`NODE_ENV === '
 ```
   npm run register -- --token <TELEGRAM_BOT_TOKEN> --webhook https://your.webook.endpoint.com/
 ```
+
+## Deployment
+
+There's GitHub Actions Workflows running for pull requests (deploys the `dev-rr` instance - this endpoint - https://birthday-bot-dev-rr.fly.dev - can then be registered to the dev bot, which can also be pointed locally by unregistering the webhook). 
+
+Pushes to the `main` branch trigger deployment of the production bot.
+
 
 ## More on Usage
 

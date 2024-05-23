@@ -56,7 +56,7 @@
   },
   "welcomeGroup": "👋 *{{chatTitle}}*!\nSou um bot 🤖 que vos ajuda a registar todas as datas de aniversario dos membros deste grupo. Para saberem mais sobre os comandos disponiveis, facam /help.",
 
-  "helpMessage": "Estes sao os comandos que podem usar:\n - /add - Para adicionar um aniversariantem, com nome e data separado por virgulas (por exemplo, `/add Samuel, 1994-03-21`)\n - /remove - Para remover um aniversariante (`/remove Pedro`)\n - /aniversarios - Lista de aniversariantes, ordenado pelo proximo a fazer anos.\n - /idades - Lista por idades.\n - /proximo - Mostra mais informacoes sobre o proximo aniversario.",
+  "helpMessage": "Estes sao os comandos que podem usar:\n - /add - Para adicionar um aniversariantem, com nome e data separado por virgulas (por exemplo, `/add Samuel, 1994-03-21`)\n - /remove - Para remover um aniversariante (`/remove Pedro`)\n - /aniversarios - Lista de aniversariantes, ordenado pelo proximo a fazer anos.\n - /idades - Lista por idades.\n - /proximo - Mostra mais informacoes sobre o proximo aniversario.\n - /birthdaybot - Para dizer ao bot o que queres que ele faça (por exemplo, `/birthdaybot adiciona o Pedro a 15 de Abril de 1980`).",
   "unborn": "por nascer",
   "inputNeeded": "Sim?..."
 }

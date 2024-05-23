@@ -53,7 +53,7 @@
   },
   "welcomeGroup": "👋 *{{chatTitle}}*!\nI'm a bot 🤖 that helps you keep track of all the birthdays of the members of this group. To learn more about the available commands, type /help.",
 
-  "helpMessage": "These are the commands you can use:\n - /add - To add a birthday person, with name and date separated by commas (for example, `/add Samuel, 1994-03-21`)\n - /remove - To remove a birthday person (`/remove Pedro`)\n - /birthdays - List of birthdays, sorted by the next one coming up.\n - /list - List by ages.\n - /next - Shows more information about the next birthday.",
+  "helpMessage": "These are the commands you can use:\n - /add - To add a birthday person, with name and date separated by commas (for example, `/add Samuel, 1994-03-21`)\n - /remove - To remove a birthday person (`/remove Pedro`)\n - /birthdays - List of birthdays, sorted by the next one coming up.\n - /list - List by ages.\n - /next - Shows more information about the next birthday.\n - /birthdaybot - A conversational interface for the bot, just tell them what you want done! (eg, `/birthdaybot please add Samuel on the 21st of March 1994`)",
   "unborn": "unborn",
   "inputNeeded": "Yes?..."
 }
