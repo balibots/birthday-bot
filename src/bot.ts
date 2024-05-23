@@ -31,6 +31,13 @@ import setLanguage from './middlewares/setLanguage';
 export type MyContext = Context & { chatId: number };
 const bot = new Bot<MyContext>(process.env.TELEGRAM_TOKEN);
 
+/** sorry everyone!! **/
+// @ts-ignore
+BigInt.prototype['toJSON'] = function () {
+  return this.toString();
+};
+/** ---- ignore, proceed ---- **/
+
 bot.use(setLanguage);
 
 bot.command(['aniversarios', 'birthdays'], withChatId, birthdaysCommand);
