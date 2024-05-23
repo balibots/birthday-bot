@@ -14,7 +14,7 @@ datasource db {
 }
 
 model GroupChat {
-  id         Int      @id
+  id         BigInt      @id
   name       String?
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
@@ -30,7 +30,7 @@ model User {
   year        Int
   gender      String?
   GroupChat   GroupChat @relation(fields: [groupChatId], references: [id])
-  groupChatId Int
+  groupChatId BigInt
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 }
