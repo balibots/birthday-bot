@@ -1,55 +1,62 @@
 {
   "commands": {
     "remove": {
-      "missingName": "Debes proporcionar un nombre, por ejemplo: `/remove Pedro`",
+      "missingName": "El comando necesita ser ejecutado con el nombre del cumpleañero: `/remove Pedro`",
       "missingGroup": "Falta el ID del grupo: `/remove Pedro, -123456789`",
-      "success": "Cumpleaños eliminado: {{name}} — {{date}}.",
-      "notFound": "No pude encontrar ese cumpleaños.",
-      "error": "Error al eliminar el cumpleaños."
+      "success": "Cumpleañero eliminado: {{name}} — {{date}}.",
+      "notFound": "No pude encontrar ese cumpleañero.",
+      "error": "Error al eliminar al cumpleañero."
     },
     "add": {
-      "missingData": "Por favor, proporciona el nombre y la fecha de nacimiento en el siguiente formato: `/add Jonas, 1984-03-30`",
-      "missingDataWithGroupId": "Por favor, proporciona el nombre, fecha de nacimiento y ID del grupo en el siguiente formato: `/add Jonas, 1984-03-30, -12345`",
-      "errorParsingDate": "El formato de la fecha es inválido. Por favor, usa AAAA-MM-DD, por ejemplo: `/add Saul, 1989-01-31`",
-      "success": "Persona de cumpleaños añadida: {{name}} — {{date}}.",
-      "restrictedToAdmins": "Lo siento, solo los administradores del grupo pueden añadir y eliminar cumpleaños."
+      "success": "Cumpleañero añadido: {{name}} — {{date}}.",
+      "missingData": "Por favor, proporciona el nombre y la fecha de cumpleaños en el siguiente formato: `/add Jonas, 1984-03-30`",
+      "missingDataWithGroupId": "Por favor, proporciona el nombre, la fecha de cumpleaños y el ID del grupo en el siguiente formato: `/add Jonas, 1984-03-30, -12345`",
+      "errorParsingDate": "El formato de la fecha es inválido. Por favor, usa YYYY-MM-DD, por ejemplo: `/add Saul, 1989-01-31`",
+      "success": "Cumpleañero añadido: {{name}} — {{date}}.",
+      "restrictedToAdmins": "Solo los administradores del grupo pueden añadir y eliminar cumpleañeros.",
+      "alreadyExists": "Ya existe un cumpleañero con ese nombre."
+    },
+    "config": {
+      "notfound": "Configuración inválida.",
+      "error": "Error al obtener la configuración para el grupo.",
+      "saved": "Configuración actualizada con éxito.",
+      "errorParsingHour": "Hora inválida - debe ser un número entre 0-23.",
+      "languageError": "Idioma `{{language}}` no soportado."
     },
     "birthdays": {
-      "sentence_one": "`{{name}}`, cumple *{{count}}* año el {{day}} ({{daysToBirthdayStr}})",
-      "sentence": "`{{name}}`, cumple *{{count}}* años el {{day}} ({{daysToBirthdayStr}})"
+      "sentence_one": "`{{name}}`, cumple *{{count}}* año el día {{day}} ({{daysToBirthdayStr}})",
+      "sentence_other": "`{{name}}`, cumple *{{count}}* años el día {{day}} ({{daysToBirthdayStr}})"
     }
   },
   "errors": {
-    "empty": "No se han añadido cumpleaños.",
-    "notAdmin": "Lo siento, solo los administradores del grupo pueden ejecutar este comando.",
+    "empty": "No se añadieron cumpleaños.",
+    "notAdmin": "¡Solo los administradores del grupo pueden ejecutar este comando!",
     "notUnderstood": "Lo siento, no entendí.",
     "needGroup": "Este comando solo funciona en un grupo.",
-    "missingChatId": "Falta el ID del grupo - necesitas proporcionar uno, cuando estás en un chat privado.",
-    "invalidChatId": "El ID del grupo (`{{chatId}}`) es inválido.",
+    "missingChatId": "Falta el ID del grupo - es necesario en un chat privado.",
+    "invalidChatId": "¡El ID del grupo (`{{chatId}}`) es inválido!",
     "internalError": "Ocurrió un error: {{message}}",
-    "internalErrorNoMessage": "Ocurrió un error, por favor intenta de nuevo.",
+    "internalErrorNoMessage": "Ocurrió un error, intenta nuevamente.",
     "validation": {
-      "dateMissing": "Falta la fecha de nacimiento, por favor intenta de nuevo.",
-      "dateInvalid": "No pude entender la fecha de nacimiento, por favor intenta de nuevo usando el formato AAAA-MM-DD.",
-      "yearMissing": "Lo siento, no entendí el año de la fecha de nacimiento, por favor intenta de nuevo.",
-      "nameMissing": "Lo siento, no entendí el nombre de la persona de cumpleaños, por favor intenta de nuevo."
+      "dateMissing": "No pude entender la fecha de cumpleaños, intenta nuevamente.",
+      "dateInvalid": "No pude entender la fecha de nacimiento, por favor intenta nuevamente.",
+      "yearMissing": "Lo siento, no entendí el año de nacimiento del cumpleañero, intenta nuevamente.",
+      "nameMissing": "Lo siento, no entendí el nombre del cumpleañero, intenta nuevamente."
     }
   },
   "messages": [
-    "🎂 ¡El bebé de hoy es *{{name}}* que cumple {{age}} años! 🥳🎉 ¡Felicidades {{name}} ❤️",
-    "🎂 ¡Hoy es el día de *{{name}}* celebrando {{age}} años! 🥳🎉 ¡Muchas felicidades {{name}} ❤️",
-    "🎂 ¡Qué día tan épico! *{{name}}* cumple {{age}} años hoy! 🥳🎉 ¡Felicidades {{name}} ❤️",
-    "🎂 Nuestro querido *{{name}}* cumple {{age}} años hoy! 🥳🎉 ¡Felicidades {{name}} ❤️"
+    "🎂 ¡El bebé de hoy es {{pronoun}} *{{name}}* que cumple {{age}} años! 🥳🎉 Felicidades {{name}} ❤️",
+    "🎂 ¡Hoy es el día de *{{name}}* que celebra {{age}} años! 🥳🎉 Muchas felicidades {{name}} ❤️",
+    "🎂 ¡Qué día épico! {{pronounUp}} *{{name}}* cumple hoy {{age}} años! 🥳🎉 Felicidades {{name}} ❤️",
+    "🎂 {{pronounUp}} nuestro *{{name}}* cumple hoy {{age}} años! 🥳🎉 Felicidades {{name}} ❤️"
   ],
   "words": {
     "days": "días",
     "day": "día",
-    "today": "¡hoy! 🎉"
+    "today": "hoy! 🎉"
   },
-  "welcomeGroup": "👋 ¡*{{chatTitle}}*!\nSoy un bot 🤖 que te ayuda a llevar un registro de todos los cumpleaños de los miembros de este grupo. Para saber más sobre los comandos disponibles, escribe /help.",
-
-  "helpMessage": "Estos son los comandos que puedes usar:\n - /add - Para añadir a una persona de cumpleaños, con nombre y fecha separados por comas (por ejemplo, `/add Samuel, 1994-03-21`)\n - /remove - Para eliminar a una persona de cumpleaños (`/remove Pedro`)\n - /birthdays - Lista de cumpleaños, ordenada por el próximo que se aproxima.\n - /list - Lista por edades.\n - /next - Muestra más información sobre el próximo cumpleaños.",
-  "unborn": "aún no nacido",
+  "welcomeGroup": "👋 *{{chatTitle}}*!\nSoy un bot 🤖 que te ayuda a registrar todos los cumpleaños de los miembros de este grupo. Para saber más sobre los comandos disponibles, escribe /help.",
+  "helpMessage": "Estos son los comandos que puedes usar:\n - /add - Para añadir un cumpleañero, con nombre y fecha separados por comas (por ejemplo, `/add Samuel, 1994-03-21`)\n - /remove - Para eliminar un cumpleañero (`/remove Pedro`)\n - /birthdays - Lista de cumpleañeros, ordenados por el próximo en cumplir años.\n - /ages - Lista por edades.\n - /next - Muestra más información sobre el próximo cumpleaños.\n - /birthdaybot - Para decirle al bot lo que quieres que haga (por ejemplo, `/birthdaybot añade a Pedro el 15 de abril de 1980`).",
+  "unborn": "no nacido",
   "inputNeeded": "¿Sí?..."
 }
-
