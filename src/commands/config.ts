@@ -1,7 +1,7 @@
 import { CommandContext } from 'grammy';
 import { MyContext } from '../bot';
 import { isGroup, sanitizeName } from '../utils';
-import { t } from 'i18next';
+import i18next, { t } from 'i18next';
 import { getConfigForGroup, setConfigForGroup } from '../config';
 import { ChatCompletion } from 'openai/resources';
 import type { ChatConfig } from '../config';
@@ -63,6 +63,7 @@ export const configCommand = async (ctx: CommandContext<MyContext>) => {
   } else if (command === ALLOWED_CONFIG.language) {
     try {
       await setConfigForGroup(ctx.chatId, { language: arg });
+      await i18next.changeLanguage(arg);
       return ctx.reply(t('commands.config.saved'));
     } catch {
       return ctx.reply(t('commands.config.error'));
