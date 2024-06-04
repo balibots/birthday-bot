@@ -43,6 +43,11 @@ export const daysToBirthday = (strdate: string) => {
   return Math.ceil(Interval.fromDateTimes(dt, bdate).length('days'));
 };
 
+export const isBirthdayToday = (strdate: string) => {
+  const days = daysToBirthday(strdate);
+  return days === 0;
+};
+
 // Simple sanitization, we might need to add something more complex in the future
 export const sanitizeName = (name: string): string => {
   return titleCase(name.toLowerCase())

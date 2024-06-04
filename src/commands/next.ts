@@ -1,23 +1,30 @@
 import { MyContext } from '../bot';
 import { getRecord, getRecordsByChatId } from '../postgres';
 import { nextBirthday } from '../interface';
-import { sortClosestDate } from '../utils';
+import { sortClosestDate, isBirthdayToday } from '../utils';
 import { t } from 'i18next';
 
 export const nextCommand = async (ctx: MyContext) => {
   const birthdays = await getRecordsByChatId(ctx.chatId);
-  const next = birthdays.sort(sortClosestDate)[0];
+  const birthdaysSorted = birthdays.sort(sortClosestDate);
 
-  if (!next) {
+  if (!birthdaysSorted.length) {
     return await ctx.reply(t('errors.empty'));
   }
 
-  // TODO is this needed??? we should already have the record
-  const nextRecord = await getRecord(next);
+  let i = 0;
+  let next = birthdaysSorted[i];
 
-  if (!nextRecord) {
-    return await ctx.reply(t('errors.internalServerNoMessage'));
+  while (next && isBirthdayToday(next.date)) {
+    // gets the first birthday that is not today
+    next = birthdaysSorted[++i];
   }
 
-  return ctx.reply(nextBirthday(nextRecord), { parse_mode: 'Markdown' });
+  if (!next) {
+    // manhoso, isto significa que todos fazem anos hoje o que e' um
+    // grande edge case.
+    next = birthdaysSorted[0];
+  }
+
+  return ctx.reply(nextBirthday(next), { parse_mode: 'Markdown' });
 };
