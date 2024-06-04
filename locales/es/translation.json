@@ -15,7 +15,8 @@
       "restrictedToAdmins": "Lo siento, solo los administradores del grupo pueden añadir y eliminar cumpleaños."
     },
     "birthdays": {
-      "sentence": "`{{name}}`, cumple *{{nextAge}}* años el {{day}} ({{daysToBirthdayStr}})"
+      "sentence_one": "`{{name}}`, cumple *{{count}}* año el {{day}} ({{daysToBirthdayStr}})",
+      "sentence": "`{{name}}`, cumple *{{count}}* años el {{day}} ({{daysToBirthdayStr}})"
     }
   },
   "errors": {

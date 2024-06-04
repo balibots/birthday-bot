@@ -24,7 +24,8 @@
       "languageError": "Linguagem `{{language}}` nao suportada."
     },
     "birthdays": {
-      "sentence": "`{{name}}`, faz *{{nextAge}}* anos no dia {{day}} ({{daysToBirthdayStr}})"
+      "sentence_one": "`{{name}}`, faz *{{count}}* ano no dia {{day}} ({{daysToBirthdayStr}})",
+      "sentence_other": "`{{name}}`, faz *{{count}}* anos no dia {{day}} ({{daysToBirthdayStr}})"
     }
   },
   "errors": {

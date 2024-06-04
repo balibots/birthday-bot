@@ -60,7 +60,7 @@ export function nextBirthday(record: BirthdayListEntry): string {
 
   return t('commands.birthdays.sentence', {
     name: record.name,
-    nextAge,
+    count: nextAge,
     day,
     daysToBirthdayStr,
   });
