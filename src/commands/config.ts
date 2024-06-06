@@ -28,9 +28,20 @@ export const configCommand = async (ctx: CommandContext<MyContext>) => {
     // getting the config
     try {
       const groupConfig = await getConfigForGroup(ctx.chatId);
-      return ctx.reply('```' + JSON.stringify(groupConfig) + '```', {
-        parse_mode: 'MarkdownV2',
-      });
+      if (groupConfig) {
+        return ctx.reply(
+          t('configMessage', {
+            restrictedToAdmins: groupConfig.restrictedToAdmins || false,
+            notificationHour: groupConfig.notificationHour || 8,
+            language: groupConfig.language || 'en',
+          }),
+          {
+            parse_mode: 'MarkdownV2',
+          }
+        );
+      } else {
+        return ctx.reply(t('commands.config.error'));
+      }
     } catch (error) {
       return ctx.reply(
         t('commands.config.error', { error: (error as Error).message })
