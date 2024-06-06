@@ -28,7 +28,10 @@ import apiRoutes from './api';
 import triggerEndpoint from './endpoints/trigger';
 import setLanguage from './middlewares/setLanguage';
 
-export type MyContext = Context & { chatId: number };
+export type MyContext = Context & { chatId: number } & { config: CtxConfig };
+interface CtxConfig {
+  language: string;
+}
 const bot = new Bot<MyContext>(process.env.TELEGRAM_TOKEN);
 
 /** sorry everyone!! **/
