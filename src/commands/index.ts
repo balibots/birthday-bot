@@ -38,4 +38,8 @@ export const allCommands = [
     description:
       'A futuristic conversational interface - tell the bot what to do in natural language.',
   },
+  {
+    command: 'help',
+    description: 'Show all the commands available and how to use them.',
+  },
 ];
