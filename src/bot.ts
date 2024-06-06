@@ -41,7 +41,7 @@ BigInt.prototype['toJSON'] = function () {
 bot.use(setLanguage);
 
 bot.command(['aniversarios', 'birthdays'], withChatId, birthdaysCommand);
-bot.command(['idades', 'list'], withChatId, listCommand);
+bot.command(['idades', 'list', 'ages'], withChatId, listCommand);
 bot.command(['proximo', 'next'], withChatId, nextCommand);
 bot.command(['config'], withChatId, configCommand);
 bot.command(['ajuda', 'help'], helpCommand);
