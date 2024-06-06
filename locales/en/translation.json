@@ -1,19 +1,19 @@
 {
   "commands": {
     "remove": {
-      "missingName": "The command needs to be executed with the name of the birthday person: `/remove Peter`",
-      "missingGroup": "Group ID is missing: `/remove Peter, -123456789`",
-      "success": "Birthday person removed: {{name}} — {{date}}.",
-      "notFound": "I couldn't find that birthday person.",
-      "error": "Error removing the birthday person."
+      "missingName": "The command is missing the name of the person to remove (e.g., `/remove Peter`)",
+      "missingGroup": "The Group ID is missing: `/remove Peter, -123456789`",
+      "success": "Birthday removed: {{name}} — {{date}}.",
+      "notFound": "Sorry, couldn't find the birthday to remove.",
+      "error": "Error removing birthday."
     },
     "add": {
-      "success": "Birthday person added: {{name}} — {{date}}.",
+      "success": "Birthday added: {{name}} — {{date}}.",
       "missingData": "Please provide the name and birthday in the following format: `/add Jonas, 1984-03-30`",
       "missingDataWithGroupId": "Please provide the name, birthday, and group ID in the following format: `/add Dave, 1984-03-30, -12345`",
       "errorParsingDate": "The date format is invalid. Please use YYYY-MM-DD, for example: `/add Saul, 1989-01-31`",
-      "success": "Birthday person added: {{name}} — {{date}}.",
-      "restrictedToAdmins": "Only group administrators can add and remove birthday persons.",
+      "success": "Birthday added: {{name}} — {{date}}.",
+      "restrictedToAdmins": "Only group admins can add and remove birthdays.",
       "alreadyExists": "A birthday person with that name already exists."
     },
     "config": {
@@ -29,11 +29,11 @@
     }
   },
   "errors": {
-    "empty": "No birthdays added.",
+    "empty": "No birthdays added yet. Type /help if you're stuck!",
     "notAdmin": "Only group administrators can run this command!",
     "notUnderstood": "Sorry, I didn't understand.",
     "needGroup": "This command only works in a group.",
-    "missingChatId": "Group ID is missing - it is necessary in a private chat.",
+    "missingChatId": "Group ID is missing - it is needed in a private chat.",
     "invalidChatId": "The group ID (`{{chatId}}`) is invalid!",
     "internalError": "An error occurred: {{message}}",
     "internalErrorNoMessage": "An error occurred, please try again.",
