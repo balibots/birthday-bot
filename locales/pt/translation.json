@@ -21,7 +21,7 @@
       "error": "Erro ao obter a configuracao para o grupo.",
       "saved": "Configuracao actualizada com sucesso.",
       "errorParsingHour": "Hora invalida - deve ser um numero 0-23.",
-      "languageError": "Linguagem `{{language}}` nao suportada."
+      "languageError": "Linguagem `{{language}}` nao suportada. As linguagens disponiveis sao: `en` para Ingles, `pt` para Portugues, `es` para Espanhol e `ko` para Coreano."
     },
     "birthdays": {
       "sentence_one": "`{{name}}`, faz *{{count}}* ano no dia {{day}} ({{daysToBirthdayStr}})",

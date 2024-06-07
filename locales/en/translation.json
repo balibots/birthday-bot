@@ -21,7 +21,7 @@
       "error": "Error obtaining the configuration for the group.",
       "saved": "Configuration updated successfully.",
       "errorParsingHour": "Invalid hour - it must be a number between 0-23.",
-      "languageError": "Language `{{language}}` not supported."
+      "languageError": "Language `{{language}}` not supported. Currently the languages supported are: `en` for English, `pt` for Portuguese, `es` for Spanish and `ko` for Korean."
     },
     "birthdays": {
       "sentence_one": "`{{name}}`, turns *{{count}}* year old on {{day}} ({{daysToBirthdayStr}})",
