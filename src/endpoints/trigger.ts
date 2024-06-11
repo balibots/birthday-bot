@@ -7,7 +7,9 @@ import { BirthdayListEntry } from '../types';
 import { get, set } from '../cache';
 import { getConfigForGroup } from '../config';
 
-const NOTIFICATION_START_HOUR = process.env.NOTIFICATION_START_HOUR || 8;
+// DEFAULT NOTIFICATION HOUR = 7am UTC
+// this will probably change in the future.
+const NOTIFICATION_START_HOUR = process.env.NOTIFICATION_START_HOUR || 7;
 
 const triggerCacheKeyFor = (today: DateTime) =>
   `trigger:${today.toFormat('yyyy-MM-dd')}`;
