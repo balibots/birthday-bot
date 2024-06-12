@@ -50,10 +50,18 @@ export const isBirthdayToday = (strdate: string) => {
 
 // Simple sanitization, we might need to add something more complex in the future
 export const sanitizeName = (name: string): string => {
-  return titleCase(name.toLowerCase())
-    .replace(/\s{2,}/g, ' ') // replace multiple spaces with a single one
-    .replace(/'\w/, (word) => word.toUpperCase()) // capitalize words after apostrophes
-    .trim();
+  if (name[0] === '"' || name[0] === '“') {
+    // literal mode, dont mess with capitalization
+    return name
+      .replace(/"|“|”/g, '') // remove all quotes
+      .replace(/\s{2,}/g, ' ') // replace multiple spaces with a single one
+      .trim();
+  } else {
+    return titleCase(name.toLowerCase())
+      .replace(/\s{2,}/g, ' ') // replace multiple spaces with a single one
+      .replace(/'\w/, (word) => word.toUpperCase()) // capitalize words after apostrophes
+      .trim();
+  }
 };
 
 export const getPronoun = (gender: Gender): string => {
