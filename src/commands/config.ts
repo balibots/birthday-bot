@@ -81,7 +81,7 @@ export const configCommand = async (ctx: CommandContext<MyContext>) => {
       return ctx.reply(t('commands.config.saved'));
     } catch {
       return ctx.reply(t('commands.config.languageError', { language: arg }), {
-        parse_mode: 'MarkdownV2',
+        parse_mode: 'Markdown',
       });
     }
   }
