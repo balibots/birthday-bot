@@ -57,9 +57,9 @@ Locally, the bot uses long polling but it uses webhooks in prod (`NODE_ENV === '
 
 There's a script to register your webhook too, useful for hooking up to test bots:
 
-    ```
-      npm run register -- --token <TELEGRAM_BOT_TOKEN> --webhook https://your.webook.endpoint.com/
-    ```
+```
+  npm run register -- --token <TELEGRAM_BOT_TOKEN> --webhook https://your.webook.endpoint.com/
+```
 
 ## Deployment
 
