@@ -74,12 +74,15 @@ export const configCommand = async (ctx: CommandContext<MyContext>) => {
       );
     }
   } else if (command === ALLOWED_CONFIG.language) {
+    // TODO maybe check against array of allowed languages in the future
     try {
       await setConfigForGroup(ctx.chatId, { language: arg });
       await i18next.changeLanguage(arg);
       return ctx.reply(t('commands.config.saved'));
     } catch {
-      return ctx.reply(t('commands.config.languageError', { language: arg }));
+      return ctx.reply(t('commands.config.languageError', { language: arg }), {
+        parse_mode: 'MarkdownV2',
+      });
     }
   }
 };

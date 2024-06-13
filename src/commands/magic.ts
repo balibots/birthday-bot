@@ -112,7 +112,9 @@ export const magicCommand = async (ctx: MyContext) => {
         await setConfigForGroup(intChatId, { language });
         return ctx.reply(t('commands.config.saved'));
       } catch {
-        return ctx.reply(t('commands.config.languageError', { language }));
+        return ctx.reply(t('commands.config.languageError', { language }), {
+          parse_mode: 'MarkdownV2',
+        });
       }
     } else if (functionCall.function === 'set_notification_hour') {
       const { hour } = functionCall.args;
