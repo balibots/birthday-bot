@@ -5,6 +5,8 @@ import i18next, { t } from 'i18next';
 import { getConfigForGroup, setConfigForGroup } from '../config';
 import { ChatCompletion } from 'openai/resources';
 import type { ChatConfig } from '../config';
+import { DEFAULT_MAX_VERSION } from 'tls';
+import { DEFAULT_LANGUAGE } from '../i18n';
 
 // disalowing resetting the masterId
 const ALLOWED_CONFIG: Partial<Record<keyof ChatConfig, keyof ChatConfig>> = {
@@ -33,7 +35,7 @@ export const configCommand = async (ctx: CommandContext<MyContext>) => {
           t('configMessage', {
             restrictedToAdmins: groupConfig.restrictedToAdmins || false,
             notificationHour: groupConfig.notificationHour || 8,
-            language: groupConfig.language || 'en',
+            language: groupConfig.language || DEFAULT_LANGUAGE,
           }),
           {
             parse_mode: 'MarkdownV2',
@@ -77,7 +79,7 @@ export const configCommand = async (ctx: CommandContext<MyContext>) => {
       await i18next.changeLanguage(arg);
       return ctx.reply(t('commands.config.saved'));
     } catch {
-      return ctx.reply(t('commands.config.error'));
+      return ctx.reply(t('commands.config.languageError', { language: arg }));
     }
   }
 };
