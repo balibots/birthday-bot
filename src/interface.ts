@@ -3,11 +3,9 @@ import { DateTime, DateTimeFormatOptions } from 'luxon';
 import { BirthdayListEntry } from './types';
 import { daysToBirthday, getAge } from './utils';
 
-// TODO: dynamically change later
-const locale = 'pt';
-
 export function formatDate(
   date: string,
+  locale: string,
   format?: DateTimeFormatOptions
 ): string {
   const dateJS = new Date(date);
@@ -20,9 +18,12 @@ export function formatDate(
   return dateJS.toLocaleDateString(locale, { ...options });
 }
 
-export function birthdayLine(record: BirthdayListEntry): string {
+export function birthdayLine(
+  record: BirthdayListEntry,
+  locale: string
+): string {
   const days = daysToBirthday(record.date);
-  return `\`${formatDate(record.date)}\` — ${record.name} — ${
+  return `\`${formatDate(record.date, locale)}\` — ${record.name} — ${
     days
       ? days > 1
         ? `${days} ${t('words.days')}`
@@ -31,9 +32,9 @@ export function birthdayLine(record: BirthdayListEntry): string {
   }`;
 }
 
-export function ageLine(record: BirthdayListEntry): string {
+export function ageLine(record: BirthdayListEntry, locale: string): string {
   const age = getAge(record.date);
-  const date = formatDate(record.date, {
+  const date = formatDate(record.date, locale, {
     month: 'short',
     day: '2-digit',
     year: 'numeric',
@@ -44,10 +45,16 @@ export function ageLine(record: BirthdayListEntry): string {
   }`;
 }
 
-export function nextBirthday(record: BirthdayListEntry): string {
+export function nextBirthday(
+  record: BirthdayListEntry,
+  locale: string
+): string {
   const age = getAge(record.date);
   const diff = daysToBirthday(record.date);
-  const day = formatDate(record.date, { month: 'long', day: 'numeric' });
+  const day = formatDate(record.date, locale, {
+    month: 'long',
+    day: 'numeric',
+  });
 
   const differenceToBirthday = DateTime.now()
     .startOf('day')

@@ -13,9 +13,12 @@ export const listCommand = async (ctx: MyContext) => {
     await ctx.reply(t('errors.empty'));
   } else {
     try {
-      await ctx.reply(birthdays.map(ageLine).join('\n'), {
-        parse_mode: 'MarkdownV2',
-      });
+      await ctx.reply(
+        birthdays.map((b) => ageLine(b, ctx.config.language)).join('\n'),
+        {
+          parse_mode: 'MarkdownV2',
+        }
+      );
     } catch (e) {
       console.error(e);
     }

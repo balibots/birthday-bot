@@ -26,5 +26,7 @@ export const nextCommand = async (ctx: MyContext) => {
     next = birthdaysSorted[0];
   }
 
-  return ctx.reply(nextBirthday(next), { parse_mode: 'Markdown' });
+  return ctx.reply(nextBirthday(next, ctx.config.language), {
+    parse_mode: 'Markdown',
+  });
 };

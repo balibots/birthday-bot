@@ -9,33 +9,37 @@ export * from './config';
 
 export const allCommands = [
   {
-    command: 'aniversarios',
+    command: 'birthdays',
     description:
-      'Mostra a lista completa de aniversários ordenados do mais próximo para o mais distante',
+      'Show the list of all the birthdays sorted by the nearest date.',
   },
   {
-    command: 'idades',
-    description:
-      'Mostra a lista completa de idades ordenadas por data de nascimento',
+    command: 'ages',
+    description: "Show everyone's ages (use with caution!).",
   },
   {
-    command: 'proximo',
-    description: 'Mostra o próximo aniversário',
+    command: 'next',
+    description: 'Show who the next upcoming birthday person will be.',
   },
   {
     command: 'add',
-    description: 'Adiciona novo aniversariante.',
+    description: 'Add a new birthday.',
   },
   {
     command: 'remove',
-    description: 'Remove um aniversariante.',
+    description: 'Remove an existing birthday.',
   },
   {
     command: 'config',
-    description: 'Altera configuracoes do grupo.',
+    description: "Check (or change) the bot's configuration.",
   },
   {
     command: 'birthdaybot',
-    description: 'Interface conversacional futurista.',
+    description:
+      'A futuristic conversational interface - tell the bot what to do in natural language.',
+  },
+  {
+    command: 'help',
+    description: 'Show all the commands available and how to use them.',
   },
 ];

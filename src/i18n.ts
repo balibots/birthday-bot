@@ -7,10 +7,10 @@ i18next.on('failedLoading', function (lng, ns, msg) {
 });
 
 i18next.use(Backend).init({
-  lng: 'pt',
+  lng: 'en',
   debug: false,
   ns: 'translation',
-  fallbackLng: ['pt'],
+  fallbackLng: ['en'],
   backend: {
     loadPath: 'locales/{{lng}}/{{ns}}.json',
   },

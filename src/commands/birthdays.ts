@@ -17,9 +17,12 @@ export const birthdaysCommand = async (ctx: MyContext) => {
     }
   } else {
     try {
-      await ctx.reply(birthdays.map(birthdayLine).join('\n'), {
-        parse_mode: 'Markdown',
-      });
+      await ctx.reply(
+        birthdays.map((b) => birthdayLine(b, ctx.config.language)).join('\n'),
+        {
+          parse_mode: 'Markdown',
+        }
+      );
     } catch (e) {
       console.error(e);
     }

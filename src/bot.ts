@@ -28,7 +28,10 @@ import apiRoutes from './api';
 import triggerEndpoint from './endpoints/trigger';
 import setLanguage from './middlewares/setLanguage';
 
-export type MyContext = Context & { chatId: number };
+export type MyContext = Context & { chatId: number } & { config: CtxConfig };
+interface CtxConfig {
+  language: string;
+}
 const bot = new Bot<MyContext>(process.env.TELEGRAM_TOKEN);
 
 /** sorry everyone!! **/
@@ -41,7 +44,7 @@ BigInt.prototype['toJSON'] = function () {
 bot.use(setLanguage);
 
 bot.command(['aniversarios', 'birthdays'], withChatId, birthdaysCommand);
-bot.command(['idades', 'list'], withChatId, listCommand);
+bot.command(['idades', 'list', 'ages'], withChatId, listCommand);
 bot.command(['proximo', 'next'], withChatId, nextCommand);
 bot.command(['config'], withChatId, configCommand);
 bot.command(['ajuda', 'help'], helpCommand);
