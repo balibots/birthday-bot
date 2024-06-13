@@ -33,30 +33,33 @@ There's a bunch more commands nowadays, use the `/help` command to see what's av
 
 1. Clone and install dependencies
 
-  ```
-    npm i
-  ```
+    ```
+      npm i
+    ```
 
 1. Copy the `.env.sample` file to `.env` and fill in the necessary environment variables.
 
 1. Run the Docker `compose.yml` file
-```
-  docker compose up -d
-```
 
-This will start PostgreSQL, an admin interface if you need it and Redis.
+    ```
+      docker compose up -d
+    ```
+
+    This will start PostgreSQL, an admin interface if you need it and Redis.
 
 1. Run the dev script
 
-  ```
-    npm run dev
-  ```
+    ```
+      npm run dev
+    ```
 
-Locally, the bot uses long polling but it uses webhooks in prod (`NODE_ENV === 'production'`). There's a script to register your webhook too:
+Locally, the bot uses long polling but it uses webhooks in prod (`NODE_ENV === 'production'`).
 
-```
-  npm run register -- --token <TELEGRAM_BOT_TOKEN> --webhook https://your.webook.endpoint.com/
-```
+There's a script to register your webhook too, useful for hooking up to test bots:
+
+    ```
+      npm run register -- --token <TELEGRAM_BOT_TOKEN> --webhook https://your.webook.endpoint.com/
+    ```
 
 ## Deployment
 
