@@ -6,6 +6,8 @@ import generateSalutation from '../salutations';
 import { BirthdayListEntry } from '../types';
 import { get, set } from '../cache';
 import { getConfigForGroup } from '../config';
+import i18next from 'i18next';
+import { DEFAULT_LANGUAGE } from '../i18n';
 
 // DEFAULT NOTIFICATION HOUR = 7am UTC
 // this will probably change in the future.
@@ -50,6 +52,10 @@ const triggerEndpoint = async ({ sendMessage }: { sendMessage: any }) => {
       );
       continue;
     }
+
+    const groupConfig = await getConfigForGroup(birthday.chatId);
+
+    i18next.changeLanguage(groupConfig?.language ?? DEFAULT_LANGUAGE);
 
     const formattedMsg = generateSalutation(birthday);
     console.log(
