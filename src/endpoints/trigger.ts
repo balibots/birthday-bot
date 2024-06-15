@@ -55,9 +55,10 @@ const triggerEndpoint = async ({ sendMessage }: { sendMessage: any }) => {
 
     const groupConfig = await getConfigForGroup(birthday.chatId);
 
-    i18next.changeLanguage(groupConfig?.language ?? DEFAULT_LANGUAGE);
+    await i18next.changeLanguage(groupConfig?.language ?? DEFAULT_LANGUAGE);
 
     const formattedMsg = generateSalutation(birthday);
+
     console.log(
       `Sending message to group ${birthday.chatId} about ${birthday.name}`
     );

@@ -16,12 +16,6 @@ const ALLOWED_CONFIG: Partial<Record<keyof ChatConfig, keyof ChatConfig>> = {
 };
 
 export const configCommand = async (ctx: CommandContext<MyContext>) => {
-  // restrict to admins
-  const chatMember = await ctx.api.getChatMember(ctx.chatId, ctx.from!.id);
-  if (!['administrator', 'creator'].includes(chatMember.status)) {
-    return ctx.reply(t('errors.notAdmin'));
-  }
-
   const payload = ctx.match.split(',').map((s) => s.trim()) || [];
   const command = payload[0];
   const arg = payload[1];
@@ -49,40 +43,52 @@ export const configCommand = async (ctx: CommandContext<MyContext>) => {
         t('commands.config.error', { error: (error as Error).message })
       );
     }
-  }
+  } else {
+    // setting the config
 
-  if (!Object.keys(ALLOWED_CONFIG).includes(command)) {
-    return ctx.reply(t('commands.config.notfound'));
-  }
-
-  if (command === ALLOWED_CONFIG.restrictedToAdmins) {
-    let boolArg = Boolean(arg === 'false' ? false : arg);
-    await setConfigForGroup(ctx.chatId, { restrictedToAdmins: boolArg });
-    return ctx.reply(t('commands.config.saved'));
-  } else if (command === ALLOWED_CONFIG.notificationHour) {
-    let numArg = parseInt(arg);
-
-    try {
-      await setConfigForGroup(ctx.chatId, { notificationHour: numArg });
-      return ctx.reply(t('commands.config.saved'));
-    } catch (e) {
-      console.error(e);
-      return ctx.reply(
-        t('commands.config.errorParsingHour', {
-          error: 'Could not parse the provided hour',
-        })
-      );
+    // setting config is restricted to admins
+    const chatMember = await ctx.api.getChatMember(ctx.chatId, ctx.from!.id);
+    if (!['administrator', 'creator'].includes(chatMember.status)) {
+      return ctx.reply(t('errors.notAdmin'));
     }
-  } else if (command === ALLOWED_CONFIG.language) {
-    // TODO maybe check against array of allowed languages in the future
-    try {
-      await setConfigForGroup(ctx.chatId, { language: arg });
-      await i18next.changeLanguage(arg);
+
+    // whitelist config keys
+    if (!Object.keys(ALLOWED_CONFIG).includes(command)) {
+      return ctx.reply(t('commands.config.notfound'));
+    }
+
+    if (command === ALLOWED_CONFIG.restrictedToAdmins) {
+      let boolArg = Boolean(arg === 'false' ? false : arg);
+      await setConfigForGroup(ctx.chatId, { restrictedToAdmins: boolArg });
       return ctx.reply(t('commands.config.saved'));
-    } catch {
-      return ctx.reply(t('commands.config.languageError', { language: arg }), {
-        parse_mode: 'Markdown',
-      });
+    } else if (command === ALLOWED_CONFIG.notificationHour) {
+      let numArg = parseInt(arg);
+
+      try {
+        await setConfigForGroup(ctx.chatId, { notificationHour: numArg });
+        return ctx.reply(t('commands.config.saved'));
+      } catch (e) {
+        console.error(e);
+        return ctx.reply(
+          t('commands.config.errorParsingHour', {
+            error: 'Could not parse the provided hour',
+          })
+        );
+      }
+    } else if (command === ALLOWED_CONFIG.language) {
+      // TODO maybe check against array of allowed languages in the future
+      try {
+        await setConfigForGroup(ctx.chatId, { language: arg });
+        await i18next.changeLanguage(arg);
+        return ctx.reply(t('commands.config.saved'));
+      } catch {
+        return ctx.reply(
+          t('commands.config.languageError', { language: arg }),
+          {
+            parse_mode: 'Markdown',
+          }
+        );
+      }
     }
   }
 };
