@@ -68,7 +68,7 @@ export async function clearDB() {
 
 export async function getRecord({
   ...params
-}: DBKeyArgs): Promise<BirthdayListEntry | null> {
+}: DBKeyArgs): Promise<BirthdayRecord | null> {
   const key = buildKey(params);
   const record = await prisma.user.findFirst({
     where: {

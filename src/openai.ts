@@ -71,6 +71,36 @@ export async function getFunctionCall(
       {
         type: 'function',
         function: {
+          name: 'modify_birthday',
+          description: 'Changes the birthday date for a given person',
+          parameters: {
+            type: 'object',
+            properties: {
+              name: {
+                type: 'string',
+                description:
+                  "The name of the person whose birthday we're removing",
+              },
+              day: {
+                type: 'number',
+                description: 'The new day to set for the birthday date.',
+              },
+              month: {
+                type: 'number',
+                description: 'The new month to set for the birthday month.',
+              },
+              year: {
+                type: 'number',
+                description: 'The new year to set for the birthday date.',
+              },
+            },
+            required: ['name'],
+          },
+        },
+      },
+      {
+        type: 'function',
+        function: {
           name: 'get_upcoming_birthday',
           description: 'Returns the next birthday.',
           parameters: {

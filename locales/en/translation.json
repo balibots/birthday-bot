@@ -16,6 +16,11 @@
       "restrictedToAdmins": "Only group admins can add and remove birthdays.",
       "alreadyExists": "A birthday person with that name already exists."
     },
+    "modify": {
+      "errorNotFound": "Sorry, couldn't find the birthday to remove.",
+      "errorInvalidDate": "Sorry, the new birthdate provided is not valid.",
+      "success": "Birthday changed: {{name}} — {{date}}."
+    },
     "config": {
       "notfound": "Invalid configuration.",
       "error": "Error obtaining the configuration for the group.",

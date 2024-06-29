@@ -1,8 +1,8 @@
 import { MyContext } from '../bot';
 import { DateTime } from 'luxon';
-import { sanitizeName, isGroup } from '../utils';
+import { sanitizeName, isGroup, parseDate } from '../utils';
 import { getGender } from '../genderize';
-import { addRecord, removeRecord } from '../postgres';
+import { addRecord, removeRecord, getRecord } from '../postgres';
 import { t } from 'i18next';
 import { getFunctionCall } from '../openai';
 import { nextCommand } from './next';
@@ -102,6 +102,64 @@ export const magicCommand = async (ctx: MyContext) => {
         );
       } catch (error) {
         return ctx.reply(t('commands.remove.notFound', { error }));
+      }
+    } else if (functionCall.function === 'modify_birthday') {
+      // Removing an existing birthday
+      const { name, day, month, year } = functionCall.args;
+
+      if (!name) {
+        return await ctx.reply(t('errors.validation.nameMissing'));
+      }
+
+      try {
+        const record = {
+          name: sanitizeName(name),
+          chatId: intChatId,
+        };
+
+        let recordToChange = await getRecord(record);
+
+        if (!recordToChange) {
+          return await ctx.reply(t('commands.modify.errorNotFound'));
+        }
+
+        console.log(
+          `Modifying record: ${JSON.stringify(
+            record,
+            null,
+            2
+          )} with args year: ${year} month: ${month} day: ${day}`
+        );
+
+        const newDate = parseDate(
+          `${year || recordToChange.year}-${month || recordToChange.month}-${
+            day || recordToChange.day
+          }`
+        );
+
+        if (!newDate.isValid) {
+          return await ctx.reply(t('commands.modify.errorInvalidDate'));
+        }
+
+        const newRecord = {
+          ...recordToChange,
+          date: newDate.toFormat('yyyy-MM-dd'),
+          day: newDate.day,
+          month: newDate.month,
+          year: newDate.year,
+        };
+
+        const removedRecord = await removeRecord(record);
+        await addRecord(newRecord);
+
+        return ctx.reply(
+          t('commands.modify.success', {
+            name: newRecord.name,
+            date: newRecord.date,
+          })
+        );
+      } catch (error) {
+        return ctx.reply(t('commands.modify.errorNotFound', { error }));
       }
     } else if (functionCall.function === 'get_upcoming_birthday') {
       ctx.chatId = intChatId;

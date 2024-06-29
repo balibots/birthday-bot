@@ -16,6 +16,11 @@
       "restrictedToAdmins": "Apenas administratores do grupo podem adicionar e remover aniversariantes.",
       "alreadyExists": "Ja existe um aniversariante com esse nome" 
     },
+    "modify": {
+      "errorNotFound": "Não encontrei esse aniversariante.",
+      "errorInvalidDate": "A nova data de aniversário é inválida.",
+      "success": "Aniversariante modificado: {{name}} — {{date}}."
+    },
     "config": {
       "notfound": "Configuracao invalida.",
       "error": "Erro ao obter a configuracao para o grupo.",
