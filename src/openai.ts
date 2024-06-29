@@ -172,7 +172,6 @@ export async function getFunctionCall(
   });
 
   try {
-    console.log(chatCompletion.choices[0].message.tool_calls);
     if (
       chatCompletion.choices[0]?.message?.tool_calls &&
       chatCompletion.choices[0]?.message?.tool_calls.length

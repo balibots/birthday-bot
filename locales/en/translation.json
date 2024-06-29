@@ -19,7 +19,7 @@
     "modify": {
       "errorNotFound": "Sorry, couldn't find the birthday to remove.",
       "errorInvalidDate": "Sorry, the new birthdate provided is not valid.",
-      "success": "Birthday changed: {{name}} — {{date}}."
+      "success": "Birthdate changed: {{name}} — {{date}}."
     },
     "config": {
       "notfound": "Invalid configuration.",
