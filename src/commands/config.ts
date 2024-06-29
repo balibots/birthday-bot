@@ -57,6 +57,7 @@ export const configCommand = async (ctx: CommandContext<MyContext>) => {
       return ctx.reply(t('commands.config.notfound'));
     }
 
+    // TODO could be a switch statement, could refactor this a bit
     if (command === ALLOWED_CONFIG.restrictedToAdmins) {
       let boolArg = Boolean(arg === 'false' ? false : arg);
       await setConfigForGroup(ctx.chatId, { restrictedToAdmins: boolArg });

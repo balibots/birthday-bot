@@ -12,6 +12,7 @@ export const nextCommand = async (ctx: MyContext) => {
     return await ctx.reply(t('errors.empty'));
   }
 
+  /* disabled this behaviour as not 100% sure about it
   let i = 0;
   let next = birthdaysSorted[i];
 
@@ -25,6 +26,9 @@ export const nextCommand = async (ctx: MyContext) => {
     // grande edge case.
     next = birthdaysSorted[0];
   }
+  */
+
+  let next = birthdaysSorted[0];
 
   return ctx.reply(nextBirthday(next, ctx.config.language), {
     parse_mode: 'Markdown',
