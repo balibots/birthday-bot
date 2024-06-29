@@ -2,7 +2,7 @@ import OpenAI from 'openai';
 
 const openai = new OpenAI();
 
-type FunctionCallResult = null | {
+export type FunctionCallResult = {
   function: string;
   args: any;
 };
