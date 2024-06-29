@@ -27,11 +27,17 @@ export const magicCommand = async (ctx: MyContext) => {
     return await ctx.reply(t('inputNeeded'));
   }
 
-  const functionCall = await getFunctionCall(ctx.match.toString());
+  const functionCalls = await getFunctionCall(ctx.match.toString());
 
-  console.log('Magic response', functionCall);
+  console.log('Magic response', functionCalls);
 
-  if (functionCall) {
+  if (!functionCalls.length) {
+    return await ctx.reply(t('errors.notUnderstood'));
+  }
+
+  for (let functionCall of functionCalls) {
+    if (!functionCall) continue; // might be null?
+
     if (functionCall.function === 'add_birthday') {
       // Adding a new birthday
       const { day, month, year, name } = functionCall.args;
@@ -128,7 +134,5 @@ export const magicCommand = async (ctx: MyContext) => {
     } else {
       await ctx.reply(t('errors.notUnderstood'));
     }
-  } else {
-    await ctx.reply(t('errors.notUnderstood'));
   }
 };

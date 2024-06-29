@@ -7,11 +7,17 @@ type FunctionCallResult = null | {
   args: any;
 };
 
+const prompt =
+  "You are a Telegram bot that manages a list of birthdays. Based on the user's message, return one of more functions to call from the list of functions supplied.";
+
 export async function getFunctionCall(
   message: string
-): Promise<FunctionCallResult> {
+): Promise<FunctionCallResult[]> {
   const chatCompletion = await openai.chat.completions.create({
-    messages: [{ role: 'user', content: message }],
+    messages: [
+      { role: 'system', content: prompt },
+      { role: 'user', content: message },
+    ],
     tools: [
       {
         type: 'function',
@@ -88,8 +94,7 @@ export async function getFunctionCall(
         type: 'function',
         function: {
           name: 'show_ages',
-          description:
-            'Returns the ages and birthdays of everyone on the list.',
+          description: 'Returns the ages of everyone on the group.',
           parameters: {
             type: 'object',
             properties: {},
@@ -133,23 +138,23 @@ export async function getFunctionCall(
         },
       },
     ],
-    model: 'gpt-3.5-turbo',
+    model: 'gpt-4o',
   });
 
   try {
+    console.log(chatCompletion.choices[0].message.tool_calls);
     if (
       chatCompletion.choices[0]?.message?.tool_calls &&
       chatCompletion.choices[0]?.message?.tool_calls.length
     ) {
-      const call = chatCompletion.choices[0]?.message?.tool_calls[0];
-      return {
+      return chatCompletion.choices[0]?.message?.tool_calls.map((call) => ({
         function: call.function.name,
         args: JSON.parse(call.function.arguments || '{}'),
-      };
+      }));
     }
   } catch (e) {
     console.error(e);
   }
 
-  return null;
+  return [];
 }

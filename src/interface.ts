@@ -57,7 +57,6 @@ export function nextBirthday(
   });
 
   const differenceToBirthday = DateTime.now()
-    //.startOf('day')
     .setLocale(locale)
     .plus({ days: diff })
     .toRelative();

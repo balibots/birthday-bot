@@ -10,6 +10,7 @@
     "types:watch": "tsc --watch --noEmit",
     "register": "env-cmd ts-node scripts/registerWebhook.ts",
     "removeWebhook": "env-cmd ts-node scripts/removeWebhook.ts",
+    "test:gpt": "env-cmd ts-node scripts/testGpt.ts",
     "test": "env-cmd jest --runInBand",
     "test:watch": "env-cmd jest --watch --runInBand",
     "i18:diff": "bash -c 'diff <(jq \".. | keys?\" locales/pt/translation.json) <(jq \".. | keys?\" locales/en/translation.json)'"
