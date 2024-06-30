@@ -58,7 +58,8 @@
   "words":{
     "days": "dias",
     "day": "dia",
-    "today": "hoje! 🎉"
+    "today": "hoje! 🎉",
+    "tomorrow": "amanhã!"
   },
   "welcomeGroup": "👋 *{{chatTitle}}*!\nSou um bot 🤖 que vos ajuda a registar todas as datas de aniversario dos membros deste grupo. Para saberem mais sobre os comandos disponiveis, facam /help. Podem adicionar o primeiro aniversariante com o comando /add, separando o nome e data com uma virgula (ex, /add Tiago, 1985-07-04).",
 

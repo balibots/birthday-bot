@@ -53,7 +53,8 @@
   "words": {
     "days": "días",
     "day": "día",
-    "today": "hoy! 🎉"
+    "today": "hoy! 🎉",
+    "tomorrow": "mañana!"
   },
   "welcomeGroup": "👋 *{{chatTitle}}*!\nSoy un bot 🤖 que te ayuda a registrar todos los cumpleaños de los miembros de este grupo. Para saber más sobre los comandos disponibles, escribe /help.",
   "helpMessage": "Estos son los comandos que puedes usar:\n - /add - Para añadir un cumpleañero, con nombre y fecha separados por comas (por ejemplo, `/add Samuel, 1994-03-21`)\n - /remove - Para eliminar un cumpleañero (`/remove Pedro`)\n - /birthdays - Lista de cumpleañeros, ordenados por el próximo en cumplir años.\n - /ages - Lista por edades.\n - /next - Muestra más información sobre el próximo cumpleaños.\n - /birthdaybot - Para decirle al bot lo que quieres que haga (por ejemplo, `/birthdaybot añade a Pedro el 15 de abril de 1980`).",

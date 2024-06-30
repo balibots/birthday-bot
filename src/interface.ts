@@ -62,7 +62,12 @@ export function nextBirthday(
     .toRelative();
 
   const nextAge = Math.floor(age) + (diff === 0 ? 0 : 1);
-  const daysToBirthdayStr = diff > 0 ? differenceToBirthday : t('words.today');
+  const daysToBirthdayStr =
+    diff === 0
+      ? t('words.today')
+      : diff === 1
+      ? t('words.tomorrow')
+      : differenceToBirthday;
 
   return t('commands.birthdays.sentence', {
     name: record.name,
