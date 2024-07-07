@@ -14,7 +14,7 @@
       "errorParsingDate": "O formato da data e' invalido. Por favor usa YYYY-MM-DD, por exemplo: `/add Saul, 1989-01-31`",
       "success": "Aniversariante adicionado: {{name}} — {{date}}.",
       "restrictedToAdmins": "Apenas administratores do grupo podem adicionar e remover aniversariantes.",
-      "alreadyExists": "Ja existe um aniversariante com esse nome" 
+      "alreadyExists": "Ja existe um aniversariante com esse nome"
     },
     "modify": {
       "errorNotFound": "Não encontrei esse aniversariante.",
@@ -53,9 +53,19 @@
     "🎂 O bebé de hoje é {{pronoun}} *{{name}}* que faz {{age}} anos! 🥳🎉 Parabéns {{name}} ❤️",
     "🎂 Hoje é o dia d{{pronoun}} *{{name}}* que celebra {{age}} anos! 🥳🎉 Muitos parabéns {{name}} ❤️",
     "🎂 Que dia épico! {{pronounUp}} *{{name}}* faz hoje {{age}} anos! 🥳🎉 Parabéns {{name}} ❤️",
-    "🎂 {{pronounUp}} noss{{pronoun}} *{{name}}* faz hoje {{age}} anos! 🥳🎉 Parabéns {{name}} ❤️"
+    "🎂 {{pronounUp}} noss{{pronoun}} *{{name}}* faz hoje {{age}} anos! 🥳🎉 Parabéns {{name}} ❤️",
+    "🎂 Hoje é um dia especial para {{pronoun}} {{name}} que completa {{age}} anos! 🥳🎉 Felicidades, {{name}} ❤️",
+    "🎂 Vamos comemorar! {{pronounUp}} {{name}} faz hoje {{age}} anos! 🥳🎉 Parabéns, {{name}} ❤️",
+    "🎂 Um brinde a {{pronoun}} {{name}}, que celebra hoje {{age}} anos! 🥳🎉 Muitos parabéns, {{name}} ❤️",
+    "🎂 Hoje é dia de festa! {{pronounUp}} {{name}} completa {{age}} anos! 🥳🎉 Felicidades, {{name}} ❤️",
+    "🎂 Parabéns para {{pronoun}} {{name}}, que hoje faz {{age}} anos! 🥳🎉 Muitos parabéns, {{name}} ❤️",
+    "🎂 Celebremos {{pronoun}} {{name}}, que hoje chega aos {{age}} anos! 🥳🎉 Parabéns, {{name}} ❤️",
+    "🎂 Que alegria! Hoje {{pronoun}} {{name}} comemora {{age}} anos! 🥳🎉 Parabéns, {{name}} ❤️",
+    "🎂 Feliz aniversário, {{pronoun}} {{name}}! Hoje é teu dia e fazes {{age}} anos! 🥳🎉 Muitas felicidades, {{name}} ❤️",
+    "🎂 Vamos festejar! Hoje {{pronoun}} {{name}} completa {{age}} anos! 🥳🎉 Parabéns, {{name}} ❤️",
+    "🎂 Viva {{pronoun}} {{name}}! Hoje é o seu aniversário de {{age}} anos! 🥳🎉 Felicidades, {{name}} ❤️"
   ],
-  "words":{
+  "words": {
     "days": "dias",
     "day": "dia",
     "today": "hoje! 🎉",
@@ -66,5 +76,5 @@
   "helpMessage": "Estes sao os comandos que podem usar:\n - /add - Para adicionar um aniversariante, com nome e data separado por virgulas (por exemplo, `/add Samuel, 1994-03-21`)\n - /remove - Para remover um aniversariante (`/remove Pedro`)\n - /aniversarios - Lista de aniversariantes, ordenado pelo proximo a fazer anos.\n - /idades - Lista por idades.\n - /proximo - Mostra mais informacoes sobre o proximo aniversario.\n - /birthdaybot - Para dizer ao bot o que queres que ele faça (por exemplo, `/birthdaybot adiciona o Pedro a 15 de Abril de 1980`).\n - /config - Mostra a configuracao actual do grupo. Para alterar a configuracao, separar o campo e o valor por virgulas, ie `/config language, pt`",
   "unborn": "por nascer",
   "inputNeeded": "Sim?...",
-  "configMessage": "Esta é a configuracao actual do grupo:\n\n \\- `language`: Controla a linguagem do grupo: *{{language}}*\n \\- `notificationHour`: Controla a hora a partir da qual as mensagens de parabens sao enviadas pelo bot: *{{notificationHour}}h*\n \\- `restrictedToAdmins`: Controla se adicionar aniversarios é uma operacao apenas disponivel para admins do grupo: *{{restrictedToAdmins}}*\n"
+  "configMessage": "Esta é a configuracao actual do grupo:\n\n \\- `language`: Controla a linguagem do grupo: *{{language}}*\n \\- `notificationHour`: Controla a hora a partir da qual as mensagens de parabens sao enviadas pelo bot: *{{notificationHour}}h (UTC)*\n \\- `restrictedToAdmins`: Controla se adicionar aniversarios é uma operacao apenas disponivel para admins do grupo: *{{restrictedToAdmins}}*\n"
 }
