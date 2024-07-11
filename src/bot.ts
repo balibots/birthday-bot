@@ -110,9 +110,12 @@ bot.catch(async (err) => {
     console.error('Unknown error:', e);
   }
 
-  await ctx.reply(t('errors.internalError', { message: e.description }), {
-    parse_mode: 'Markdown',
-  });
+  await ctx.reply(
+    t('errors.internalError', { message: (e as any).description }),
+    {
+      parse_mode: 'Markdown',
+    }
+  );
 });
 
 // Start the bot
