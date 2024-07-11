@@ -23,11 +23,11 @@ export const addCommand = async (ctx: CommandContext<MyContext>) => {
   if (!name || !date) {
     if (isGroup(ctx.chat)) {
       return ctx.reply(t('commands.add.missingData'), {
-        parse_mode: 'MarkdownV2',
+        parse_mode: 'Markdown',
       });
     } else {
       return ctx.reply(t('commands.add.missingDataWithGroupId'), {
-        parse_mode: 'MarkdownV2',
+        parse_mode: 'Markdown',
       });
     }
   }
@@ -52,7 +52,7 @@ export const addCommand = async (ctx: CommandContext<MyContext>) => {
 
   if (!parsedDate.isValid) {
     return ctx.reply(t('commands.add.errorParsingDate'), {
-      parse_mode: 'MarkdownV2',
+      parse_mode: 'Markdown',
     });
   }
 

@@ -40,7 +40,7 @@
     "needGroup": "Este comando so funciona num grupo.",
     "missingChatId": "Falta o ID do grupo - e' necessario num chat privado.",
     "invalidChatId": "O ID do grupo (`{{chatId}}`) é inválido!",
-    "internalError": "Ocorreu um erro: {{message}}",
+    "internalError": "Desculpa, algo de muito errado se passou: `{{message}}`",
     "internalErrorNoMessage": "Ocorreu um erro, tenta novamente.",
     "validation": {
       "dateMissing": "Nao consegui perceber a data do aniversario, tenta novamente.",

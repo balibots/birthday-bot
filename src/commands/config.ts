@@ -32,7 +32,7 @@ export const configCommand = async (ctx: CommandContext<MyContext>) => {
             language: groupConfig.language || DEFAULT_LANGUAGE,
           }),
           {
-            parse_mode: 'MarkdownV2',
+            parse_mode: 'Markdown',
           }
         );
       } else {

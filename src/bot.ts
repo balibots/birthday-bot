@@ -98,7 +98,7 @@ app.post('/trigger', async (req, res) => {
 });
 
 // error handling
-bot.catch((err) => {
+bot.catch(async (err) => {
   const ctx = err.ctx;
   console.error(`Error while handling update ${ctx.update.update_id}:`);
   const e = err.error;
@@ -109,6 +109,10 @@ bot.catch((err) => {
   } else {
     console.error('Unknown error:', e);
   }
+
+  await ctx.reply(t('errors.internalError', { message: e.description }), {
+    parse_mode: 'Markdown',
+  });
 });
 
 // Start the bot
