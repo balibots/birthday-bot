@@ -32,13 +32,9 @@ export const allBirthdaysCommand = async (ctx: CommandContext<MyContext>) => {
       sortClosestDate
     );
 
-    response.push(`
-*Group*: ${group.name}
-
-${birthdays.map((b) => birthdayLine(b, ctx.config.language)).join('\n')}
-
-`);
+    response.push(`*Group*: ${group.name}
+${birthdays.map((b) => birthdayLine(b, ctx.config.language)).join('\n')}`);
   }
 
-  return await ctx.reply(response.join(''), { parse_mode: 'Markdown' });
+  return await ctx.reply(response.join('\n'), { parse_mode: 'Markdown' });
 };
