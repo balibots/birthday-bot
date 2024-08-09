@@ -34,7 +34,7 @@ miniappRouter.post('/birthdays', async (req, res) => {
 
   if (computedHash !== jsonData.hash) {
     console.error('Hash verification failed for data', jsonData);
-    return res.status(403).end();
+    return res.status(403).send({ error: 'Hash verification failed' });
   }
 
   const user = JSON.parse(jsonData.user);

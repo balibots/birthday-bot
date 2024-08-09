@@ -31,16 +31,12 @@
 	<div id="birthdays"></div>
   </div>
   <pre id="console"></pre>
-
-  <script type="module" src="./js/main.tsx"></script>
 </body>
 
 <script>
 window.addEventListener('DOMContentLoaded', init);
 
-//const BASE_API = 'http://34.89.69.70:8888';
-// TODO how can this be dynamic
-const BASE_API = 'https://birthday-bot-dev-rr.fly.dev';
+const BASE_API = "{{ botHost }}";
 
 async function init(){
   const tg = window.Telegram.WebApp;
@@ -51,11 +47,11 @@ async function init(){
   tg.MainButton.onClick(buttonClicked);
   tg.MainButton.show();
 
-	const response = await getBirthdays(tg.initData);
-	const responseData = await response.json();
+  const response = await getBirthdays(tg.initData);
+  const responseData = await response.json();
 
-	//log(responseData.birthdays);
-	displayBirthdays(responseData.birthdays);
+  //log(responseData.birthdays);
+  displayBirthdays(responseData.birthdays);
 }
 
 function log(str){

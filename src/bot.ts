@@ -29,6 +29,7 @@ import apiRoutes from './api';
 import miniappRoutes from './api/miniapp';
 import triggerEndpoint from './endpoints/trigger';
 import setLanguage from './middlewares/setLanguage';
+import nunjucks from 'nunjucks';
 
 export type MyContext = Context & { parsedChatId: number } & {
   config: CtxConfig;
@@ -104,7 +105,19 @@ app.use(express.json());
 app.use('/api/miniapp', miniappRoutes);
 app.use('/api', apiRoutes);
 
-app.use('/web', express.static('web'));
+nunjucks.configure('web', {
+  autoescape: true,
+  noCache: true,
+  express: app,
+});
+
+app.set('view engine', 'html');
+
+app.get('/web', function (req, res) {
+  res.render('index', {
+    botHost: process.env.BOT_HOST,
+  });
+});
 
 app.post('/trigger', async (req, res) => {
   const birthdays = await triggerEndpoint({
