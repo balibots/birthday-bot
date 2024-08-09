@@ -166,7 +166,7 @@ const parseRecord = (dbRecord: any): BirthdayRecord => {
     date: DateTime.fromJSDate(date).toISODate()!,
     name,
     gender,
-    chatId: groupChatId,
+    chatId: Number(groupChatId),
     day,
     month,
     year,

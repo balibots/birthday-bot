@@ -18,6 +18,7 @@ const record = {
   day: 26,
   gender,
   chatId,
+  year: 1984,
 };
 const record2 = {
   name: 'Ricardo',
@@ -26,6 +27,7 @@ const record2 = {
   day: 1,
   gender,
   chatId,
+  year: 1980,
 };
 
 describe('Postgres tests', () => {
