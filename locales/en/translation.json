@@ -29,6 +29,10 @@
     "birthdays": {
       "sentence_one": "`{{name}}`, turns *{{count}}* year old on {{day}} ({{daysToBirthdayStr}})",
       "sentence_other": "`{{name}}`, turns *{{count}}* years old on {{day}} ({{daysToBirthdayStr}})"
+    },
+    "all": {
+      "empty": "You're currently not part of any group with birthdays set.",
+     "intro": "Here's all the birthdays on the groups you're on:"
     }
   },
   "errors": {

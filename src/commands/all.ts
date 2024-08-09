@@ -13,7 +13,7 @@ export const allBirthdaysCommand = async (ctx: CommandContext<MyContext>) => {
   }
 
   const groups = await getGroupChats();
-  let response = [];
+  let response = [t('commands.all.intro')];
 
   for (let group of groups) {
     let userInfo;
@@ -32,9 +32,16 @@ export const allBirthdaysCommand = async (ctx: CommandContext<MyContext>) => {
       sortClosestDate
     );
 
-    response.push(`*Group*: ${group.name}
+    response.push(`
+🎂 *${group.name}*
+
 ${birthdays.map((b) => birthdayLine(b, ctx.config.language)).join('\n')}
 `);
+  }
+
+  // no groups
+  if (response.length === 1) {
+    response = [t('commands.all.empty')];
   }
 
   return await ctx.reply(response.join('\n'), { parse_mode: 'Markdown' });
