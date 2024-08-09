@@ -60,6 +60,6 @@ export const withChatId: MiddlewareFn<MyContext> = async (ctx, next) => {
     }
   }
 
-  ctx.chatId = chatId;
+  ctx.parsedChatId = chatId;
   await next();
 };

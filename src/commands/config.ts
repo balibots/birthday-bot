@@ -20,10 +20,12 @@ export const configCommand = async (ctx: CommandContext<MyContext>) => {
   const command = payload[0];
   const arg = payload[1];
 
-  if (!command || parseInt(command) === ctx.chatId) {
+  const chatId = ctx.parsedChatId;
+
+  if (!command || parseInt(command) === chatId) {
     // getting the config
     try {
-      const groupConfig = await getConfigForGroup(ctx.chatId);
+      const groupConfig = await getConfigForGroup(chatId);
       if (groupConfig) {
         return ctx.reply(
           t('configMessage', {
@@ -47,7 +49,7 @@ export const configCommand = async (ctx: CommandContext<MyContext>) => {
     // setting the config
 
     // setting config is restricted to admins
-    const chatMember = await ctx.api.getChatMember(ctx.chatId, ctx.from!.id);
+    const chatMember = await ctx.api.getChatMember(chatId, ctx.from!.id);
     if (!['administrator', 'creator'].includes(chatMember.status)) {
       return ctx.reply(t('errors.notAdmin'));
     }
@@ -60,13 +62,13 @@ export const configCommand = async (ctx: CommandContext<MyContext>) => {
     // TODO could be a switch statement, could refactor this a bit
     if (command === ALLOWED_CONFIG.restrictedToAdmins) {
       let boolArg = Boolean(arg === 'false' ? false : arg);
-      await setConfigForGroup(ctx.chatId, { restrictedToAdmins: boolArg });
+      await setConfigForGroup(chatId, { restrictedToAdmins: boolArg });
       return ctx.reply(t('commands.config.saved'));
     } else if (command === ALLOWED_CONFIG.notificationHour) {
       let numArg = parseInt(arg);
 
       try {
-        await setConfigForGroup(ctx.chatId, { notificationHour: numArg });
+        await setConfigForGroup(chatId, { notificationHour: numArg });
         return ctx.reply(t('commands.config.saved'));
       } catch (e) {
         console.error(e);
@@ -79,7 +81,7 @@ export const configCommand = async (ctx: CommandContext<MyContext>) => {
     } else if (command === ALLOWED_CONFIG.language) {
       // TODO maybe check against array of allowed languages in the future
       try {
-        await setConfigForGroup(ctx.chatId, { language: arg });
+        await setConfigForGroup(chatId, { language: arg });
         await i18next.changeLanguage(arg);
         return ctx.reply(t('commands.config.saved'));
       } catch {

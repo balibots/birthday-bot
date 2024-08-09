@@ -5,7 +5,7 @@ import { sortAbsoluteDate } from '../utils';
 import { t } from 'i18next';
 
 export const listCommand = async (ctx: MyContext) => {
-  const birthdays = (await getRecordsByChatId(ctx.chatId)).sort(
+  const birthdays = (await getRecordsByChatId(ctx.parsedChatId)).sort(
     sortAbsoluteDate
   );
 

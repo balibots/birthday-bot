@@ -173,13 +173,13 @@ async function processFunctionCall(
       return ctx.reply(t('commands.modify.errorNotFound', { error }));
     }
   } else if (functionCall.function === 'get_upcoming_birthday') {
-    ctx.chatId = intChatId;
+    ctx.parsedChatId = intChatId;
     return await nextCommand(ctx);
   } else if (functionCall.function === 'show_all_birthdays_by_date') {
-    ctx.chatId = intChatId;
+    ctx.parsedChatId = intChatId;
     return await birthdaysCommand(ctx);
   } else if (functionCall.function === 'show_ages') {
-    ctx.chatId = intChatId;
+    ctx.parsedChatId = intChatId;
     return await listCommand(ctx);
   } else if (functionCall.function === 'set_language') {
     const { language } = functionCall.args;

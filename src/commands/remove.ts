@@ -8,7 +8,7 @@ import { getConfigForGroup } from '../config';
 export const removeCommand = async (ctx: CommandContext<MyContext>) => {
   let [name] = ctx.match?.split(',').map((parts) => parts.trim()) || [];
 
-  let intChatId = ctx.chatId;
+  let intChatId = ctx.parsedChatId;
 
   if (!name) {
     return ctx.reply(t('commands.remove.missingName'), {

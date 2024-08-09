@@ -26,14 +26,21 @@ import { t } from 'i18next';
 import './i18n';
 
 import apiRoutes from './api';
+import miniappRoutes from './api/miniapp';
 import triggerEndpoint from './endpoints/trigger';
 import setLanguage from './middlewares/setLanguage';
 
-export type MyContext = Context & { chatId: number } & { config: CtxConfig };
+export type MyContext = Context & { parsedChatId: number } & {
+  config: CtxConfig;
+};
 interface CtxConfig {
   language: string;
 }
-const bot = new Bot<MyContext>(process.env.TELEGRAM_TOKEN);
+const bot = new Bot<MyContext>(process.env.TELEGRAM_TOKEN, {
+  client: {
+    environment: (process.env.BOT_ENV as 'prod' | 'test' | undefined) || 'prod',
+  },
+});
 
 /** sorry everyone!! **/
 // @ts-ignore
@@ -91,6 +98,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
+app.use('/api/miniapp', miniappRoutes);
 app.use('/api', apiRoutes);
 
 app.use('/web', express.static('web'));

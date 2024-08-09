@@ -9,7 +9,7 @@ import { t } from 'i18next';
 export const addCommand = async (ctx: CommandContext<MyContext>) => {
   let [name, date] = ctx.match?.split(',').map((s) => s.trim()) || [];
 
-  let intChatId = ctx.chatId;
+  let intChatId = ctx.parsedChatId;
 
   if (!name || !date) {
     return ctx.reply(t('commands.add.missingData'), {
