@@ -10,6 +10,12 @@ const buildKey = (params: DBKeyArgs) => {
   return `${params.chatId}:${params.name.toLowerCase()}`;
 };
 
+export interface GroupInfo {
+  id: number;
+  name: string;
+  userCount: number;
+}
+
 export async function addRecord({ ...params }: BirthdayRecord) {
   // extract year. doing this here to avoid changing code upstream but
   // should be refactored at some point.
@@ -129,12 +135,6 @@ export async function insertGroupChat({
       name,
     },
   });
-}
-
-interface GroupInfo {
-  id: number;
-  name: string;
-  userCount: number;
 }
 
 export async function getGroupChats(): Promise<GroupInfo[]> {

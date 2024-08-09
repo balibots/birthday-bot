@@ -27,7 +27,7 @@
 
 <body>
   <div id="app">
-	<h1>Here's some birthdays:</h1>
+	<h1>Here's all birthdays:</h1>
 	<div id="birthdays"></div>
   </div>
   <pre id="console"></pre>
@@ -40,8 +40,6 @@ const BASE_API = "{{ botHost }}";
 
 async function init(){
   const tg = window.Telegram.WebApp;
-
-  tg.setBackgroundColor('#eeeeee');
 
   tg.MainButton.text = 'Close';
   tg.MainButton.onClick(buttonClicked);

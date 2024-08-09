@@ -1,14 +1,20 @@
 import express from 'express';
-import { getGroupChats, getRecordsByChatId } from '../postgres';
+import { getGroupChats, getRecordsByChatId, GroupInfo } from '../postgres';
 import { sortClosestDate } from '../utils';
 import { Api } from 'grammy';
 import crypto from 'node:crypto';
 import { birthdayLine } from '../interface';
+import { BirthdayListEntry } from '../types';
 
 const miniappRouter = express.Router();
 const api = new Api(process.env.TELEGRAM_TOKEN, {
   environment: (process.env.BOT_ENV as 'prod' | 'test' | undefined) || 'prod',
 });
+
+interface BirthdaysList {
+  group: string;
+  birthdays: (BirthdayListEntry & { formattedLine: string })[];
+}
 
 miniappRouter.post('/birthdays', async (req, res) => {
   const data = req.body.data;
@@ -40,33 +46,36 @@ miniappRouter.post('/birthdays', async (req, res) => {
   const user = JSON.parse(jsonData.user);
 
   const groups = await getGroupChats();
-  let response = [];
 
-  for (let group of groups) {
-    let userInfo;
+  const requests = groups.map(
+    async (group: GroupInfo): Promise<BirthdaysList | null> => {
+      let userInfo;
 
-    try {
-      userInfo = await api.getChatMember(group.id, user.id);
-      if (['left', 'kicked'].includes(userInfo.status)) {
-        throw new Error();
+      try {
+        userInfo = await api.getChatMember(group.id, user.id);
+        if (['left', 'kicked'].includes(userInfo.status)) {
+          throw new Error();
+        }
+      } catch (e) {
+        // not a group we want to include (the user is not a member)
+        return null;
       }
-    } catch (e) {
-      // this continue is very important otherwise this executes anyway!
-      continue;
+
+      const birthdays = (await getRecordsByChatId(group.id)).sort(
+        sortClosestDate
+      );
+
+      return {
+        group: group.name,
+        birthdays: birthdays.map((b: any) => {
+          b.formattedLine = birthdayLine(b, 'en');
+          return b;
+        }),
+      };
     }
+  );
 
-    const birthdays = (await getRecordsByChatId(group.id)).sort(
-      sortClosestDate
-    );
-
-    response.push({
-      group: group.name,
-      birthdays: birthdays.map((b: any) => {
-        b.formattedLine = birthdayLine(b, 'en');
-        return b;
-      }),
-    });
-  }
+  const response = (await Promise.all(requests)).filter((a) => !!a);
 
   res.json({ birthdays: response });
 });
