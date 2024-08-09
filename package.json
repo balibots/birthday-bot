@@ -8,6 +8,7 @@
     "start": "node dist/bot.js",
     "dev": "env-cmd ts-node-dev --transpile-only src/bot.ts",
     "types:watch": "tsc --watch --noEmit",
+    "lint": "tsc --noEmit",
     "register": "env-cmd ts-node scripts/registerWebhook.ts",
     "removeWebhook": "env-cmd ts-node scripts/removeWebhook.ts",
     "test:gpt": "env-cmd ts-node scripts/testGpt.ts",

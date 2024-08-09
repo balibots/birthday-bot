@@ -82,7 +82,10 @@ bot.on('message:new_chat_members:me', async (ctx) => {
       parse_mode: 'Markdown',
     });
 
-    await insertGroupChat({ id: ctx.chat.id, name: ctx.chat.title });
+    await insertGroupChat({
+      id: ctx.chat.id,
+      name: ctx.chat.title || 'Unknown group',
+    });
 
     const masterId = ctx.from.id;
 
