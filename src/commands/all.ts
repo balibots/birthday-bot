@@ -8,7 +8,7 @@ import { MyContext } from '../bot';
 import { getGroupChats } from '../postgres';
 
 export const allBirthdaysCommand = async (ctx: CommandContext<MyContext>) => {
-  if (isGroup(ctx.chat)) {
+  if (isGroup(ctx.chat) || !ctx.msg.from?.id) {
     return await ctx.reply(t('errors.needPvt'));
   }
 
@@ -16,12 +16,17 @@ export const allBirthdaysCommand = async (ctx: CommandContext<MyContext>) => {
   let response = [];
 
   for (let group of groups) {
+    console.log(group.id, ctx.msg.from.id);
+    let userInfo;
+
     try {
-      const userInfo = await ctx.api.getChatMember(group.id, ctx.from!.id);
+      userInfo = await ctx.api.getChatMember(group.id, ctx.msg.from.id);
     } catch (e) {
       // this continue is very important otherwise this executes anyway!
       continue;
     }
+
+    console.log(userInfo);
 
     const birthdays = (await getRecordsByChatId(group.id)).sort(
       sortClosestDate
@@ -35,5 +40,5 @@ ${birthdays.map((b) => birthdayLine(b, ctx.config.language)).join('\n')}
 `);
   }
 
-  return await ctx.reply(response.join('\n'), { parse_mode: 'Markdown' });
+  return await ctx.reply(response.join(''), { parse_mode: 'Markdown' });
 };
