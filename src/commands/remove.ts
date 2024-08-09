@@ -6,25 +6,14 @@ import { t } from 'i18next';
 import { getConfigForGroup } from '../config';
 
 export const removeCommand = async (ctx: CommandContext<MyContext>) => {
-  let [name, chatId] = ctx.match?.split(',').map((parts) => parts.trim()) || [];
+  let [name] = ctx.match?.split(',').map((parts) => parts.trim()) || [];
 
-  let intChatId = parseInt(chatId);
-
-  // if we're sending commands from a group, will get the id from the message
-  if (isGroup(ctx.chat)) {
-    intChatId = ctx.chat.id;
-  }
+  let intChatId = ctx.chatId;
 
   if (!name) {
-    if (isGroup(ctx.chat)) {
-      return ctx.reply(t('commands.remove.missingName'), {
-        parse_mode: 'Markdown',
-      });
-    } else {
-      return ctx.reply(t('commands.remove.missingGroup'), {
-        parse_mode: 'Markdown',
-      });
-    }
+    return ctx.reply(t('commands.remove.missingName'), {
+      parse_mode: 'Markdown',
+    });
   }
 
   // limits add commands to group admins

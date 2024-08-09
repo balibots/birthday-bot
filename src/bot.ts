@@ -54,8 +54,8 @@ bot.command(['debug'], async (ctx) => {
 
 // /add name, date
 // /add name, date, chatId (for private chats)
-bot.command('add', addCommand);
-bot.command('remove', removeCommand);
+bot.command('add', withChatId, addCommand);
+bot.command('remove', withChatId, removeCommand);
 
 bot.command('birthdaybot', magicCommand);
 

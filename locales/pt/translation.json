@@ -42,6 +42,7 @@
     "invalidChatId": "O ID do grupo (`{{chatId}}`) é inválido!",
     "internalError": "Desculpa, algo de muito errado se passou: `{{message}}`",
     "internalErrorNoMessage": "Ocorreu um erro, tenta novamente.",
+    "notGroupMember": "Nao podes correr este comando porque nao pertences ao grupo.",
     "validation": {
       "dateMissing": "Nao consegui perceber a data do aniversario, tenta novamente.",
       "dateInvalid": "Nao consegui perceber a data de nascimento, tenta novamente please.",

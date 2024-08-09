@@ -7,29 +7,14 @@ import { isGroup, parseDate, sanitizeName } from '../utils';
 import { t } from 'i18next';
 
 export const addCommand = async (ctx: CommandContext<MyContext>) => {
-  let [name, date, chatId] = ctx.match?.split(',').map((s) => s.trim()) || [];
+  let [name, date] = ctx.match?.split(',').map((s) => s.trim()) || [];
 
-  let intChatId = Number(chatId);
-
-  // if we're sending commands from a group, will get the id from the message
-  if (isGroup(ctx.chat)) {
-    intChatId = ctx.chat.id;
-  }
-
-  if (isNaN(intChatId) || !intChatId) {
-    return ctx.reply(t('errors.invalidChatId', { chatId: intChatId }));
-  }
+  let intChatId = ctx.chatId;
 
   if (!name || !date) {
-    if (isGroup(ctx.chat)) {
-      return ctx.reply(t('commands.add.missingData'), {
-        parse_mode: 'Markdown',
-      });
-    } else {
-      return ctx.reply(t('commands.add.missingDataWithGroupId'), {
-        parse_mode: 'Markdown',
-      });
-    }
+    return ctx.reply(t('commands.add.missingData'), {
+      parse_mode: 'Markdown',
+    });
   }
 
   // limits add commands to group admins

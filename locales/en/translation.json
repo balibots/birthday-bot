@@ -2,7 +2,6 @@
   "commands": {
     "remove": {
       "missingName": "The command is missing the name of the person to remove (e.g., `/remove Peter`)",
-      "missingGroup": "The Group ID is missing: `/remove Peter, -123456789`",
       "success": "Birthday removed: {{name}} — {{date}}.",
       "notFound": "Sorry, couldn't find the birthday to remove.",
       "error": "Error removing birthday."
@@ -10,7 +9,6 @@
     "add": {
       "success": "Birthday added: {{name}} — {{date}}.",
       "missingData": "Please provide the name and birthday in the following format: `/add Jonas, 1984-03-30`",
-      "missingDataWithGroupId": "Please provide the name, birthday, and group ID in the following format: `/add Dave, 1984-03-30, -12345`",
       "errorParsingDate": "The date format is invalid. Please use YYYY-MM-DD, for example: `/add Saul, 1989-01-31`",
       "success": "Birthday added: {{name}} — {{date}}.",
       "restrictedToAdmins": "Only group admins can add and remove birthdays.",
@@ -42,6 +40,7 @@
     "invalidChatId": "The group ID (`{{chatId}}`) is invalid!",
     "internalError": "Sorry, something went wrong on my end: `{{message}}`",
     "internalErrorNoMessage": "An error occurred, please try again.",
+    "notGroupMember": "You can't run this command as you are not a member of the group.",
     "validation": {
       "dateMissing": "I couldn't understand the birthday date, please try again.",
       "dateInvalid": "I couldn't understand the birth date, please try again.",
