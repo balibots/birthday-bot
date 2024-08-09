@@ -36,6 +36,7 @@
     "notAdmin": "Only group administrators can run this command!",
     "notUnderstood": "Sorry, I didn't understand.",
     "needGroup": "This command only works in a group.",
+    "needPvt": "This command only works in a private (DM) chat with me.",
     "missingChatId": "Group ID is missing - it is needed in a private chat.",
     "invalidChatId": "The group ID (`{{chatId}}`) is invalid!",
     "internalError": "Sorry, something went wrong on my end: `{{message}}`",

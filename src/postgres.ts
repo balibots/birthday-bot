@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { GroupChat, PrismaClient } from '@prisma/client';
 import { BirthdayRecord, BirthdayListEntry } from './types';
 import { DateTime } from 'luxon';
 
@@ -131,7 +131,13 @@ export async function insertGroupChat({
   });
 }
 
-export async function getGroupChats() {
+interface GroupInfo {
+  id: number;
+  name: string;
+  userCount: number;
+}
+
+export async function getGroupChats(): Promise<GroupInfo[]> {
   return (await prisma.groupChat.findMany({ include: { users: true } })).map(
     (gc: any) => ({
       id: gc.id,

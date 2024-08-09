@@ -12,7 +12,13 @@ const SUPERADMIN_IDS: number[] = [];
 **/
 export const withChatId: MiddlewareFn<MyContext> = async (ctx, next) => {
   let chatId: number;
-  let userId = ctx.from.id;
+  let userId = ctx.from?.id;
+
+  if (!userId) {
+    return await ctx.reply(
+      t('errors.internalError', { message: 'could not get current user info.' })
+    );
+  }
 
   if (isGroup(ctx.chat)) {
     chatId = ctx.chat.id;
