@@ -1,4 +1,4 @@
-import { GroupChat, PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { BirthdayRecord, BirthdayListEntry } from './types';
 import { DateTime } from 'luxon';
 

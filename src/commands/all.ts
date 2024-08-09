@@ -16,11 +16,10 @@ export const allBirthdaysCommand = async (ctx: CommandContext<MyContext>) => {
   let response = [];
 
   for (let group of groups) {
-    console.log(group, ctx.from.id);
-
     try {
       const userInfo = await ctx.api.getChatMember(group.id, ctx.from!.id);
     } catch (e) {
+      // this continue is very important otherwise this executes anyway!
       continue;
     }
 
@@ -31,7 +30,9 @@ export const allBirthdaysCommand = async (ctx: CommandContext<MyContext>) => {
     response.push(`
 *Group*: ${group.name}
 
-${birthdays.map((b) => birthdayLine(b, ctx.config.language)).join('\n')}\n`);
+${birthdays.map((b) => birthdayLine(b, ctx.config.language)).join('\n')}
+
+`);
   }
 
   return await ctx.reply(response.join('\n'), { parse_mode: 'Markdown' });
