@@ -33,7 +33,8 @@ export const allBirthdaysCommand = async (ctx: CommandContext<MyContext>) => {
     );
 
     response.push(`*Group*: ${group.name}
-${birthdays.map((b) => birthdayLine(b, ctx.config.language)).join('\n')}`);
+${birthdays.map((b) => birthdayLine(b, ctx.config.language)).join('\n')}
+`);
   }
 
   return await ctx.reply(response.join('\n'), { parse_mode: 'Markdown' });
