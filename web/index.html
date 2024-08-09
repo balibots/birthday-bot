@@ -41,6 +41,9 @@ const BASE_API = "{{ botHost }}";
 async function init(){
   const tg = window.Telegram.WebApp;
 
+	// TODO themes?
+	tg.setBackgroundColor('#eee');
+
   tg.MainButton.text = 'Close';
   tg.MainButton.onClick(buttonClicked);
   tg.MainButton.show();
