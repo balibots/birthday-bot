@@ -3,7 +3,10 @@ import { MyContext } from '../bot';
 import { isGroup } from '../utils';
 import { t } from 'i18next';
 
-const SUPERADMIN_IDS: number[] = [];
+const SUPERADMIN_IDS: number[] = [
+  41346049, //ricardo
+  57555711, //rui
+];
 
 /**
   Middleware that extracts the chat id to the context object in one of two ways:
@@ -45,11 +48,12 @@ export const withChatId: MiddlewareFn<MyContext> = async (ctx, next) => {
     }
 
     // validate if user is member of the group
-    // TODO: maybe add exception for super admins like ricardo and me. can hardcode our users ids for now
     if (!SUPERADMIN_IDS.includes(userId)) {
       try {
         const chatMember = await ctx.api.getChatMember(chatId, userId);
-        console.log(chatMember);
+        if (['left', 'kicked'].includes(chatMember.status)) {
+          throw new Error();
+        }
       } catch (e) {
         return await ctx.reply(t('errors.notGroupMember'));
       }
