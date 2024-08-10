@@ -6,7 +6,13 @@ import { t } from 'i18next';
 import { getConfigForGroup } from '../config';
 
 export const removeCommand = async (ctx: CommandContext<MyContext>) => {
-  let [name] = ctx.match?.split(',').map((parts) => parts.trim()) || [];
+  let [name, chatId] = ctx.match?.split(',').map((parts) => parts.trim()) || [];
+
+  if (!isGroup(ctx.chat) && !chatId) {
+    return ctx.reply(t('errors.missingChatId'), {
+      parse_mode: 'Markdown',
+    });
+  }
 
   let intChatId = ctx.parsedChatId;
 

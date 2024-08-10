@@ -7,7 +7,14 @@ import { isGroup, parseDate, sanitizeName } from '../utils';
 import { t } from 'i18next';
 
 export const addCommand = async (ctx: CommandContext<MyContext>) => {
-  let [name, date] = ctx.match?.split(',').map((s) => s.trim()) || [];
+  let [name, date, chatId] = ctx.match?.split(',').map((s) => s.trim()) || [];
+
+  // validate right number of arguments on a private chat
+  if (!isGroup(ctx.chat) && !chatId) {
+    return ctx.reply(t('errors.missingChatId'), {
+      parse_mode: 'Markdown',
+    });
+  }
 
   let intChatId = ctx.parsedChatId;
 
