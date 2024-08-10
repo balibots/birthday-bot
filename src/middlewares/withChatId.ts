@@ -38,14 +38,18 @@ export const withChatId: MiddlewareFn<MyContext> = async (ctx, next) => {
     // take no payload, only the chatId (on a private bot chat)
     const tokens = payload.split(',').map((s) => s.trim()) || [];
     const last = tokens[tokens.length - 1];
-    chatId = parseInt(last || ''); // empty string and undefined will make parseInt return NaN
+
+    // is it a number?
+    if (!last || isNaN(+last) || +last !== parseInt(last)) {
+      return await ctx.reply(t('errors.missingChatId'), {
+        parse_mode: 'Markdown',
+      });
+    }
+
+    chatId = parseInt(last);
 
     // convenience, accepts ids without the leading - (minus) for groups
     if (chatId > 0) chatId *= -1;
-
-    if (isNaN(chatId)) {
-      return await ctx.reply(t('errors.invalidChatId', { chatId: last }));
-    }
 
     // validate if user is member of the group
     if (!SUPERADMIN_IDS.includes(userId)) {

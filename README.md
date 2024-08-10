@@ -61,6 +61,19 @@ There's a script to register your webhook too, useful for hooking up to test bot
   npm run register -- --token <TELEGRAM_BOT_TOKEN> --webhook https://your.webook.endpoint.com/
 ```
 
+eg, normally for switching the dev bot from local to the test deployment, we would run:
+
+```
+  npm run register -- --token <TELEGRAM_BOT_TOKEN> --webhook https://birthday-bot-dev-rr.fly.dev
+```
+
+To revert: 
+
+```
+  npm run removeWebhook -- --token <TELEGRAM_BOT_TOKEN>
+```
+
+
 ## Deployment
 
 There's GitHub Actions Workflows running for pull requests (deploys the `dev-rr` instance - this endpoint - https://birthday-bot-dev-rr.fly.dev - can then be registered to the dev bot, which can also be pointed locally by unregistering the webhook). 
