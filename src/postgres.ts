@@ -11,7 +11,7 @@ const buildKey = (params: DBKeyArgs) => {
 };
 
 export interface GroupInfo {
-  id: number;
+  id: number; // TODO this needs to be bigint
   name: string;
   userCount: number;
 }

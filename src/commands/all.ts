@@ -33,7 +33,7 @@ export const allBirthdaysCommand = async (ctx: CommandContext<MyContext>) => {
     );
 
     response.push(`
-🎂 *${group.name}* (${group.id})
+🎂 *${group.name}* (${Math.abs(Number(group.id))})
 
 ${birthdays.map((b) => birthdayLine(b, ctx.config.language)).join('\n')}
 `);

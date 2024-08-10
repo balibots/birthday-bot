@@ -68,7 +68,7 @@ miniappRouter.post('/birthdays', async (req, res) => {
 
       return {
         groupName: group.name,
-        groupId: group.id,
+        groupId: Math.abs(Number(group.id)),
         birthdays: birthdays.map((b: any) => {
           b.formattedLine = birthdayLine(b, 'en');
           return b;
