@@ -38,7 +38,7 @@
     "notAdmin": "Apenas administradores do grupo podem correr este comando!",
     "notUnderstood": "Desculpa, nao percebi.",
     "needGroup": "Este comando so funciona num grupo.",
-    "missingChatId": "Falta o ID do grupo - e' necessario num chat privado.",
+    "missingChatId": "Falta o ID do grupo - e' necessario num chat privado, como o ultimo parametro do comando (p.ex., `/add Pedro, 1984-03-22, -1234567`)",
     "invalidChatId": "O ID do grupo (`{{chatId}}`) é inválido!",
     "internalError": "Desculpa, algo de muito errado se passou: `{{message}}`",
     "internalErrorNoMessage": "Ocorreu um erro, tenta novamente.",

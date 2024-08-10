@@ -12,7 +12,8 @@ const api = new Api(process.env.TELEGRAM_TOKEN, {
 });
 
 interface BirthdaysList {
-  group: string;
+  groupName: string;
+  groupId: number;
   birthdays: (BirthdayListEntry & { formattedLine: string })[];
 }
 
@@ -66,7 +67,8 @@ miniappRouter.post('/birthdays', async (req, res) => {
       );
 
       return {
-        group: group.name,
+        groupName: group.name,
+        groupId: group.id,
         birthdays: birthdays.map((b: any) => {
           b.formattedLine = birthdayLine(b, 'en');
           return b;

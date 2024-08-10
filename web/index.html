@@ -84,7 +84,7 @@ function displayBirthdays(groups){
 
 	for(let g of groups){
 		const title = document.createElement('h3');
-		title.innerText = `🎂 ${g.group}`;
+		title.innerText = `🎂 ${g.groupName} (${g.groupId})`;
 
 		el.appendChild(title);
 
