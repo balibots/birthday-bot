@@ -30,8 +30,8 @@ COPY --link . .
 # Build application
 RUN npm run build
 
-# Remove development dependencies
-#RUN npm prune --omit=dev
+# Build miniapp
+RUN cd web/ && npm ci && npm run build
 
 
 # Final stage for app image

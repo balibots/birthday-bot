@@ -1,6 +1,7 @@
 import express from 'express';
 import { Bot, Context, GrammyError, HttpError, webhookCallback } from 'grammy';
 import { DateTime } from 'luxon';
+import proxy from 'express-http-proxy';
 import {
   birthdaysCommand,
   listCommand,
@@ -105,19 +106,27 @@ app.use(express.json());
 app.use('/api/miniapp', miniappRoutes);
 app.use('/api', apiRoutes);
 
-nunjucks.configure('web', {
-  autoescape: true,
-  noCache: true,
-  express: app,
-});
-
-app.set('view engine', 'html');
-
-app.get('/web', function (req, res) {
-  res.render('index', {
-    botHost: process.env.BOT_HOST,
+if (!process.env.IS_DEV) {
+  // prod
+  nunjucks.configure('web/dist', {
+    autoescape: true,
+    noCache: true,
+    express: app,
   });
-});
+
+  app.set('view engine', 'html');
+
+  app.get('/web', function (req, res) {
+    res.render('index', {
+      botHost: process.env.BOT_HOST,
+    });
+  });
+
+  app.use('/web', express.static('web/dist'));
+} else {
+  // dev
+  app.get('/web*', proxy('localhost:5173'));
+}
 
 app.post('/trigger', async (req, res) => {
   const birthdays = await triggerEndpoint({

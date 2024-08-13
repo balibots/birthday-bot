@@ -5,7 +5,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
   <title></title>
-  <link rel="stylesheet" href="css/style.css">
   <meta name="description" content="">
 
   <meta property="og:title" content="">
@@ -21,89 +20,19 @@
   <link rel="manifest" href="site.webmanifest">
   <meta name="theme-color" content="#fafafa">
 
-  <link rel="stylesheet" href="style/index.css">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 
 <body>
-  <div id="app">
-	<h1>Here's all birthdays:</h1>
-	<div id="birthdays"></div>
-  </div>
-  <pre id="console"></pre>
+	<div id="app"></div>
+	<pre id="console"></pre>
 </body>
 
-<script>
-window.addEventListener('DOMContentLoaded', init);
-
-const BASE_API = "{{ botHost }}";
-
-async function init(){
-  const tg = window.Telegram.WebApp;
-
-	// TODO themes?
-	tg.setBackgroundColor('#eee');
-
-  tg.MainButton.text = 'Close';
-  tg.MainButton.onClick(buttonClicked);
-  tg.MainButton.show();
-
-  const response = await getBirthdays(tg.initData);
-  const responseData = await response.json();
-
-  //log(responseData.birthdays);
-  displayBirthdays(responseData.birthdays);
-}
-
-function log(str){
-  if(typeof str === 'object') str = JSON.stringify(str, null, 2);
-  document.querySelector('#console').innerText = str;
-}
-
-function buttonClicked(){
-  window.Telegram.WebApp.close();
-}
-
-async function getBirthdays(data){
-	try {
-		return await fetch(`${BASE_API}/api/miniapp/birthdays`, {
-			method: 'POST',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({data})
-		});
-	} catch (e){
-		console.error(e);
-	}
-}
-
-function displayBirthdays(groups){
-	const el = document.querySelector('#birthdays');
-
-	for(let g of groups){
-		const title = document.createElement('h3');
-		title.innerText = `🎂 ${g.groupName} (${g.groupId})`;
-
-		el.appendChild(title);
-
-		const list = document.createElement('ul');
-
-		for(let b of g.birthdays){
-			const li = document.createElement('li');
-			li.innerText = b.formattedLine;
-
-			list.appendChild(li);
-		}
-
-		el.appendChild(list);
-	
-	}
-	
-
-}
+<script type="text/javascript">
+	window.BOT_BASE_API = "{{ botHost }}";
 </script>
+
+<script src="js/main.tsx" type="module"></script>
 
 </html>
 

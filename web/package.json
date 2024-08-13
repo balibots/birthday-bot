@@ -1,0 +1,28 @@
+{
+  "name": "web",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "IS_DEV=true vite --base=/web",
+    "build": "vite build --base=/web",
+    "types:watch": "tsc --watch --noEmit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@tsconfig/vite-react": "^3.0.2",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.0",
+    "vite-plugin-nunjucks": "^0.2.0"
+  },
+  "dependencies": {
+    "@telegram-apps/telegram-ui": "^2.1.7",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}

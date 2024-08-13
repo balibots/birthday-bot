@@ -1,0 +1,11 @@
+{
+  "extends": "@tsconfig/vite-react/tsconfig.json",
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "jsx": "preserve",
+    "resolveJsonModule": true
+  },
+  "include": ["js/**/*.tsx"],
+  "exclude": ["node_modules"]
+}
+

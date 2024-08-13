@@ -41,7 +41,7 @@
     "notUnderstood": "Sorry, I didn't understand.",
     "needGroup": "This command only works in a group.",
     "needPvt": "This command only works in a private (DM) chat with me.",
-    "missingChatId": "Group ID is missing - it is needed in a private chat. Try to supply it as the last comma separated param (e.g., `/add John, 1998-04-12, -123456`)",
+    "missingChatId": "Group ID is missing - it is needed in a private chat. Try to supply it as the last comma separated param (e.g., `/add John, 1998-04-12, -123456` or `/list -123456`)",
     "invalidChatId": "The group ID (`{{chatId}}`) is invalid!",
     "internalError": "Sorry, something went wrong on my end: `{{message}}`",
     "internalErrorNoMessage": "An error occurred, please try again.",
