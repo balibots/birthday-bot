@@ -1,6 +1,6 @@
 import { t } from 'i18next';
 import { DateTime, DateTimeFormatOptions } from 'luxon';
-import { BirthdayListEntry } from './types';
+import { BirthdayListEntry, BirthdayRecord } from './types';
 import { daysToBirthday, getAge } from './utils';
 
 export function formatDate(
@@ -29,6 +29,18 @@ export function birthdayLine(
         ? `${days} ${t('words.days')}`
         : `${days} ${t('words.day')}`
       : t('words.today')
+  }`;
+}
+
+export function birthdayLineForMiniapp(
+  record: BirthdayRecord & { groupName?: string },
+  locale: string
+): string {
+  const days = daysToBirthday(record.date);
+  const age = getAge(record.date);
+
+  return `${formatDate(record.date, locale)} - ${record.name} (${age}) - from ${
+    record.groupName
   }`;
 }
 

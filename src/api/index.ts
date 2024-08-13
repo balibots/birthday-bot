@@ -108,8 +108,4 @@ router.get('/chats', async (req, res) => {
   res.json({ chats });
 });
 
-router.get('/miniapp/birthdays', async (req, res) => {
-  res.json({});
-});
-
 export default router;

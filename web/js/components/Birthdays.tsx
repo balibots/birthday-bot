@@ -1,41 +1,103 @@
 import React from 'react';
-import { GroupBirthdayInfo, BirthdayInfo } from '../types';
+import { GroupBirthdayInfo, BirthdayInfo, GrouppingMode } from '../types';
 import { List, Section, Subheadline, Text } from '@telegram-apps/telegram-ui';
 
-const Birthdays = ({ data }: { data: GroupBirthdayInfo[] }) => {
-  return data.map((group, i) => <Group key={`group-${i}`} group={group} />);
+const Birthdays = ({
+  data,
+  mode,
+}: {
+  data: GroupBirthdayInfo[];
+  mode: GrouppingMode;
+}) => {
+  if (mode === 'group') {
+    return data.map((group, i) => (
+      <Group key={`group-${i}`} group={group} mode={mode} />
+    ));
+  } else {
+    const today = new Date();
+    let j = today.getMonth();
+    const nodes = [];
+    for (let i = 0; i < 12; i++) {
+      nodes.push(<Group key={`group-${j}`} group={data[j]} mode={mode} />);
+      j = (j + 1) % 12;
+    }
+
+    return nodes;
+  }
 };
 
-const Group = ({ group }: { group: GroupBirthdayInfo }) => {
+const Group = ({
+  group,
+  mode,
+}: {
+  group: GroupBirthdayInfo;
+  mode: GrouppingMode;
+}) => {
   return (
     <Section style={{ margin: '2em 0' }}>
       <Subheadline level="2" weight="1">
         🎂 {group.groupName}{' '}
-        <span
-          style={{
-            fontWeight: 400,
-            fontSize: '0.9em',
-            color: 'var(--tg-theme-subtitle-text-color)',
-          }}
-        >
-          ({group.groupId})
-        </span>
+        {mode === 'group' && (
+          <span
+            style={{
+              fontWeight: 400,
+              fontSize: '0.9em',
+              color: 'var(--tg-theme-subtitle-text-color)',
+            }}
+          >
+            ({group.groupId})
+          </span>
+        )}
       </Subheadline>
       <List>
         {group.birthdays.map((b, i) => (
-          <Birthday key={i} birthday={b} />
+          <Birthday key={i} birthday={b} mode={mode} />
         ))}
       </List>
     </Section>
   );
 };
 
-const Birthday = ({ birthday }: { birthday: BirthdayInfo }) => {
+const Birthday = ({
+  birthday,
+  mode,
+}: {
+  birthday: BirthdayInfo;
+  mode: GrouppingMode;
+}) => {
   return (
     <Text Component="li" style={{ fontSize: '0.9em', margin: 0 }}>
-      {birthday.formattedLine}
+      {mode === 'group' ? (
+        <>
+          {formatDate(birthday.date)} - {birthday.name} (
+          {getTurningAge(birthday.date)})
+        </>
+      ) : (
+        <>
+          {birthday.day} - {birthday.name} ({getTurningAge(birthday.date)}) -
+          from {birthday.groupName}{' '}
+        </>
+      )}
     </Text>
   );
 };
+
+function getTurningAge(dateStr: string) {
+  var today = new Date();
+  var birthDate = new Date(dateStr);
+
+  var age = today.getFullYear() - birthDate.getFullYear() + 1;
+  var m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+
+  return age;
+}
+
+function formatDate(date: string, locale: string = 'en'): string {
+  const dateJS = new Date(date);
+  return dateJS.toLocaleDateString(locale, { day: '2-digit', month: 'short' });
+}
 
 export default Birthdays;
