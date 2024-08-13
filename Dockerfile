@@ -31,7 +31,7 @@ COPY --link . .
 RUN npm run build
 
 # Build miniapp
-RUN cd web/ && npm ci && npm run build
+RUN cd web/ && npm ci --include=dev && npm run build
 
 
 # Final stage for app image
