@@ -77,7 +77,7 @@ const App = () => {
 
   return (
     <AppRoot>
-      <LargeTitle>Birthday Bot</LargeTitle>
+      <LargeTitle weight="1">Birthday Bot</LargeTitle>
       {birthdays && <Birthdays data={birthdays} />}
     </AppRoot>
   );

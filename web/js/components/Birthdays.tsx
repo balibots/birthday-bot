@@ -9,8 +9,17 @@ const Birthdays = ({ data }: { data: GroupBirthdayInfo[] }) => {
 const Group = ({ group }: { group: GroupBirthdayInfo }) => {
   return (
     <Section style={{ margin: '2em 0' }}>
-      <Subheadline level="1" weight="2">
-        🎂 {group.groupName} ({group.groupId})
+      <Subheadline level="2" weight="1">
+        🎂 {group.groupName}{' '}
+        <span
+          style={{
+            fontWeight: 400,
+            fontSize: '0.9em',
+            color: 'var(--tg-theme-subtitle-text-color)',
+          }}
+        >
+          ({group.groupId})
+        </span>
       </Subheadline>
       <List>
         {group.birthdays.map((b, i) => (
@@ -22,7 +31,11 @@ const Group = ({ group }: { group: GroupBirthdayInfo }) => {
 };
 
 const Birthday = ({ birthday }: { birthday: BirthdayInfo }) => {
-  return <Text Component="li">{birthday.formattedLine}</Text>;
+  return (
+    <Text Component="li" style={{ fontSize: '0.9em', margin: 0 }}>
+      {birthday.formattedLine}
+    </Text>
+  );
 };
 
 export default Birthdays;
