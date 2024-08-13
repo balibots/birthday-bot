@@ -173,6 +173,10 @@ function groupBirthdaysByMode(
       });
     });
 
+    for (let i = 0; i < 12; i++) {
+      cache[i].sort((a, b) => a.day - b.day);
+    }
+
     return Object.keys(cache).map((el: string) => {
       const date = new Date(2024, +el, 1);
       const monthName = date.toLocaleString('default', { month: 'long' });
