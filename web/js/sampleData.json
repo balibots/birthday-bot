@@ -1,0 +1,60 @@
+{
+    "birthdays": [
+        {
+            "groupName": "BaliBots test",
+            "groupId": 5098456086,
+            "birthdays": [
+                {
+                    "id": "-5098456086:rui",
+                    "date": "1986-09-11",
+                    "name": "Rui",
+                    "gender": "male",
+                    "chatId": -5098456086,
+                    "day": 11,
+                    "month": 9,
+                    "year": 1986,
+                    "formattedLine": "`Sep 11` — Rui — 29 days"
+                },
+                {
+                    "id": "-5098456086:ines",
+                    "date": "1986-06-11",
+                    "name": "Ines",
+                    "gender": "female",
+                    "chatId": -5098456086,
+                    "day": 11,
+                    "month": 6,
+                    "year": 1986,
+                    "formattedLine": "`Jun 11` — Ines — 302 days"
+                }
+            ]
+        },
+        {
+            "groupName": "BaliBots test",
+            "groupId": 5098456086,
+            "birthdays": [
+                {
+                    "id": "-5098456086:rui",
+                    "date": "1986-09-11",
+                    "name": "Rui",
+                    "gender": "male",
+                    "chatId": -5098456086,
+                    "day": 11,
+                    "month": 9,
+                    "year": 1986,
+                    "formattedLine": "`Sep 11` — Rui — 29 days"
+                },
+                {
+                    "id": "-5098456086:ines",
+                    "date": "1986-06-11",
+                    "name": "Ines",
+                    "gender": "female",
+                    "chatId": -5098456086,
+                    "day": 11,
+                    "month": 6,
+                    "year": 1986,
+                    "formattedLine": "`Jun 11` — Ines — 302 days"
+                }
+            ]
+        }
+    ]
+}

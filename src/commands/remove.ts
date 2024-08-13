@@ -8,6 +8,7 @@ import { getConfigForGroup } from '../config';
 export const removeCommand = async (ctx: CommandContext<MyContext>) => {
   let [name, chatId] = ctx.match?.split(',').map((parts) => parts.trim()) || [];
 
+  // validate right number of arguments on a private chat
   if (!isGroup(ctx.chat) && !chatId) {
     return ctx.reply(t('errors.missingChatId'), {
       parse_mode: 'Markdown',

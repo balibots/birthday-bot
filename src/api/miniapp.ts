@@ -3,8 +3,8 @@ import { getGroupChats, getRecordsByChatId, GroupInfo } from '../postgres';
 import { sortClosestDate } from '../utils';
 import { Api } from 'grammy';
 import crypto from 'node:crypto';
-import { birthdayLine } from '../interface';
-import { BirthdayListEntry } from '../types';
+import { birthdayLineForMiniapp } from '../interface';
+import { BirthdayRecord } from '../types';
 
 const miniappRouter = express.Router();
 const api = new Api(process.env.TELEGRAM_TOKEN, {
@@ -14,11 +14,11 @@ const api = new Api(process.env.TELEGRAM_TOKEN, {
 interface BirthdaysList {
   groupName: string;
   groupId: number;
-  birthdays: (BirthdayListEntry & { formattedLine: string })[];
+  birthdays: (BirthdayRecord & { formattedLine: string })[];
 }
 
 miniappRouter.post('/birthdays', async (req, res) => {
-  const data = req.body.data;
+  const { data } = req.body;
 
   // not great. might send the json from the client as well?
   let jsonData = Object.fromEntries(new URLSearchParams(data));
@@ -70,16 +70,20 @@ miniappRouter.post('/birthdays', async (req, res) => {
         groupName: group.name,
         groupId: Math.abs(Number(group.id)),
         birthdays: birthdays.map((b: any) => {
-          b.formattedLine = birthdayLine(b, 'en');
+          b.groupName = group.name;
+          b.groupId = Math.abs(Number(group.id));
+          b.formattedLine = birthdayLineForMiniapp(b, 'en');
           return b;
         }),
       };
     }
   );
 
-  const response = (await Promise.all(requests)).filter((a) => !!a);
+  const response = (await Promise.all(requests)).filter(
+    (a) => !!a
+  ) as BirthdaysList[];
 
-  res.json({ birthdays: response });
+  return res.json({ birthdays: response });
 });
 
 export default miniappRouter;
