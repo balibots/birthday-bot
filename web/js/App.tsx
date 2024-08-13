@@ -144,7 +144,7 @@ const App = () => {
             }
             onClick={() => setMode('group')}
           >
-            Group
+            Chat
           </Chip>
         </div>
       </List>
