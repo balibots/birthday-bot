@@ -33,6 +33,7 @@ const Group = ({
   group: GroupBirthdayInfo;
   mode: GrouppingMode;
 }) => {
+  const date = new Date();
   return (
     <Section style={{ margin: '2em 0' }}>
       <Subheadline level="2" weight="1">
@@ -46,6 +47,19 @@ const Group = ({
             }}
           >
             ({group.groupId})
+          </span>
+        )}
+        {mode === 'calendar' && (
+          <span
+            style={{
+              fontWeight: 400,
+              fontSize: '0.9em',
+              color: 'var(--tg-theme-subtitle-text-color)',
+            }}
+          >
+            {date.getMonth() <= group.groupId
+              ? date.getFullYear()
+              : date.getFullYear() + 1}
           </span>
         )}
       </Subheadline>
