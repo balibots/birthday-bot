@@ -177,8 +177,10 @@ function groupBirthdaysByMode(
     });
 
     for (let i = 0; i < 12; i++) {
+      // sort birthdays by day
       cache[i].sort((a, b) => a.day - b.day);
 
+      // dedup birthdays if same name and date
       cache[i] = cache[i].reduce(
         (acc: BirthdayInfo[], el: BirthdayInfo, j: number) => {
           if (j === 0) {
@@ -186,11 +188,22 @@ function groupBirthdaysByMode(
             return acc;
           }
 
-          let last = acc[acc.length - 1];
-          if (el.name === last.name && el.date === last.date) {
-            last.dedupGroupNames = last.dedupGroupNames || [last.groupName];
-            last.dedupGroupNames.push(el.groupName);
-          } else {
+          let dedupd = false;
+
+          for (let k = acc.length - 1; k >= 0; k--) {
+            if (el.name === acc[k].name && el.date === acc[k].date) {
+              acc[k].dedupGroupNames = acc[k].dedupGroupNames || [
+                acc[k].groupName,
+              ];
+              acc[k].dedupGroupNames!.push(el.groupName);
+              dedupd = true;
+              break;
+            } else if (el.day !== acc[k].day) {
+              break;
+            }
+          }
+
+          if (!dedupd) {
             acc.push(el);
           }
 
