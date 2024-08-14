@@ -11,6 +11,7 @@ import {
 } from '@telegram-apps/telegram-ui';
 
 import Birthdays from './components/Birthdays';
+import EmptyState from './components/EmptyState';
 import type {
   BirthdaysResponse,
   GroupBirthdayInfo,
@@ -37,11 +38,7 @@ const App = () => {
     const tg = window.Telegram;
 
     if (!tg || !tg.WebApp?.initData) {
-      console.warn(
-        'No Telegram data found - using dummy data for rendering purposes'
-      );
-      const sampleData = await import('./sampleData.json');
-      setBirthdays(sampleData.birthdays as GroupBirthdayInfo[]);
+      console.warn('No Telegram data found - probably outside telegram?');
       return;
     }
 
@@ -155,6 +152,7 @@ const App = () => {
           </Chip>
         </div>
       </List>
+      {birthdays && !birthdays.length && <EmptyState />}
       {birthdaysGroupped && <Birthdays data={birthdaysGroupped} mode={mode} />}
     </AppRoot>
   );

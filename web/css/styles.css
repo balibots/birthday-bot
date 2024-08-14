@@ -1,4 +1,2 @@
-_::-webkit-full-page-media, _:future, :root .radio-container svg:nth-of-type(2){
-}
-
+/* fixes a bug on the TUI library until this PR is merged https://github.com/Telegram-Mini-Apps/TelegramUI/pull/58 */
 .radio-container label { display: block; }
