@@ -178,6 +178,28 @@ function groupBirthdaysByMode(
 
     for (let i = 0; i < 12; i++) {
       cache[i].sort((a, b) => a.day - b.day);
+
+      cache[i] = cache[i].reduce(
+        (acc: BirthdayInfo[], el: BirthdayInfo, j: number) => {
+          if (j === 0) {
+            acc.push(el);
+            return acc;
+          }
+
+          let last = acc[acc.length - 1];
+          if (el.name === last.name && el.date === last.date) {
+            last.dedupGroupNames = last.dedupGroupNames || [last.groupName];
+            last.dedupGroupNames.push(el.groupName);
+          } else {
+            acc.push(el);
+          }
+
+          return acc;
+        },
+        []
+      );
+
+      console.log(i, cache[i]);
     }
 
     return Object.keys(cache).map((el: string) => {

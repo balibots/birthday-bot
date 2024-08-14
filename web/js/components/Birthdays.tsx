@@ -41,7 +41,7 @@ const Group = ({
         {mode === 'group' && (
           <span
             style={{
-              fontWeight: 400,
+              fontWeight: 500,
               fontSize: '0.9em',
               color: 'var(--tg-theme-subtitle-text-color)',
             }}
@@ -52,7 +52,7 @@ const Group = ({
         {mode === 'calendar' && (
           <span
             style={{
-              fontWeight: 400,
+              fontWeight: 500,
               fontSize: '0.9em',
               color: 'var(--tg-theme-subtitle-text-color)',
             }}
@@ -79,8 +79,16 @@ const Birthday = ({
   birthday: BirthdayInfo;
   mode: GrouppingMode;
 }) => {
+  const padDay = (day: number): string => (day < 10 ? `0${day}` : `${day}`);
+
   return (
-    <Text Component="li" style={{ fontSize: '0.9em', margin: 0 }}>
+    <Text
+      Component="p"
+      style={{
+        /*fontSize: '0.9em',*/
+        marginBottom: '6px',
+      }}
+    >
       {mode === 'group' ? (
         <>
           {formatDate(birthday.date)} - {birthday.name} (
@@ -88,12 +96,34 @@ const Birthday = ({
         </>
       ) : (
         <>
-          {birthday.day} - {birthday.name} ({getTurningAge(birthday.date, mode)}
-          ) - from {birthday.groupName}{' '}
+          {padDay(birthday.day)} - {birthday.name} (
+          {getTurningAge(birthday.date, mode)}
+          ) - from <GroupOrGroups birthday={birthday} />
         </>
       )}
     </Text>
   );
+};
+
+const GroupOrGroups = ({ birthday }: { birthday: BirthdayInfo }) => {
+  if (birthday.dedupGroupNames) {
+    return (
+      <Text>
+        {birthday.dedupGroupNames[0]}
+        <Text
+          style={{
+            color: 'var(--tg-theme-subtitle-text-color)',
+            fontSize: '0.9em',
+          }}
+        >
+          {' '}
+          (also {birthday.dedupGroupNames.slice(1).join(', ')})
+        </Text>
+      </Text>
+    );
+  } else {
+    return birthday.groupName;
+  }
 };
 
 // we're displaying the age people are going to turn
