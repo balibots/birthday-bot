@@ -95,11 +95,13 @@ const App = () => {
 
   return (
     <AppRoot>
-      <LargeTitle weight="1">BirthdayBot</LargeTitle>
+      <LargeTitle weight="1" style={{ marginTop: '12px' }}>
+        BirthdayBot
+      </LargeTitle>
       <List
         style={{
-          background: 'var(--tgui--tertiary_bg_color)',
-          padding: '10 20',
+          background: 'var(--tgui--bg_color)',
+          margin: '0 -8px',
         }}
       >
         <div

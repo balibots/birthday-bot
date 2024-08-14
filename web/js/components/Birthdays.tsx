@@ -35,8 +35,8 @@ const Group = ({
 }) => {
   const date = new Date();
   return (
-    <Section style={{ margin: '2em 0' }}>
-      <Subheadline level="2" weight="1">
+    <Section style={{ margin: '1em 0' }}>
+      <Subheadline level="2" weight="1" style={{ padding: '.5em 1em 0' }}>
         🎂 {group.groupName}{' '}
         {mode === 'group' && (
           <span
