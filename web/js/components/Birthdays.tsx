@@ -84,26 +84,40 @@ const Birthday = ({
       {mode === 'group' ? (
         <>
           {formatDate(birthday.date)} - {birthday.name} (
-          {getTurningAge(birthday.date)})
+          {getTurningAge(birthday.date, mode)})
         </>
       ) : (
         <>
-          {birthday.day} - {birthday.name} ({getTurningAge(birthday.date)}) -
-          from {birthday.groupName}{' '}
+          {birthday.day} - {birthday.name} ({getTurningAge(birthday.date, mode)}
+          ) - from {birthday.groupName}{' '}
         </>
       )}
     </Text>
   );
 };
 
-function getTurningAge(dateStr: string) {
+// we're displaying the age people are going to turn
+function getTurningAge(dateStr: string, mode: string) {
   var today = new Date();
   var birthDate = new Date(dateStr);
 
-  var age = today.getFullYear() - birthDate.getFullYear() + 1;
-  var m = today.getMonth() - birthDate.getMonth();
-  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-    age--;
+  if (birthDate.getMonth() < today.getMonth()) {
+    today.setFullYear(today.getFullYear() + 1);
+  }
+
+  var age = today.getFullYear() - birthDate.getFullYear();
+
+  if (
+    mode === 'group' &&
+    today.getMonth() === birthDate.getMonth() &&
+    today.getDate() > birthDate.getDate()
+  ) {
+    /*
+       edge case caused by how we're showing data slightly differently:
+        - in calendar mode, the current month is this calendar year. all ages are either ages people already turned or are going to be
+        - in group mode, as soon as your birthday's gone, your name will go to the end of the list (ie "next years"). we need to add 1 to the age in that case to reflect that.
+     */
+    age++;
   }
 
   return age;
