@@ -199,6 +199,7 @@ function groupBirthdaysByMode(
               dedupd = true;
               break;
             } else if (el.day !== acc[k].day) {
+              // optimization: if we're no longer on the same day of the month (array is sorted) we can give up
               break;
             }
           }
