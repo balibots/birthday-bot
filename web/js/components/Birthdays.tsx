@@ -1,6 +1,6 @@
 import React from 'react';
 import { GroupBirthdayInfo, BirthdayInfo, GrouppingMode } from '../types';
-import { List, Section, Subheadline, Text } from '@telegram-apps/telegram-ui';
+import { List, Section, Text } from '@telegram-apps/telegram-ui';
 
 const Birthdays = ({
   data,
@@ -36,7 +36,7 @@ const Group = ({
   const date = new Date();
   return (
     <Section style={{ margin: '1em 0' }}>
-      <Section.Header large style={{ padding: '0.5em 8px 0.25em' }}>
+      <Section.Header large style={{ padding: '0.75em 8px 0.5em' }}>
         🎂 {group.groupName}{' '}
         {mode === 'group' && (
           <span

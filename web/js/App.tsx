@@ -95,7 +95,7 @@ const App = () => {
 
   return (
     <AppRoot>
-      <LargeTitle weight="1" style={{ margin: '8px 0' }}>
+      <LargeTitle weight="1" style={{ margin: '8px 0 0' }}>
         BirthdayBot
       </LargeTitle>
       <List
