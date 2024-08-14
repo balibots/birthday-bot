@@ -36,7 +36,7 @@ const Group = ({
   const date = new Date();
   return (
     <Section style={{ margin: '1em 0' }}>
-      <Section.Header large style={{ padding: '0.75em 8px 0.5em' }}>
+      <Section.Header large style={{ padding: '0.75em 0.88em 0.5em' }}>
         🎂 {group.groupName}{' '}
         {mode === 'group' && (
           <span

@@ -217,8 +217,6 @@ function groupBirthdaysByMode(
         },
         []
       );
-
-      console.log(i, cache[i]);
     }
 
     return Object.keys(cache).map((el: string) => {
