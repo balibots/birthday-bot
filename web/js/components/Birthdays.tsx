@@ -36,7 +36,7 @@ const Group = ({
   const date = new Date();
   return (
     <Section style={{ margin: '1em 0' }}>
-      <Subheadline level="2" weight="1" style={{ padding: '.5em 1em 0' }}>
+      <Section.Header large style={{ padding: '0.5em 8px 0.25em' }}>
         🎂 {group.groupName}{' '}
         {mode === 'group' && (
           <span
@@ -62,8 +62,8 @@ const Group = ({
               : date.getFullYear() + 1}
           </span>
         )}
-      </Subheadline>
-      <List>
+      </Section.Header>
+      <List style={{ padding: '0.5em 1em' }}>
         {group.birthdays.map((b, i) => (
           <Birthday key={i} birthday={b} mode={mode} />
         ))}
