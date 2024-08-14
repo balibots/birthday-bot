@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import '@telegram-apps/telegram-ui/dist/styles.css';
 
 import {
@@ -91,7 +91,11 @@ const App = () => {
     setMode((mode) => (mode === 'calendar' ? 'group' : 'calendar'));
   };
 
-  const birthdaysGroupped = groupBirthdaysByMode(birthdays, mode);
+  // TODO this still doesnt solve it - we need some sort of cache table to actually save the values of the calculations
+  const birthdaysGroupped = useMemo(
+    () => groupBirthdaysByMode(birthdays, mode),
+    [birthdays, mode]
+  );
 
   return (
     <AppRoot>
@@ -172,6 +176,7 @@ function groupBirthdaysByMode(
 
     birthdays.forEach((group) => {
       group.birthdays.forEach((birthday) => {
+        birthday.dedupGroupNames = undefined;
         cache[birthday.month - 1].push(birthday);
       });
     });
