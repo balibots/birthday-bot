@@ -98,7 +98,7 @@ const Birthday = ({
         <>
           {padDay(birthday.day)} - {birthday.name} (
           {getTurningAge(birthday.date, mode)}
-          ) - from <GroupOrGroups birthday={birthday} />
+          ) <GroupOrGroups birthday={birthday} />
         </>
       )}
     </Text>
@@ -108,8 +108,13 @@ const Birthday = ({
 const GroupOrGroups = ({ birthday }: { birthday: BirthdayInfo }) => {
   if (birthday.dedupGroupNames) {
     return (
-      <Text>
-        {birthday.dedupGroupNames[0]}
+      <Text
+        style={{
+          color: 'var(--tg-theme-subtitle-text-color)',
+          fontSize: '0.9em',
+        }}
+      >
+        - {birthday.dedupGroupNames[0]}
         <Text
           style={{
             color: 'var(--tg-theme-subtitle-text-color)',
@@ -122,7 +127,16 @@ const GroupOrGroups = ({ birthday }: { birthday: BirthdayInfo }) => {
       </Text>
     );
   } else {
-    return birthday.groupName;
+    return (
+      <Text
+        style={{
+          color: 'var(--tg-theme-subtitle-text-color)',
+          fontSize: '0.9em',
+        }}
+      >
+        - {birthday.groupName}
+      </Text>
+    );
   }
 };
 
