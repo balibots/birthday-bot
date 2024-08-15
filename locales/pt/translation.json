@@ -31,6 +31,10 @@
     "birthdays": {
       "sentence_one": "`{{name}}`, faz *{{count}}* ano no dia {{day}} ({{daysToBirthdayStr}})",
       "sentence_other": "`{{name}}`, faz *{{count}}* anos no dia {{day}} ({{daysToBirthdayStr}})"
+    },
+    "all": {
+     "intro": "Aqui podes ver todos os aniversários dos grupos onde estás:",
+      "buttonText": "Abrir o calendário"
     }
   },
   "errors": {

@@ -7,7 +7,28 @@ import { sortClosestDate } from '../utils';
 import { MyContext } from '../bot';
 import { getGroupChats } from '../postgres';
 
+const BOT_NAME = process.env.IS_DEV
+  ? '@testing_mini_apps_bot'
+  : '@BaliBirthdayBot';
+
 export const allBirthdaysCommand = async (ctx: CommandContext<MyContext>) => {
+  return await ctx.reply(t('commands.all.intro'), {
+    reply_markup: {
+      inline_keyboard: [
+        [
+          {
+            text: t('commands.all.buttonText'),
+            url: `https://t.me/${BOT_NAME}?startapp`,
+          },
+        ],
+      ],
+    },
+  });
+};
+
+/*
+     old implementation - did this inline
+
   if (isGroup(ctx.chat) || !ctx.msg.from?.id) {
     return await ctx.reply(t('errors.needPvt'));
   }
@@ -44,5 +65,4 @@ ${birthdays.map((b) => birthdayLine(b, ctx.config.language)).join('\n')}
     response = [t('commands.all.empty')];
   }
 
-  return await ctx.reply(response.join('\n'), { parse_mode: 'Markdown' });
-};
+ */

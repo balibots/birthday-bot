@@ -43,4 +43,8 @@ export const allCommands = [
     command: 'help',
     description: 'Show all the commands available and how to use them.',
   },
+  {
+    command: 'calendar',
+    description: 'Shows the BirthdayBot miniapp with all the birthdays!',
+  },
 ];

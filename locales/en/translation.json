@@ -31,8 +31,8 @@
       "sentence_other": "`{{name}}`, turns *{{count}}* years old on {{day}} ({{daysToBirthdayStr}})"
     },
     "all": {
-      "empty": "You're currently not part of any group with birthdays set.",
-     "intro": "Here's all the birthdays on the groups you're on:"
+     "intro": "Open the Calendar view, where you can see all the birthdays from the chat groups you're on, by clicking the button below:",
+      "buttonText": "Show calendar"
     }
   },
   "errors": {

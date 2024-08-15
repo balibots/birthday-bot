@@ -59,7 +59,7 @@ bot.command(['proximo', 'next'], withChatId, nextCommand);
 bot.command(['config'], withChatId, configCommand);
 bot.command(['ajuda', 'help'], helpCommand);
 
-bot.command('all', allBirthdaysCommand);
+bot.command(['all', 'calendar'], allBirthdaysCommand);
 
 bot.command(['debug'], async (ctx) => {
   console.log(JSON.stringify(ctx, null, 2));
