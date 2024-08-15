@@ -7,9 +7,10 @@ import { sortClosestDate } from '../utils';
 import { MyContext } from '../bot';
 import { getGroupChats } from '../postgres';
 
-const BOT_NAME = process.env.IS_DEV
-  ? 'testing_mini_apps_bot'
-  : 'BaliBirthdayBot';
+// TODO check if the android ?startapp bug is fixed then we dont need this miniapp url
+const BUTTON_OPEN_URL = process.env.IS_DEV
+  ? 'https://t.me/testing_mini_apps_bot?startapp'
+  : 'https://t.me/BaliBirthdayBot/calendar';
 
 export const allBirthdaysCommand = async (ctx: CommandContext<MyContext>) => {
   return await ctx.reply(t('commands.all.intro'), {
@@ -18,7 +19,7 @@ export const allBirthdaysCommand = async (ctx: CommandContext<MyContext>) => {
         [
           {
             text: t('commands.all.buttonText'),
-            url: `https://t.me/${BOT_NAME}?startapp`,
+            url: BUTTON_OPEN_URL,
           },
         ],
       ],
