@@ -118,7 +118,7 @@ const GroupOrGroups = ({ birthday }: { birthday: BirthdayInfo }) => {
         <Text
           style={{
             color: 'var(--tg-theme-subtitle-text-color)',
-            fontSize: '0.9em',
+            fontSize: '0.85em',
           }}
         >
           {' '}
