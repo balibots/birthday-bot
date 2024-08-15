@@ -30,7 +30,9 @@ export const withChatId: MiddlewareFn<MyContext> = async (ctx, next) => {
     const payload = typeof ctx.match === 'string' ? ctx.match : null;
 
     if (!payload) {
-      return await ctx.reply(t('errors.missingChatId'));
+      return await ctx.reply(t('errors.missingChatId'), {
+        parse_mode: 'Markdown',
+      });
     }
 
     // gets the last comma seperated token.

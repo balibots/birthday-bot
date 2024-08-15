@@ -6,6 +6,7 @@ export * from './remove';
 export * from './help';
 export * from './magic';
 export * from './all';
+export * from './start';
 export * from './config';
 
 export const allCommands = [

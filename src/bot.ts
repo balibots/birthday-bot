@@ -13,6 +13,7 @@ import {
   configCommand,
   allBirthdaysCommand,
   allCommands,
+  startCommand,
 } from './commands';
 import {
   addRecord,
@@ -60,6 +61,7 @@ bot.command(['config'], withChatId, configCommand);
 bot.command(['ajuda', 'help'], helpCommand);
 
 bot.command(['all', 'calendar'], allBirthdaysCommand);
+bot.command('start', startCommand);
 
 bot.command(['debug'], async (ctx) => {
   console.log(JSON.stringify(ctx, null, 2));
