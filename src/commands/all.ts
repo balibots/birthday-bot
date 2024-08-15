@@ -8,8 +8,8 @@ import { MyContext } from '../bot';
 import { getGroupChats } from '../postgres';
 
 const BOT_NAME = process.env.IS_DEV
-  ? '@testing_mini_apps_bot'
-  : '@BaliBirthdayBot';
+  ? 'testing_mini_apps_bot'
+  : 'BaliBirthdayBot';
 
 export const allBirthdaysCommand = async (ctx: CommandContext<MyContext>) => {
   return await ctx.reply(t('commands.all.intro'), {
