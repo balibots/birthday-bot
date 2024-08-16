@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import { Bot, Context, GrammyError, HttpError, webhookCallback } from 'grammy';
 import { DateTime } from 'luxon';
 import proxy from 'express-http-proxy';
@@ -159,6 +159,12 @@ bot.catch(async (err) => {
       parse_mode: 'Markdown',
     }
   );
+});
+
+// express error handling
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  console.error(err.stack);
+  res.status(500).end();
 });
 
 // Start the bot
