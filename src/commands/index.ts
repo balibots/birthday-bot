@@ -7,6 +7,7 @@ export * from './help';
 export * from './magic';
 export * from './all';
 export * from './start';
+export * from './feedback';
 export * from './config';
 
 export const allCommands = [
@@ -47,5 +48,9 @@ export const allCommands = [
   {
     command: 'calendar',
     description: 'Shows the BirthdayBot miniapp with all the birthdays!',
+  },
+  {
+    command: 'feedback',
+    description: 'Please give us your feedback using this command, thanks!',
   },
 ];

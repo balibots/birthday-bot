@@ -14,6 +14,7 @@ import {
   allBirthdaysCommand,
   allCommands,
   startCommand,
+  feedbackCommand,
 } from './commands';
 import {
   addRecord,
@@ -62,6 +63,7 @@ bot.command(['ajuda', 'help'], helpCommand);
 
 bot.command(['all', 'calendar'], allBirthdaysCommand);
 bot.command('start', startCommand);
+bot.command('feedback', feedbackCommand);
 
 bot.command(['debug'], async (ctx) => {
   console.log(JSON.stringify(ctx, null, 2));
