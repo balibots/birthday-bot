@@ -15,7 +15,11 @@ export const feedbackCommand = async (ctx: MyContext) => {
     ctx.message?.chat.id
   })`;
 
-  return await ctx.api.sendMessage(FEEDBACK_GROUP_ID, msg, {
-    parse_mode: 'Markdown',
-  });
+  try {
+    return await ctx.api.sendMessage(FEEDBACK_GROUP_ID, msg, {
+      parse_mode: 'Markdown',
+    });
+  } catch (e) {
+    console.error(e);
+  }
 };
