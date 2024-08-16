@@ -14,7 +14,8 @@ export const feedbackCommand = async (ctx: MyContext) => {
   On: ${ctx.message?.chat.title || ctx.message?.chat.type} (${
     ctx.message?.chat.id
   })`;
-  return ctx.api.sendMessage(FEEDBACK_GROUP_ID, msg, {
+
+  return await ctx.api.sendMessage(FEEDBACK_GROUP_ID, msg, {
     parse_mode: 'Markdown',
   });
 };
