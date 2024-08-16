@@ -1,7 +1,7 @@
 import { MyContext } from '../bot';
 import { t } from 'i18next';
 
-const FEEDBACK_GROUP_ID = process.env.IS_DEV ? '-5098456086' : '-2209806645';
+const FEEDBACK_GROUP_ID = process.env.IS_DEV ? '-5098456086' : '-1002209806645';
 
 export const feedbackCommand = async (ctx: MyContext) => {
   const text = ctx.match;
