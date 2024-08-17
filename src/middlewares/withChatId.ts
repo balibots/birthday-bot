@@ -30,9 +30,13 @@ export const withChatId: MiddlewareFn<MyContext> = async (ctx, next) => {
     const payload = typeof ctx.match === 'string' ? ctx.match : null;
 
     if (!payload) {
-      return await ctx.reply(t('errors.missingChatId'), {
-        parse_mode: 'Markdown',
-      });
+      // no chat id, using the DM one
+      if (!ctx.chat?.id) {
+        return await ctx.reply(t('errors.invalidChatId'));
+      } else {
+        ctx.parsedChatId = ctx.chat.id;
+      }
+      return await next();
     }
 
     // gets the last comma seperated token.
@@ -43,9 +47,13 @@ export const withChatId: MiddlewareFn<MyContext> = async (ctx, next) => {
 
     // is it a number?
     if (!last || isNaN(+last) || +last !== parseInt(last)) {
-      return await ctx.reply(t('errors.missingChatId'), {
-        parse_mode: 'Markdown',
-      });
+      // not a chat id, using the DM one
+      if (!ctx.chat?.id) {
+        return await ctx.reply(t('errors.invalidChatId'));
+      } else {
+        ctx.parsedChatId = ctx.chat.id;
+      }
+      return await next();
     }
 
     chatId = parseInt(last);

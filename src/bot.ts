@@ -74,7 +74,7 @@ bot.command(['debug'], async (ctx) => {
 bot.command('add', withChatId, addCommand);
 bot.command('remove', withChatId, removeCommand);
 
-bot.command('birthdaybot', magicCommand);
+bot.command('birthdaybot', withChatId, magicCommand);
 
 // Triggers
 bot.on('message:new_chat_members:me', async (ctx) => {

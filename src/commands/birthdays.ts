@@ -5,6 +5,10 @@ import { sortClosestDate } from '../utils';
 import { t } from 'i18next';
 
 export const birthdaysCommand = async (ctx: MyContext) => {
+  if (!ctx.parsedChatId) {
+    return ctx.reply(t('errors.invalidChatId', { chatId: ctx.parsedChatId }));
+  }
+
   const birthdays = (await getRecordsByChatId(ctx.parsedChatId)).sort(
     sortClosestDate
   );

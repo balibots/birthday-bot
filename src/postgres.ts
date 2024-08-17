@@ -16,7 +16,9 @@ export interface GroupInfo {
   userCount: number;
 }
 
-export async function addRecord({ ...params }: BirthdayRecord) {
+export async function addRecord({
+  ...params
+}: BirthdayRecord & { chatName?: string }) {
   // extract year. doing this here to avoid changing code upstream but
   // should be refactored at some point.
   const year = parseInt(params.date.split('-')[0]);
@@ -42,6 +44,7 @@ export async function addRecord({ ...params }: BirthdayRecord) {
           },
           create: {
             id: params.chatId,
+            name: params.chatName,
           },
         },
       },

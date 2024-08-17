@@ -11,15 +11,8 @@ import { listCommand } from './list';
 import { setConfigForGroup } from '../config';
 
 export const magicCommand = async (ctx: MyContext) => {
-  // if we're sending commands from a group, will get the id from the message
-  if (!isGroup(ctx.chat)) {
-    return await ctx.reply(t('errors.needGroup'));
-  }
-
-  const intChatId = ctx.chat?.id;
-
-  if (!intChatId || isNaN(intChatId)) {
-    return ctx.reply(t('errors.invalidChatId', { chatId: intChatId }));
+  if (!ctx.parsedChatId) {
+    return ctx.reply(t('errors.invalidChatId', { chatId: ctx.parsedChatId }));
   }
 
   if (!ctx.match) {
@@ -38,7 +31,7 @@ export const magicCommand = async (ctx: MyContext) => {
   let i = 0;
   for (let functionCall of functionCalls) {
     i++;
-    await processFunctionCall(functionCall, ctx, intChatId);
+    await processFunctionCall(functionCall, ctx, ctx.parsedChatId);
 
     if (i >= 4) return; // protects against spam by only running up to 4 instructions
   }

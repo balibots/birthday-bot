@@ -6,16 +6,11 @@ import { t } from 'i18next';
 import { getConfigForGroup } from '../config';
 
 export const removeCommand = async (ctx: CommandContext<MyContext>) => {
-  let [name, chatId] = ctx.match?.split(',').map((parts) => parts.trim()) || [];
-
-  // validate right number of arguments on a private chat
-  if (!isGroup(ctx.chat) && !chatId) {
-    return ctx.reply(t('errors.missingChatId'), {
-      parse_mode: 'Markdown',
-    });
+  if (!ctx.parsedChatId) {
+    return ctx.reply(t('errors.invalidChatId', { chatId: ctx.parsedChatId }));
   }
 
-  let intChatId = ctx.parsedChatId;
+  let [name] = ctx.match?.split(',').map((parts) => parts.trim()) || [];
 
   if (!name) {
     return ctx.reply(t('commands.remove.missingName'), {
@@ -25,10 +20,13 @@ export const removeCommand = async (ctx: CommandContext<MyContext>) => {
 
   // limits add commands to group admins
   try {
-    const groupConfig = await getConfigForGroup(intChatId);
+    const groupConfig = await getConfigForGroup(ctx.parsedChatId);
 
     if (groupConfig && groupConfig.restrictedToAdmins) {
-      const chatMember = await ctx.api.getChatMember(intChatId, ctx.from!.id);
+      const chatMember = await ctx.api.getChatMember(
+        ctx.parsedChatId,
+        ctx.from!.id
+      );
       if (!['administrator', 'creator'].includes(chatMember.status)) {
         return ctx.reply(t('errors.notAdmin'));
       }
@@ -40,7 +38,7 @@ export const removeCommand = async (ctx: CommandContext<MyContext>) => {
   try {
     const record = {
       name: sanitizeName(name),
-      chatId: intChatId,
+      chatId: ctx.parsedChatId,
     };
 
     console.log(`Removing record: ${JSON.stringify(record, null, 2)}`);

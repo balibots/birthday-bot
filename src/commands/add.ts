@@ -7,14 +7,7 @@ import { isGroup, parseDate, sanitizeName } from '../utils';
 import { t } from 'i18next';
 
 export const addCommand = async (ctx: CommandContext<MyContext>) => {
-  let [name, date, chatId] = ctx.match?.split(',').map((s) => s.trim()) || [];
-
-  // validate right number of arguments on a private chat
-  if (!isGroup(ctx.chat) && !chatId) {
-    return ctx.reply(t('errors.missingChatId'), {
-      parse_mode: 'Markdown',
-    });
-  }
+  let [name, date] = ctx.match?.split(',').map((s) => s.trim()) || [];
 
   let intChatId = ctx.parsedChatId;
 
@@ -25,19 +18,21 @@ export const addCommand = async (ctx: CommandContext<MyContext>) => {
   }
 
   // limits add commands to group admins
-  try {
-    const groupConfig = await getConfigForGroup(intChatId);
+  if (isGroup(ctx.chat)) {
+    try {
+      const groupConfig = await getConfigForGroup(intChatId);
 
-    if (groupConfig && groupConfig.restrictedToAdmins) {
-      const chatMember = await ctx.api.getChatMember(intChatId, ctx.from!.id);
-      if (!['administrator', 'creator'].includes(chatMember.status)) {
-        return ctx.reply(t('commands.add.restrictedToAdmins'));
+      if (groupConfig && groupConfig.restrictedToAdmins) {
+        const chatMember = await ctx.api.getChatMember(intChatId, ctx.from!.id);
+        if (!['administrator', 'creator'].includes(chatMember.status)) {
+          return ctx.reply(t('commands.add.restrictedToAdmins'));
+        }
       }
+    } catch (e) {
+      return ctx.reply(
+        t('errors.internalError', { message: (e as Error).message })
+      );
     }
-  } catch (e) {
-    return ctx.reply(
-      t('errors.internalError', { message: (e as Error).message })
-    );
   }
 
   const parsedDate = parseDate(date);
@@ -51,13 +46,14 @@ export const addCommand = async (ctx: CommandContext<MyContext>) => {
   const sanitized = sanitizeName(name);
   const gender = await getGender(sanitized);
 
-  const params = {
+  let params = {
     name: sanitized,
     date: parsedDate.toFormat('yyyy-MM-dd'),
     month: parsedDate.month,
     day: parsedDate.day,
     gender,
     chatId: intChatId,
+    chatName: !isGroup(ctx.chat) ? 'BirthdayBot DMs' : undefined,
   };
 
   try {

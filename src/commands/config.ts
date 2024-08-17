@@ -20,6 +20,10 @@ export const configCommand = async (ctx: CommandContext<MyContext>) => {
   const command = payload[0];
   const arg = payload[1];
 
+  if (!isGroup(ctx.chat)) {
+    return await ctx.reply(t('errors.needGroup'));
+  }
+
   const chatId = ctx.parsedChatId;
 
   if (!command || parseInt(command) === chatId) {
