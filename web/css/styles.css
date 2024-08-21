@@ -1,2 +1,11 @@
 /* fixes a bug on the TUI library until this PR is merged https://github.com/Telegram-Mini-Apps/TelegramUI/pull/58 */
-.radio-container label { display: block; }
+.radio-container label {
+  display: block;
+}
+
+p.birthday-today {
+  background: rgb(255, 255, 172);
+  padding: 3px 6px;
+  border-radius: 4px;
+  margin-left: -6px;
+}

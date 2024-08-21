@@ -3,9 +3,9 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "jsx": "preserve",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "moduleResolution": "Node"
   },
   "include": ["js/**/*.tsx"],
   "exclude": ["node_modules"]
 }
-

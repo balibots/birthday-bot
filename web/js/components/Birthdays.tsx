@@ -9,21 +9,21 @@ const Birthdays = ({
   data: GroupBirthdayInfo[];
   mode: GrouppingMode;
 }) => {
+  let nodes = [];
   if (mode === 'group') {
-    return data.map((group, i) => (
+    nodes = data.map((group, i) => (
       <Group key={`group-${i}`} group={group} mode={mode} />
     ));
   } else {
     const today = new Date();
     let j = today.getMonth();
-    const nodes = [];
     for (let i = 0; i < 12; i++) {
       nodes.push(<Group key={`group-${j}`} group={data[j]} mode={mode} />);
       j = (j + 1) % 12;
     }
-
-    return nodes;
   }
+
+  return <>{nodes}</>;
 };
 
 const Group = ({
@@ -34,6 +34,7 @@ const Group = ({
   mode: GrouppingMode;
 }) => {
   const date = new Date();
+
   return (
     <Section style={{ margin: '1em 0' }}>
       <Section.Header large style={{ padding: '0.75em 0.88em 0.5em' }}>
@@ -65,7 +66,7 @@ const Group = ({
       </Section.Header>
       <List style={{ padding: '0.5em 1em' }}>
         {group.birthdays.map((b, i) => (
-          <Birthday key={i} birthday={b} mode={mode} />
+          <Birthday key={i} birthday={b} mode={mode} today={date} />
         ))}
       </List>
     </Section>
@@ -75,11 +76,14 @@ const Group = ({
 const Birthday = ({
   birthday,
   mode,
+  today,
 }: {
   birthday: BirthdayInfo;
   mode: GrouppingMode;
+  today: Date;
 }) => {
   const padDay = (day: number): string => (day < 10 ? `0${day}` : `${day}`);
+  const isBirthdayToday = isBirthdayDate(today, birthday.date);
 
   return (
     <Text
@@ -88,16 +92,17 @@ const Birthday = ({
         /*fontSize: '0.9em',*/
         marginBottom: '6px',
       }}
+      className={isBirthdayToday ? 'birthday-today' : ''}
     >
       {mode === 'group' ? (
         <>
-          {formatDate(birthday.date)} - {birthday.name} (
-          {getTurningAge(birthday.date, mode)})
+          {formatDate(birthday.date)} - {isBirthdayToday && '🎉 '}
+          {birthday.name} ({getTurningAge(birthday.date, mode)})
         </>
       ) : (
         <>
-          {padDay(birthday.day)} - {birthday.name} (
-          {getTurningAge(birthday.date, mode)}
+          {padDay(birthday.day)} - {isBirthdayToday && '🎉 '}
+          {birthday.name} ({getTurningAge(birthday.date, mode)}
           ) <GroupOrGroups birthday={birthday} />
         </>
       )}
@@ -170,6 +175,13 @@ function getTurningAge(dateStr: string, mode: string) {
 function formatDate(date: string, locale: string = 'en'): string {
   const dateJS = new Date(date);
   return dateJS.toLocaleDateString(locale, { day: '2-digit', month: 'short' });
+}
+
+function isBirthdayDate(date1: Date | string, date2: Date | string) {
+  const d1 = new Date(date1);
+  const d2 = new Date(date2);
+
+  return d1.getDate() === d2.getDate() && d1.getMonth() === d2.getMonth();
 }
 
 export default Birthdays;
