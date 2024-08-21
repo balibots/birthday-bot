@@ -4,8 +4,9 @@
 }
 
 p.birthday-today {
-  background: rgb(255, 255, 172);
+  background: var(--tg-theme-secondary-bg-color);
   padding: 3px 6px;
   border-radius: 4px;
   margin-left: -6px;
+  color: var(--tg-theme-accent-text-color);
 }
