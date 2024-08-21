@@ -97,14 +97,12 @@ const Birthday = ({
       {mode === 'group' ? (
         <>
           {formatDate(birthday.date)} - {isBirthdayToday && '🎉 '}
-          {birthday.name}
-          {isBirthdayToday && ' 🎉'} ({getTurningAge(birthday.date, mode)})
+          {birthday.name} ({getTurningAge(birthday.date, mode)})
         </>
       ) : (
         <>
           {padDay(birthday.day)} - {isBirthdayToday && '🎉 '}
-          {birthday.name}
-          {isBirthdayToday && ' 🎉'} ({getTurningAge(birthday.date, mode)}
+          {birthday.name} ({getTurningAge(birthday.date, mode)}
           ) <GroupOrGroups birthday={birthday} />
         </>
       )}
