@@ -30,6 +30,10 @@ const EmptyState = () => (
         <span style={{ color: 'red', fontFamily: 'monospace' }}>/add</span>{' '}
         command.
       </Text>
+      <Text Component="p" style={{ marginBottom: '1em' }}>
+        For more information, including all available commands, try{' '}
+        <span style={{ color: 'red', fontFamily: 'monospace' }}>/help</span>.
+      </Text>
     </div>
   </Section>
 );

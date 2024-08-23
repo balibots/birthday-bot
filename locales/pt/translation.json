@@ -33,7 +33,7 @@
       "sentence_other": "`{{name}}`, faz *{{count}}* anos no dia {{day}} ({{daysToBirthdayStr}})"
     },
     "all": {
-     "intro": "Aqui podes ver todos os aniversários dos grupos onde estás:",
+      "intro": "Aqui podes ver todos os aniversários dos grupos onde estás:",
       "buttonText": "Abrir o calendário"
     }
   },
@@ -61,7 +61,7 @@
     "🎂 {{pronounUp}} noss{{pronoun}} *{{name}}* faz hoje {{age}} anos! 🥳🎉 Parabéns {{name}} ❤️",
     "🎂 Hoje é um dia especial para {{pronoun}} {{name}} que completa {{age}} anos! 🥳🎉 Felicidades, {{name}} ❤️",
     "🎂 Vamos comemorar! {{pronounUp}} {{name}} faz hoje {{age}} anos! 🥳🎉 Parabéns, {{name}} ❤️",
-    "🎂 Um brinde a {{pronoun}} {{name}}, que celebra hoje {{age}} anos! 🥳🎉 Muitos parabéns, {{name}} ❤️",
+    "🎂 Um brinde a {{name}}, que celebra hoje {{age}} anos! 🥳🎉 Muitos parabéns, {{name}} ❤️",
     "🎂 Hoje é dia de festa! {{pronounUp}} {{name}} completa {{age}} anos! 🥳🎉 Felicidades, {{name}} ❤️",
     "🎂 Parabéns para {{pronoun}} {{name}}, que hoje faz {{age}} anos! 🥳🎉 Muitos parabéns, {{name}} ❤️",
     "🎂 Celebremos {{pronoun}} {{name}}, que hoje chega aos {{age}} anos! 🥳🎉 Parabéns, {{name}} ❤️",

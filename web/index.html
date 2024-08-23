@@ -1,39 +1,39 @@
-<!doctype html>
+<!DOCTYPE html>
 <html class="no-js" lang="">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no"
+    />
+    <title></title>
+    <meta name="description" content="" />
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-  <title></title>
-  <meta name="description" content="">
+    <meta property="og:title" content="" />
+    <meta property="og:type" content="" />
+    <meta property="og:url" content="" />
+    <meta property="og:image" content="" />
+    <meta property="og:image:alt" content="" />
 
-  <meta property="og:title" content="">
-  <meta property="og:type" content="">
-  <meta property="og:url" content="">
-  <meta property="og:image" content="">
-  <meta property="og:image:alt" content="">
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="icon.png" />
 
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="icon" href="/favicon.ico" sizes="any">
-  <link rel="icon" href="/icon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="icon.png">
+    <link rel="manifest" href="site.webmanifest" />
+    <meta name="theme-color" content="#fafafa" />
 
-  <link rel="manifest" href="site.webmanifest">
-  <meta name="theme-color" content="#fafafa">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  </head>
 
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-</head>
+  <body style="background: var(--tg-theme-secondary-bg-color); margin: 0 8px">
+    <div id="app"></div>
+    <pre id="console"></pre>
+  </body>
 
-<body style="background: var(--tg-theme-secondary-bg-color)">
-	<div id="app"></div>
-	<pre id="console"></pre>
-</body>
+  <script type="text/javascript">
+    window.BOT_BASE_API = '{{ botHost }}';
+  </script>
 
-<script type="text/javascript">
-	window.BOT_BASE_API = "{{ botHost }}";
-</script>
-
-<script src="js/main.tsx" type="module"></script>
-
+  <script src="js/main.tsx" type="module"></script>
 </html>
-

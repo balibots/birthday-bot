@@ -96,14 +96,14 @@ const App = () => {
 
   return (
     <AppRoot>
-      <LargeTitle weight="1" style={{ margin: '8px 0 0' }}>
+      <LargeTitle weight="1" style={{ margin: '8px 0', padding: '0 8px' }}>
         BirthdayBot
       </LargeTitle>
       <List
         style={{
           background: 'var(--tgui--bg_color)',
           margin: '0 -8px',
-          padding: '0.5em 8px',
+          padding: '0.5em 1em',
         }}
       >
         <div
