@@ -100,15 +100,24 @@ const App = () => {
 
   return (
     <AppRoot>
-      <LargeTitle
-        weight="1"
-        style={{ margin: '8px 0', padding: '0 8px', display: 'inline-block' }}
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          margin: '0.85em 0',
+        }}
       >
-        BirthdayBot
-      </LargeTitle>
+        <LargeTitle
+          weight="1"
+          style={{ padding: '0 8px', display: 'inline-block' }}
+        >
+          BirthdayBot
+        </LargeTitle>
 
-      {icsUrl && <CalendarModal icsUrl={icsUrl} />}
-
+        {icsUrl && <CalendarModal icsUrl={icsUrl} />}
+      </div>
       <List
         style={{
           background: 'var(--tg-theme-secondary-bg-color)',
