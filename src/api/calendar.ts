@@ -68,10 +68,10 @@ router.get('/:user/:token/cal.ics', async (req, res) => {
     calendar.createEvent({
       start: birthday.date,
       end: birthday.date,
-      summary: `${birthday.name}'s birthday`,
+      summary: `🎂 ${birthday.name}`,
       allDay: true,
       repeating: { freq: ICalEventRepeatingFreq.YEARLY },
-      description: `Today is ${birthday.name}'s birthday${
+      description: `BirthdayBot: Today is ${birthday.name}'s birthday${
         groupDescription ?? '!'
       }`,
     });
