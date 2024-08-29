@@ -45,9 +45,9 @@ const App = () => {
       return;
     }
 
-    tg.WebApp.MainButton.text = 'Close';
-    tg.WebApp.MainButton.onClick(() => tg.WebApp.close());
-    tg.WebApp.MainButton.show();
+    // tg.WebApp.MainButton.text = 'Close';
+    // tg.WebApp.MainButton.onClick(() => tg.WebApp.close());
+    // tg.WebApp.MainButton.show();
 
     //setTg(tg);
     setData(tg.WebApp.initData);
