@@ -9,8 +9,11 @@ export default async function setLanguage(
   ctx: MyContext,
   next: NextFunction
 ): Promise<void> {
-  if (isGroup(ctx.chat)) {
-    const chatId = ctx.chat.id;
+  const chatId = ctx.chat?.id;
+
+  if (!chatId) {
+    ctx.config = { language: DEFAULT_LANGUAGE };
+  } else {
     const config = await getConfigForGroup(chatId);
     if (config && config.language) {
       console.log('Config setting language to', config.language);
@@ -21,10 +24,6 @@ export default async function setLanguage(
       await i18next.changeLanguage(DEFAULT_LANGUAGE);
       ctx.config = { language: DEFAULT_LANGUAGE };
     }
-  } else {
-    // 1:1 convos with the bot - this is mostly for debugging
-    // although iddeally we'd fetch the language of the id provided TODO
-    ctx.config = { language: DEFAULT_LANGUAGE };
   }
 
   await next();

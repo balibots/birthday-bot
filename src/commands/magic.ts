@@ -3,7 +3,7 @@ import { DateTime } from 'luxon';
 import { sanitizeName, isGroup, parseDate } from '../utils';
 import { getGender } from '../genderize';
 import { addRecord, removeRecord, getRecord } from '../postgres';
-import { t } from 'i18next';
+import i18next, { t } from 'i18next';
 import { FunctionCallResult, getFunctionCall } from '../openai';
 import { nextCommand } from './next';
 import { birthdaysCommand } from './birthdays';
@@ -180,6 +180,7 @@ async function processFunctionCall(
     const { language } = functionCall.args;
     try {
       await setConfigForGroup(intChatId, { language });
+      await i18next.changeLanguage(language);
       return ctx.reply(t('commands.config.saved'));
     } catch {
       return ctx.reply(t('commands.config.languageError', { language }), {
