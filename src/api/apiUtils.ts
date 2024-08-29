@@ -1,9 +1,13 @@
 import crypto from 'node:crypto';
-import api from '.';
 import { birthdayLineForMiniapp } from '../interface';
 import { getGroupChats, getRecordsByChatId, GroupInfo } from '../postgres';
 import { isMemberOfGroup, sortClosestDate } from '../utils';
 import { BirthdayRecord } from '../types';
+import { Api } from 'grammy';
+
+const api = new Api(process.env.TELEGRAM_TOKEN, {
+  environment: (process.env.BOT_ENV as 'prod' | 'test' | undefined) || 'prod',
+});
 
 export function getTokenForUserCalendar(userId: number) {
   return crypto
