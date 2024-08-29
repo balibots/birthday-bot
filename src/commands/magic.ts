@@ -15,12 +15,14 @@ export const magicCommand = async (ctx: MyContext) => {
     return ctx.reply(t('errors.invalidChatId', { chatId: ctx.parsedChatId }));
   }
 
-  if (!ctx.match) {
+  const input = ctx.match || ctx.message?.text;
+
+  if (!input) {
     console.warn('Empty message? Got', ctx.match);
     return await ctx.reply(t('inputNeeded'));
   }
 
-  const functionCalls = await getFunctionCall(ctx.match.toString());
+  const functionCalls = await getFunctionCall(input.toString());
 
   console.log('Magic response', functionCalls);
 

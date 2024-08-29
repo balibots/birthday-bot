@@ -31,14 +31,14 @@
       "sentence_other": "`{{name}}`, turns *{{count}}* years old on {{day}} ({{daysToBirthdayStr}})"
     },
     "all": {
-     "intro": "Open the Calendar view, where you can see all the birthdays from the chat groups you're on, by clicking the button below:",
+      "intro": "Open the Calendar view, where you can see all the birthdays from the chat groups you're on, by clicking the button below:",
       "buttonText": "Show calendar"
     }
   },
   "errors": {
     "empty": "No birthdays added yet. Type /help if you're stuck!",
     "notAdmin": "Only group administrators can run this command!",
-    "notUnderstood": "Sorry, I didn't understand.",
+    "notUnderstood": "Sorry, I didn't understand what you meant by that. Please try again.",
     "needGroup": "This command only works in a group.",
     "needPvt": "This command only works in a private (DM) chat with me.",
     "missingChatId": "Group id is missing - did you mean to run this command on a group chat?\nOtherwise supply the id as the last comma separated param (e.g., `/add John, 1998-04-12, -123456` or `/list -123456`)",

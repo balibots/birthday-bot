@@ -93,6 +93,8 @@ bot.on('message:new_chat_members:me', async (ctx) => {
   }
 });
 
+bot.on('message:text', withChatId, magicCommand);
+
 // Command reference
 bot.api.setMyCommands(allCommands);
 
