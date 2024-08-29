@@ -1,21 +1,15 @@
 import express from 'express';
-import { getGroupChats, getRecordsByChatId, GroupInfo } from '../postgres';
-import { sortClosestDate } from '../utils';
 import { Api } from 'grammy';
+import {
+  getAllBirthdaysForUserByGroup,
+  getTokenForUserCalendar,
+} from './apiUtils';
 import crypto from 'node:crypto';
-import { birthdayLineForMiniapp } from '../interface';
-import { BirthdayRecord } from '../types';
 
 const miniappRouter = express.Router();
 const api = new Api(process.env.TELEGRAM_TOKEN, {
   environment: (process.env.BOT_ENV as 'prod' | 'test' | undefined) || 'prod',
 });
-
-interface BirthdaysList {
-  groupName: string;
-  groupId: number;
-  birthdays: (BirthdayRecord & { formattedLine: string })[];
-}
 
 miniappRouter.post('/birthdays', async (req, res) => {
   const { data } = req.body;
@@ -46,44 +40,13 @@ miniappRouter.post('/birthdays', async (req, res) => {
 
   const user = JSON.parse(jsonData.user);
 
-  const groups = await getGroupChats();
+  const response = await getAllBirthdaysForUserByGroup(user.id);
 
-  const requests = groups.map(
-    async (group: GroupInfo): Promise<BirthdaysList | null> => {
-      let userInfo;
+  const icsUrl = `/calendar/${user.id}/${getTokenForUserCalendar(
+    user.id
+  )}/cal.ics`;
 
-      try {
-        userInfo = await api.getChatMember(group.id, user.id);
-        if (['left', 'kicked'].includes(userInfo.status)) {
-          throw new Error();
-        }
-      } catch (e) {
-        // not a group we want to include (the user is not a member)
-        return null;
-      }
-
-      const birthdays = (await getRecordsByChatId(group.id)).sort(
-        sortClosestDate
-      );
-
-      return {
-        groupName: group.name,
-        groupId: Math.abs(Number(group.id)),
-        birthdays: birthdays.map((b: any) => {
-          b.groupName = group.name;
-          b.groupId = Math.abs(Number(group.id));
-          b.formattedLine = birthdayLineForMiniapp(b, 'en');
-          return b;
-        }),
-      };
-    }
-  );
-
-  const response = (await Promise.all(requests)).filter(
-    (a) => !!a
-  ) as BirthdaysList[];
-
-  return res.json({ birthdays: response });
+  return res.json({ birthdays: response, icsUrl });
 });
 
 export default miniappRouter;

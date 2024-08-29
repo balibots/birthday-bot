@@ -1,7 +1,6 @@
-import { CommandContext } from 'grammy';
+import { Api, RawApi } from 'grammy';
 import { Chat } from 'grammy/types';
 import { DateTime, Interval } from 'luxon';
-import { MyContext } from './bot';
 import { BirthdayListEntry, BirthdayRecord, Gender } from './types';
 import { titleCase } from 'title-case';
 import { getGender } from './genderize';
@@ -129,3 +128,20 @@ export const parseDate = (dateStr: string) => {
   // returning an invalid date if we cant parse it
   return isoDate;
 };
+
+export async function isMemberOfGroup(
+  userId: number,
+  groupId: number,
+  api: Api<RawApi>
+) {
+  try {
+    const userInfo = await api.getChatMember(groupId, userId);
+    if (['left', 'kicked'].includes(userInfo.status)) {
+      return false;
+    } else {
+      return true;
+    }
+  } catch (e) {
+    return false;
+  }
+}

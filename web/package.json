@@ -21,6 +21,7 @@
     "vite-plugin-nunjucks": "^0.2.0"
   },
   "dependencies": {
+    "@tabler/icons-react": "^3.14.0",
     "@telegram-apps/telegram-ui": "^2.1.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"

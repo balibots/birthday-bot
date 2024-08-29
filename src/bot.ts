@@ -1,6 +1,5 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { Bot, Context, GrammyError, HttpError, webhookCallback } from 'grammy';
-import { DateTime } from 'luxon';
 import proxy from 'express-http-proxy';
 import {
   birthdaysCommand,
@@ -16,20 +15,15 @@ import {
   startCommand,
   feedbackCommand,
 } from './commands';
-import {
-  addRecord,
-  getRecordsByDayAndMonth,
-  insertGroupChat,
-} from './postgres';
-import { set } from './cache';
+import { insertGroupChat } from './postgres';
 import { setConfigForGroup } from './config';
 import { withChatId } from './middlewares';
-import generateSalutation from './salutations';
 import { t } from 'i18next';
 import './i18n';
 
 import apiRoutes from './api';
 import miniappRoutes from './api/miniapp';
+import calendarRoutes from './api/calendar';
 import triggerEndpoint from './endpoints/trigger';
 import setLanguage from './middlewares/setLanguage';
 import nunjucks from 'nunjucks';
@@ -109,12 +103,12 @@ app.use(express.json());
 
 app.use('/api/miniapp', miniappRoutes);
 app.use('/api', apiRoutes);
+app.use('/calendar', calendarRoutes);
 
 if (!process.env.IS_DEV) {
   // prod
   nunjucks.configure('web/dist', {
     autoescape: true,
-    noCache: true,
     express: app,
   });
 

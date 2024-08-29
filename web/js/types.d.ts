@@ -2,6 +2,7 @@ import type { BirthdayRecord } from '../../src/types';
 
 export interface BirthdaysResponse {
   birthdays: GroupBirthdayInfo[];
+  icsUrl: string;
 }
 
 export interface GroupBirthdayInfo {

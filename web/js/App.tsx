@@ -19,6 +19,8 @@ import type {
   BirthdayInfo,
 } from './types';
 
+import CalendarModal from './components/CalendarModal';
+
 declare global {
   interface Window {
     BOT_BASE_API: string;
@@ -33,6 +35,7 @@ const App = () => {
   const [mode, setMode] = useState<GrouppingMode>('calendar');
 
   const [birthdays, setBirthdays] = useState<GroupBirthdayInfo[]>();
+  const [icsUrl, setIcsUrl] = useState<string>();
 
   const initializeTelegram = async () => {
     const tg = window.Telegram;
@@ -78,6 +81,7 @@ const App = () => {
       const response = await requestBirthdayInfo(data);
       if (response) {
         setBirthdays(response.birthdays);
+        setIcsUrl(response.icsUrl);
       }
     }
 
@@ -96,9 +100,15 @@ const App = () => {
 
   return (
     <AppRoot>
-      <LargeTitle weight="1" style={{ margin: '8px 0', padding: '0 8px' }}>
+      <LargeTitle
+        weight="1"
+        style={{ margin: '8px 0', padding: '0 8px', display: 'inline-block' }}
+      >
         BirthdayBot
       </LargeTitle>
+
+      {icsUrl && <CalendarModal icsUrl={icsUrl} />}
+
       <List
         style={{
           background: 'var(--tgui--bg_color)',

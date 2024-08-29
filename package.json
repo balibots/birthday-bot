@@ -65,6 +65,7 @@
     "grammy": "^1.28.0",
     "i18next": "^23.2.8",
     "i18next-fs-backend": "^2.1.5",
+    "ical-generator": "^8.0.0",
     "jest": "^29.6.0",
     "luxon": "^3.3.0",
     "nunjucks": "^3.2.4",
