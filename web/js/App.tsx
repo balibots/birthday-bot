@@ -111,7 +111,7 @@ const App = () => {
 
       <List
         style={{
-          background: 'var(--tgui--bg_color)',
+          background: 'var(--tg-theme-secondary-bg-color)',
           margin: '0 -8px',
           padding: '0.5em 1em',
         }}

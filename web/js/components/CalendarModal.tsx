@@ -51,7 +51,7 @@ const CalendarModal = ({ icsUrl }: { icsUrl: string }) => {
           <Text Component="p">
             Here's the URL of your .ics file - use it to subscribe to your
             birthday calendar on your Calendar app of choice (iCalendar, Google
-            Calendar, etc)
+            Calendar, etc).
           </Text>
           <Text
             Component="p"
