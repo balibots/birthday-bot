@@ -31,18 +31,49 @@ router.get('/:user/:token/cal.ics', async (req, res) => {
   const calendar = ical({ name: 'BirthdayBot' });
   calendar.method(ICalCalendarMethod.REQUEST);
 
+  let birthdayMap = new Map();
+
   groups.forEach((group) => {
     group.birthdays.forEach((birthday) => {
-      calendar.createEvent({
-        start: birthday.date,
-        end: birthday.date,
-        summary: `${birthday.name}'s birthday`,
-        allDay: true,
-        repeating: { freq: ICalEventRepeatingFreq.YEARLY },
-        description: `Today is ${birthday.name}'s birthday${
-          birthday.groupName ? `, from the ${birthday.groupName} group.` : '!'
-        }`,
-      });
+      const key = `${birthday.name}-${birthday.date}`;
+      if (!birthdayMap.has(key)) {
+        birthdayMap.set(key, birthday);
+      } else {
+        let b = birthdayMap.get(key);
+        birthdayMap.set(key, {
+          ...b,
+          dedupGroupNames: [
+            ...(b.dedupGroupNames || [b.groupName]),
+            birthday.groupName,
+          ],
+        });
+      }
+    });
+  });
+
+  const allBirthdays = Array.from(birthdayMap.values());
+
+  console.log(allBirthdays);
+
+  allBirthdays.forEach((birthday) => {
+    let groupDescription;
+    if (birthday.dedupGroupNames) {
+      groupDescription = `, from the following groups: ${birthday.dedupGroupNames.join(
+        ', '
+      )}.`;
+    } else if (birthday.groupName) {
+      groupDescription = `, from the ${birthday.groupName} group.`;
+    }
+
+    calendar.createEvent({
+      start: birthday.date,
+      end: birthday.date,
+      summary: `${birthday.name}'s birthday`,
+      allDay: true,
+      repeating: { freq: ICalEventRepeatingFreq.YEARLY },
+      description: `Today is ${birthday.name}'s birthday${
+        groupDescription ?? '!'
+      }`,
     });
   });
 

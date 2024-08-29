@@ -27,6 +27,7 @@ interface BirthdaysList {
     formattedLine: string;
     groupName: string;
     groupId: number;
+    dedupGroupNames?: string[];
   })[];
 }
 
