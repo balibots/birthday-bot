@@ -53,8 +53,6 @@ router.get('/:user/:token/cal.ics', async (req, res) => {
 
   const allBirthdays = Array.from(birthdayMap.values());
 
-  console.log(allBirthdays);
-
   allBirthdays.forEach((birthday) => {
     let groupDescription;
     if (birthday.dedupGroupNames) {

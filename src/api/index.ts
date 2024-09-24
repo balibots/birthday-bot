@@ -67,7 +67,6 @@ router.post('/:chatId/batch', async (req, res) => {
   }
   let count = 0;
   for (const record of records) {
-    console.log(record);
     if (record.op === 'add') {
       try {
         const dbRecord = await buildRecord(
