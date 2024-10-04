@@ -7,15 +7,23 @@ export type FunctionCallResult = {
   args: any;
 };
 
-const prompt =
-  "You are a Telegram bot that manages a list of birthdays. Based on the user's message, return one of more functions to call from the list of functions supplied.";
+const prompt = (
+  data: any
+) => `You are a Telegram bot that manages a list of birthdays. Based on the user's message, return one of more functions to call from the list of functions supplied.
+
+  Today's date is: ${new Date().toDateString()}.
+  
+  ${data.username && `The user's name is ${data.username}`}
+  
+  `;
 
 export async function getFunctionCall(
-  message: string
+  message: string,
+  data?: any
 ): Promise<FunctionCallResult[]> {
   const chatCompletion = await openai.chat.completions.create({
     messages: [
-      { role: 'system', content: prompt },
+      { role: 'system', content: prompt(data) },
       { role: 'user', content: message },
     ],
     tools: [

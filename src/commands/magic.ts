@@ -17,12 +17,16 @@ export const magicCommand = async (ctx: MyContext) => {
 
   const input = ctx.match || ctx.message?.text;
 
+  console.log(input);
+
   if (!input) {
     console.warn('Empty message? Got', ctx.match);
     return await ctx.reply(t('inputNeeded'));
   }
 
-  const functionCalls = await getFunctionCall(input.toString());
+  const functionCalls = await getFunctionCall(input.toString(), {
+    username: ctx.from?.first_name || ctx.from?.username,
+  });
 
   console.log('Magic response', functionCalls);
 
