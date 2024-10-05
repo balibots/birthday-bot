@@ -61,7 +61,7 @@ bot.command('feedback', feedbackCommand);
 
 bot.command(['debug'], debug);
 
-async function debug(ctx) {
+async function debug(ctx: MyContext) {
   console.log(JSON.stringify(ctx, null, 2));
 }
 
