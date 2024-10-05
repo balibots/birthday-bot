@@ -4,6 +4,7 @@ import { removeRecord } from '../postgres';
 import { isGroup, sanitizeName } from '../utils';
 import { t } from 'i18next';
 import { getConfigForGroup } from '../config';
+import { set } from '../cache';
 
 export const removeCommand = async (ctx: CommandContext<MyContext>) => {
   if (!ctx.parsedChatId) {
@@ -13,7 +14,34 @@ export const removeCommand = async (ctx: CommandContext<MyContext>) => {
   let [name] = ctx.match?.split(',').map((parts) => parts.trim()) || [];
 
   if (!name) {
-    return ctx.reply(t('commands.remove.missingName'), {
+    const msg = await ctx.reply(t('commands.remove.askForData'), {
+      parse_mode: 'Markdown',
+      reply_markup: { force_reply: true },
+    });
+
+    set(`msg:${msg.message_id}`, 'REMOVE');
+
+    return;
+  }
+
+  await removeRecordFromMessage(ctx);
+};
+
+export async function removeRecordFromMessage(ctx: MyContext) {
+  const text = ctx.match || ctx.message?.text;
+
+  if (!text) {
+    return ctx.reply(t('errors.couldNotGetMessageText'));
+  }
+
+  let [name] =
+    text
+      .toString()
+      .split(',')
+      .map((parts) => parts.trim()) || [];
+
+  if (!name) {
+    return await ctx.reply(t('commands.remove.missingName'), {
       parse_mode: 'Markdown',
     });
   }
@@ -53,4 +81,4 @@ export const removeCommand = async (ctx: CommandContext<MyContext>) => {
   } catch (error) {
     return ctx.reply(t('commands.remove.notFound'));
   }
-};
+}

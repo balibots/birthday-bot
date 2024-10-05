@@ -17,7 +17,7 @@ import {
 } from './commands';
 import { insertGroupChat } from './postgres';
 import { setConfigForGroup } from './config';
-import { withChatId } from './middlewares';
+import { withChatId, withReply } from './middlewares';
 import { t } from 'i18next';
 import './i18n';
 
@@ -59,9 +59,11 @@ bot.command(['all', 'calendar'], allBirthdaysCommand);
 bot.command('start', startCommand);
 bot.command('feedback', feedbackCommand);
 
-bot.command(['debug'], async (ctx) => {
+bot.command(['debug'], debug);
+
+async function debug(ctx) {
   console.log(JSON.stringify(ctx, null, 2));
-});
+}
 
 // /add name, date
 // /add name, date, chatId (for private chats)
@@ -93,7 +95,7 @@ bot.on('message:new_chat_members:me', async (ctx) => {
   }
 });
 
-bot.on('message:text', withChatId, magicCommand);
+bot.on('message:text', withChatId, withReply, magicCommand);
 
 // Command reference
 bot.api.setMyCommands(allCommands);

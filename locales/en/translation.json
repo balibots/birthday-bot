@@ -4,15 +4,17 @@
       "missingName": "The command is missing the name of the person to remove (e.g., `/remove Peter`)",
       "success": "Birthday removed: {{name}} — {{date}}.",
       "notFound": "Sorry, couldn't find the birthday to remove.",
-      "error": "Error removing birthday."
+      "error": "Error removing birthday.",
+      "askForData": "Please reply with the name of the person to remove:"
     },
     "add": {
       "success": "Birthday added: {{name}} — {{date}}.",
-      "missingData": "Please provide the name and birthday in the following format: `/add Jonas, 1984-03-30`",
+      "missingData": "Please provide the name and birthday in the following format: `/add Sam, 1984-03-30`",
       "errorParsingDate": "The date format is invalid. Please use YYYY-MM-DD, for example: `/add Saul, 1989-01-31`",
       "success": "Birthday added: {{name}} — {{date}}.",
       "restrictedToAdmins": "Only group admins can add and remove birthdays.",
-      "alreadyExists": "A birthday person with that name already exists."
+      "alreadyExists": "A birthday person with that name already exists.",
+      "askForData": "Please reply with the name and birthdate (year-month-day) of the birthday to add (e.g. `Sam, 1986-06-11`):"
     },
     "modify": {
       "errorNotFound": "Sorry, couldn't find the birthday to remove.",
@@ -38,7 +40,7 @@
   "errors": {
     "empty": "No birthdays added yet. Type /help if you're stuck!",
     "notAdmin": "Only group administrators can run this command!",
-    "notUnderstood": "Sorry, I didn't understand what you meant by that. Please try again.",
+    "notUnderstood": "Sorry, I didn't understand what you meant by that. Please try again. If you get stuck, try /help.",
     "needGroup": "This command only works in a group.",
     "needPvt": "This command only works in a private (DM) chat with me.",
     "missingChatId": "Group id is missing - did you mean to run this command on a group chat?\nOtherwise supply the id as the last comma separated param (e.g., `/add John, 1998-04-12, -123456` or `/list -123456`)",
@@ -51,7 +53,8 @@
       "dateInvalid": "I couldn't understand the birth date, please try again.",
       "yearMissing": "Sorry, I didn't understand the birth year of the birthday person, please try again.",
       "nameMissing": "Sorry, I didn't understand the name of the birthday person, please try again."
-    }
+    },
+    "couldNotGetMessageText": "Could not get the message text, please try again."
   },
   "messages": [
     "🎂 Today's baby is *{{name}}* who turns {{age}} years old! 🥳🎉 Congratulations {{name}} ❤️",
@@ -76,8 +79,10 @@
     "tomorrow": "tomorrow!"
   },
   "welcomeGroup": "👋 *{{chatTitle}}*!\nHi there! I'm a bot 🤖 here to help you remember everyone's birthdays. 🎉\n To learn more about what I can do, just type /help. Start by adding the first birthday by using the add command with the name and date separated by a comma (e.g., `/add David, 1984-07-01`)",
-  "startMessage": "🎂 *Welcome to the Birthday bot!* 🎂\nI'm here to help you remember all your friends birthdays. 🤖 You can add me (@BaliBirthdayBot) to a Group Chat or send me direct messages and insert everyone's birthdays by using the `/add` command (e.g., `/add Sam, 1998-04-29`). I will send congratulatory messages when birthdays are due! 🎉 Check some other commands you can use by typing /help.",
-  "helpMessage": "Here are some of the commands you can use:\n - /add - Add a new birthday with the name and date separated by a comma (eg, `/add Samuel, 1994-03-21`)\n - /remove - Remove a birthday (eg, `/remove David`)\n - /birthdays - Lists everyone's birthdays, sorted by the nearest date.\n - /ages - Lists everyone, sorted by age.\n - /next - Shows who has the next upcoming birthday!\n - /birthdaybot - Slightly magical command, just tell the bot what you want it to do (eg, `/birthdaybot add Peter on April 15, 1980`).\n - /config - Shows the current configuration for this group. If you are an admin, you can change it by separating the key and value with a comma. (eg, `/config language, en`)\n - /calendar - Opens the Birthday Calendar view.\n - /feedback - Send us your feedback!",
+  "startMessage": "🎂 *Welcome to the Birthday bot!* 🎂\nI live to help you remember all your friends birthdays. 🤖\n\nYou can add me to a Group Chat so that everyone in the group can add birthdays collaboratively, or save your important dates privately by using DMs.\n\nStart by adding birthdays using the /add command and I will send congratulatory messages when birthdays are due! 🎉.\n\nCheck what other commands are available by typing /help and please give us your feedback using the /feedback command. Enjoy! 🎈",
+  "startMessageOnDm": "🎂 *Welcome to the Birthday bot!* 🎂\nI live to help you remember all your friends birthdays. 🤖\n\nYou can add me to a Group Chat so that everyone in the group can add birthdays collaboratively, or save your important dates privately by using my DMs like you're doing right now.\n\nStart by adding birthdays, just let me know their name and full birth date (e.g., `add Sam's birthday on the 11th june 1986`) and I will send congratulatory messages when birthdays are due! 🎉. (on a group chat, add and remove birthdays by using the /add and /remove commands).\n\nCheck some other commands you can use by typing /help and please give us your feedback using the /feedback command. Enjoy! 🎈",
+  "helpMessage": "💡 Here are some of the commands you can use on a group chat:\n\n - /add - Adds a new birthday with the name and date separated by a comma (eg, `/add Samuel, 1994-03-21`)\n - /remove - Removes a birthday (eg, `/remove David`)\n - /birthdays - Lists everyone's birthdays, sorted by the nearest date.\n - /ages - Lists everyone, sorted by age.\n - /next - Shows who has the next upcoming birthday!\n - /birthdaybot - Slightly magical command, just tell the bot what you want it to do (eg, `/birthdaybot add Peter on April 15, 1980`).\n - /config - Shows the current configuration for this group. If you are an admin, you can change it by separating the key and value with a comma. (eg, `/config language, en`)\n - /calendar - Opens the Birthday Calendar view.\n - /feedback - Send us your feedback!",
+  "helpMessageOnDm": "💡 When using direct messages, you can just tell me what you need me to do, for instance `add Sam's birthday on the 11th june 1986`, or, `remove Peter's birthday` - there's no need to use commands!\n\nIf you really want to though, here the commands you can use (you'll definitely need to use them when interacting with me on a group chat!):\n\n - /add - Adds a new birthday with the name and date separated by a comma (eg, `/add Samuel, 1994-03-21`)\n - /remove - Removes a birthday (eg, `/remove David`)\n - /birthdays - Lists everyone's birthdays, sorted by the nearest date.\n - /ages - Lists everyone, sorted by age.\n - /next - Shows who has the next upcoming birthday!\n - /birthdaybot - Slightly magical command, just tell the bot what you want it to do (eg, `/birthdaybot add Peter on April 15, 1980`).\n - /config - Shows the current configuration for this group. If you are an admin, you can change it by separating the key and value with a comma. (eg, `/config language, en`)\n - /calendar - Opens the Birthday Calendar view.\n - /feedback - Send us your feedback!",
   "unborn": "unborn",
   "inputNeeded": "Yes?...",
   "configMessage": "Here's this group's configuration:\n \\- `language`:  *{{language}}*\n \\- `notificationHour`: The earliest the bot will send birthday notifications: *{{notificationHour}}h* \\(UTC, 24h format\\)\n \\- `restrictedToAdmins`: Whether managing birthdays is limited to group administrators: *{{restrictedToAdmins}}*\n"
