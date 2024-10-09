@@ -78,7 +78,11 @@ export const isGroup = (
   chat: Chat | undefined
 ): chat is Chat.GroupChat | Chat.SupergroupChat => {
   if (!chat) return false;
-  return chat.type === 'group' || chat.type === 'supergroup';
+  return (
+    chat.type === 'group' ||
+    chat.type === 'supergroup' ||
+    chat.type === 'channel'
+  );
 };
 
 export const buildRecord = async (
