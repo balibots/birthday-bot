@@ -27,6 +27,7 @@ import calendarRoutes from './api/calendar';
 import triggerEndpoint from './endpoints/trigger';
 import setLanguage from './middlewares/setLanguage';
 import nunjucks from 'nunjucks';
+import { isGroup } from './utils';
 
 export type MyContext = Context & { parsedChatId: number } & {
   config: CtxConfig;
@@ -95,7 +96,16 @@ bot.on('message:new_chat_members:me', async (ctx) => {
   }
 });
 
-bot.on('message:text', withChatId, withReply, magicCommand);
+bot.on(
+  'message:text',
+  withChatId,
+  withReply,
+  async function (ctx, next) {
+    if (isGroup(ctx.chat)) return;
+    return await next();
+  },
+  magicCommand // only runs on pvt
+);
 
 // Command reference
 bot.api.setMyCommands(allCommands);
