@@ -16,7 +16,7 @@ export const removeCommand = async (ctx: CommandContext<MyContext>) => {
   if (!name) {
     const msg = await ctx.reply(t('commands.remove.askForData'), {
       parse_mode: 'Markdown',
-      reply_markup: { force_reply: true },
+      reply_markup: { force_reply: true, selective: true },
     });
 
     set(`msg:${msg.message_id}`, 'REMOVE');

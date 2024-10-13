@@ -12,7 +12,7 @@ export const feedbackCommand = async (ctx: MyContext) => {
     const msg = await ctx.reply(
       'Please let us know your feedback by replying to this message:',
       {
-        reply_markup: { force_reply: true },
+        reply_markup: { force_reply: true, selective: true },
       }
     );
 

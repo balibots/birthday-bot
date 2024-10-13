@@ -33,7 +33,7 @@ export const addCommand = async (ctx: CommandContext<MyContext>) => {
   if (!name || !date) {
     const msg = await ctx.reply(t('commands.add.askForData'), {
       parse_mode: 'Markdown',
-      reply_markup: { force_reply: true },
+      reply_markup: { force_reply: true, selective: true },
     });
 
     set(`msg:${msg.message_id}`, 'ADD');
