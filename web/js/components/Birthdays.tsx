@@ -2,6 +2,8 @@ import React from 'react';
 import { GroupBirthdayInfo, BirthdayInfo, GrouppingMode } from '../types';
 import { List, Section, Text } from '@telegram-apps/telegram-ui';
 
+const padDay = (day: number): string => (day < 10 ? `0${day}` : `${day}`);
+
 const Birthdays = ({
   data,
   mode,
@@ -37,17 +39,32 @@ const Group = ({
   let hasRenderedToday = false;
 
   const renderTodayLine = () => {
-    console.log('rendering today');
     if (!hasRenderedToday) hasRenderedToday = true;
     return (
       <div
         style={{
-          width: '100%',
-          borderBottom: '2px solid var(--tg-theme-subtitle-text-color)',
-          opacity: 0.45,
-          marginTop: '2px',
+          display: 'flex',
         }}
-      ></div>
+      >
+        <Text
+          style={{
+            color: 'var(--tg-theme-accent-text-color)',
+          }}
+        >
+          {padDay(new Date().getDate())}
+        </Text>
+        <span
+          style={{
+            flexGrow: 1,
+            display: 'inlineBlock',
+            margin: '10px',
+            width: '100%',
+            borderBottom: '2px solid var(--tg-theme-accent-text-color)',
+            opacity: 0.25,
+            marginTop: '2px',
+          }}
+        ></span>
+      </div>
     );
   };
 
@@ -58,8 +75,9 @@ const Group = ({
         {mode === 'group' && (
           <span
             style={{
-              fontWeight: 500,
-              fontSize: '0.9em',
+              fontWeight: 600,
+              fontSize: '0.875em',
+              opacity: 0.9,
               color: 'var(--tg-theme-subtitle-text-color)',
             }}
           >
@@ -69,8 +87,9 @@ const Group = ({
         {mode === 'calendar' && (
           <span
             style={{
-              fontWeight: 500,
-              fontSize: '0.9em',
+              fontWeight: 600,
+              fontSize: '0.875em',
+              opacity: 0.9,
               color: 'var(--tg-theme-subtitle-text-color)',
             }}
           >
@@ -82,7 +101,6 @@ const Group = ({
       </Section.Header>
       <List style={{ padding: '0.5em 1em' }}>
         {group.birthdays.map((b, i) => {
-          console.log(b, hasRenderedToday);
           return (
             <>
               {mode === 'calendar' &&
@@ -117,7 +135,6 @@ const Birthday = ({
   mode: GrouppingMode;
   today: Date;
 }) => {
-  const padDay = (day: number): string => (day < 10 ? `0${day}` : `${day}`);
   const isBirthdayToday = isBirthdayDate(today, birthday.date);
 
   return (
