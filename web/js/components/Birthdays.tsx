@@ -34,6 +34,22 @@ const Group = ({
   mode: GrouppingMode;
 }) => {
   const date = new Date();
+  let hasRenderedToday = false;
+
+  const renderTodayLine = () => {
+    console.log('rendering today');
+    if (!hasRenderedToday) hasRenderedToday = true;
+    return (
+      <div
+        style={{
+          width: '100%',
+          borderBottom: '2px solid var(--tg-theme-subtitle-text-color)',
+          opacity: 0.45,
+          marginTop: '2px',
+        }}
+      ></div>
+    );
+  };
 
   return (
     <Section style={{ margin: '1em 0' }}>
@@ -65,9 +81,28 @@ const Group = ({
         )}
       </Section.Header>
       <List style={{ padding: '0.5em 1em' }}>
-        {group.birthdays.map((b, i) => (
-          <Birthday key={i} birthday={b} mode={mode} today={date} />
-        ))}
+        {group.birthdays.map((b, i) => {
+          console.log(b, hasRenderedToday);
+          return (
+            <>
+              {mode === 'calendar' &&
+              new Date(b.date).getMonth() === date.getMonth() &&
+              !hasRenderedToday &&
+              +b.day > date.getDate()
+                ? renderTodayLine()
+                : null}
+              <Birthday key={i} birthday={b} mode={mode} today={date} />
+            </>
+          );
+        })}
+        {mode === 'calendar' &&
+        group.birthdays.length &&
+        new Date(group.birthdays[0].date).getMonth() === date.getMonth() &&
+        !hasRenderedToday &&
+        new Date(group.birthdays[group.birthdays.length - 1].date).getDate() !==
+          date.getDate()
+          ? renderTodayLine()
+          : null}
       </List>
     </Section>
   );
