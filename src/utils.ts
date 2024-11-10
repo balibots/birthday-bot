@@ -151,5 +151,9 @@ export async function isMemberOfGroup(
 }
 
 export function escapeForMarkdownV2(str: string) {
-  return str.replace(/\(/g, '\\(').replace(/\)/g, '\\)').replace(/\./g, '\\.');
+  return str
+    .replace(/\(/g, '\\(')
+    .replace(/\)/g, '\\)')
+    .replace(/\./g, '\\.')
+    .replace(/!/g, '\\!');
 }

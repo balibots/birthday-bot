@@ -23,13 +23,15 @@ export function birthdayLine(
   locale: string
 ): string {
   const days = daysToBirthday(record.date);
-  return `\`${formatDate(record.date, locale)}\` — ${record.name} — ${
-    days
-      ? days > 1
-        ? `${days} ${t('words.days')}`
-        : `${days} ${t('words.day')}`
-      : t('words.today')
-  }`;
+  return escapeForMarkdownV2(
+    `\`${formatDate(record.date, locale)}\` — ${record.name} — ${
+      days
+        ? days > 1
+          ? `${days} ${t('words.days')}`
+          : `${days} ${t('words.day')}`
+        : t('words.today')
+    }`
+  );
 }
 
 export function birthdayLineForMiniapp(
@@ -52,11 +54,9 @@ export function ageLine(record: BirthdayListEntry, locale: string): string {
     year: 'numeric',
   });
 
-  const escapedName = escapeForMarkdownV2(record.name);
-
-  return `\`${date}\` — ${escapedName}, ${
-    age >= 0 ? Math.floor(age) : t('unborn')
-  }`;
+  return escapeForMarkdownV2(
+    `\`${date}\` — ${record.name}, ${age >= 0 ? Math.floor(age) : t('unborn')}`
+  );
 }
 
 export function nextBirthday(
@@ -83,10 +83,12 @@ export function nextBirthday(
       ? t('words.tomorrow')
       : differenceToBirthday;
 
-  return t('commands.birthdays.sentence', {
-    name: record.name,
-    count: nextAge,
-    day,
-    daysToBirthdayStr,
-  });
+  return escapeForMarkdownV2(
+    t('commands.birthdays.sentence', {
+      name: record.name,
+      count: nextAge,
+      day,
+      daysToBirthdayStr,
+    })
+  );
 }
