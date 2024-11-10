@@ -149,3 +149,7 @@ export async function isMemberOfGroup(
     return false;
   }
 }
+
+export function escapeForMarkdownV2(str: string) {
+  return str.replace(/\(/g, '\\(').replace(/\)/g, '\\)').replace(/\./g, '\\.');
+}

@@ -1,7 +1,7 @@
 import { t } from 'i18next';
 import { DateTime, DateTimeFormatOptions } from 'luxon';
 import { BirthdayListEntry, BirthdayRecord } from './types';
-import { daysToBirthday, getAge } from './utils';
+import { daysToBirthday, escapeForMarkdownV2, getAge } from './utils';
 
 export function formatDate(
   date: string,
@@ -52,7 +52,9 @@ export function ageLine(record: BirthdayListEntry, locale: string): string {
     year: 'numeric',
   });
 
-  return `\`${date}\` — ${record.name}, ${
+  const escapedName = escapeForMarkdownV2(record.name);
+
+  return `\`${date}\` — ${escapedName}, ${
     age >= 0 ? Math.floor(age) : t('unborn')
   }`;
 }
