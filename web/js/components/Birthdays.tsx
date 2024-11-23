@@ -48,7 +48,11 @@ const Group = ({
       >
         <Text
           style={{
-            color: 'var(--tg-theme-accent-text-color)',
+            background: 'var(--tg-theme-accent-text-color)',
+            borderRadius: '100%',
+            padding: 4,
+            margin: '-4px',
+            color: 'var(--tg-theme-secondary-bg-color)',
           }}
         >
           {padDay(new Date().getDate())}
@@ -57,11 +61,12 @@ const Group = ({
           style={{
             flexGrow: 1,
             display: 'inlineBlock',
-            margin: '10px',
+            margin: '0px 10px',
             width: '100%',
             borderBottom: '2px solid var(--tg-theme-accent-text-color)',
             opacity: 0.25,
             marginTop: '2px',
+            height: '8px',
           }}
         ></span>
       </div>
@@ -101,6 +106,16 @@ const Group = ({
       </Section.Header>
       <List style={{ padding: '0.5em 1em' }}>
         {group.birthdays.map((b, i) => {
+          // if we have a birthday today, never the render today line
+          if (
+            mode === 'calendar' &&
+            new Date(b.date).getMonth() === date.getMonth() &&
+            !hasRenderedToday &&
+            b.day === date.getDate()
+          ) {
+            hasRenderedToday = true;
+          }
+
           return (
             <>
               {mode === 'calendar' &&
