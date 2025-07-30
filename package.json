@@ -56,7 +56,6 @@
     "yargs": "^17.7.2"
   },
   "dependencies": {
-    "@cyclic.sh/dynamodb": "^0.0.34",
     "@prisma/client": "^5.14.0",
     "@types/nunjucks": "^3.2.6",
     "axios": "^1.4.0",
