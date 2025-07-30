@@ -61,7 +61,7 @@
     "axios": "^1.4.0",
     "express": "^4.18.2",
     "express-http-proxy": "^2.1.1",
-    "grammy": "^1.28.0",
+    "grammy": "^1.37.0",
     "i18next": "^23.2.8",
     "i18next-fs-backend": "^2.1.5",
     "ical-generator": "^8.0.0",
