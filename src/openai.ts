@@ -32,7 +32,7 @@ export async function getFunctionCall(
           type: 'function',
           function: {
             name: 'add_birthday',
-            description: 'Adds a new birthday to the calendar',
+            description: 'Adds a new birthday to the calendar. The birth year is optional — if the user does not mention a year, omit it.',
             parameters: {
               type: 'object',
               properties: {
@@ -47,7 +47,7 @@ export async function getFunctionCall(
                 },
                 year: {
                   type: 'number',
-                  description: 'The year they were born',
+                  description: 'The year they were born. Optional — omit if not provided by the user.',
                 },
                 name: {
                   type: 'string',
@@ -55,7 +55,7 @@ export async function getFunctionCall(
                     "The name of the person whose birthday we're adding",
                 },
               },
-              required: ['day', 'month', 'year', 'name'],
+              required: ['day', 'month', 'name'],
             },
           },
         },

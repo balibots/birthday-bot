@@ -9,9 +9,9 @@
     },
     "add": {
       "success": "생일자가 추가되었습니다: {{name}} — {{date}}.",
-      "missingData": "이름과 생일 날짜를 다음 형식으로 제공해주세요: `/add Jonas, 1984-03-30`",
+      "missingData": "이름과 생일 날짜를 다음 형식으로 제공해주세요: `/add Jonas, 1984-03-30` (연도는 선택사항입니다, 예: `/add Jonas, 30-03`)",
       "missingDataWithGroupId": "이름, 생일 날짜 및 그룹 ID를 다음 형식으로 제공해주세요: `/add Jonas, 1984-03-30, -12345`",
-      "errorParsingDate": "날짜 형식이 잘못되었습니다. YYYY-MM-DD 형식을 사용해주세요, 예: `/add Saul, 1989-01-31`",
+      "errorParsingDate": "날짜 형식이 잘못되었습니다. YYYY-MM-DD (또는 연도 없이 DD-MM) 형식을 사용해주세요, 예: `/add Saul, 1989-01-31` 또는 `/add Saul, 31-01`",
       "success": "생일자가 추가되었습니다: {{name}} — {{date}}.",
       "restrictedToAdmins": "생일자는 그룹 관리자만 추가 및 제거할 수 있습니다.",
       "alreadyExists": "이미 해당 이름의 생일자가 존재합니다."
@@ -25,7 +25,8 @@
     },
     "birthdays": {
       "sentence_one": "`{{name}}`, {{day}}일에 *{{count}}*살이 됩니다 ({{daysToBirthdayStr}})",
-      "sentence_other": "`{{name}}`, {{day}}일에 *{{count}}*살이 됩니다 ({{daysToBirthdayStr}})"
+      "sentence_other": "`{{name}}`, {{day}}일에 *{{count}}*살이 됩니다 ({{daysToBirthdayStr}})",
+      "sentenceNoAge": "`{{name}}`, {{day}}일에 생일입니다 ({{daysToBirthdayStr}})"
     }
   },
   "errors": {
@@ -50,6 +51,12 @@
     "🎂 대단한 날입니다! {{pronounUp}} *{{name}}*는 오늘 {{age}}살입니다! 🥳🎉 축하합니다 {{name}} ❤️",
     "🎂 {{pronounUp}} 우리의 *{{name}}*는 오늘 {{age}}살입니다! 🥳🎉 축하합니다 {{name}} ❤️"
   ],
+  "messagesNoAge": [
+    "🎂 오늘은 *{{name}}*의 생일입니다! 🥳🎉 축하합니다 {{name}} ❤️",
+    "🎂 오늘은 *{{name}}*의 특별한 날입니다! 🥳🎉 축하합니다 {{name}} ❤️",
+    "🎂 대단한 날입니다! 오늘은 *{{name}}*의 생일! 🥳🎉 축하합니다 {{name}} ❤️",
+    "🎂 오늘은 {{name}}의 생일을 축하하는 날입니다! 🥳🎉 생일 축하합니다, {{name}} ❤️"
+  ],
   "words": {
     "days": "일",
     "day": "일",
@@ -57,7 +64,7 @@
     "tomorrow": "내일!"
   },
   "welcomeGroup": "👋 *{{chatTitle}}*!\n저는 이 그룹의 모든 멤버들의 생일을 등록하는 것을 도와주는 봇 🤖입니다. 사용 가능한 명령어에 대해 더 알고 싶으시면, /help를 입력해주세요.",
-  "helpMessage": "사용할 수 있는 명령어는 다음과 같습니다:\n - /add - 생일자를 추가합니다, 이름과 날짜를 쉼표로 구분하여 입력하세요 (예: `/add Samuel, 1994-03-21`)\n - /remove - 생일자를 제거합니다 (`/remove Pedro`)\n - /birthdays - 생일자의 리스트, 다음 생일자가 있는 순서로 정렬됩니다.\n - /ages - 나이별로 정렬된 리스트입니다.\n - /next - 다음 생일에 대한 정보를 보여줍니다.\n - /birthdaybot - 봇에게 원하는 작업을 지시합니다 (예: `/birthdaybot 1980년 4월 15일에 Pedro를 추가`).",
+  "helpMessage": "사용할 수 있는 명령어는 다음과 같습니다:\n - /add - 생일자를 추가합니다, 이름과 날짜를 쉼표로 구분하여 입력하세요. 연도는 선택사항입니다! (예: `/add Samuel, 1994-03-21` 또는 `/add Samuel, 21-03`)\n - /remove - 생일자를 제거합니다 (`/remove Pedro`)\n - /birthdays - 생일자의 리스트, 다음 생일자가 있는 순서로 정렬됩니다.\n - /ages - 나이별로 정렬된 리스트입니다.\n - /next - 다음 생일에 대한 정보를 보여줍니다.\n - /birthdaybot - 봇에게 원하는 작업을 지시합니다 (예: `/birthdaybot 4월 15일에 Pedro를 추가` 또는 `/birthdaybot 1980년 4월 15일에 Pedro를 추가`).",
   "unborn": "태어나지 않음",
   "inputNeeded": "네?..."
 }

@@ -27,7 +27,7 @@ model User {
   date        DateTime
   day         Int
   month       Int
-  year        Int
+  year        Int?
   gender      String?
   GroupChat   GroupChat @relation(fields: [groupChatId], references: [id])
   groupChatId BigInt

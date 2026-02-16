@@ -54,13 +54,15 @@ describe('sortClosestDate()', () => {
     expect(sorted[5].name).toEqual('Ines');
   });
 
-  it('sorts records by absolute date', () => {
+  it('sorts records by absolute date (month/day only)', () => {
     jest.useFakeTimers();
     jest.setSystemTime(new Date('2020-06-12'));
 
     const sorted = records.sort(sortAbsoluteDate);
-    expect(sorted[0].name).toEqual('Ricardo');
-    expect(sorted[5].name).toEqual('Carlota');
+    // Sorted by month/day: Carlota (May 9), Ines (Jun 11), Francisca (Jun 16),
+    // Ricardo (Jul 1), Xavier (Aug 20), Rui (Dec 26)
+    expect(sorted[0].name).toEqual('Carlota');
+    expect(sorted[5].name).toEqual('Rui');
   });
 });
 
@@ -103,49 +105,84 @@ describe('sanitizeName()', () => {
 describe('parseDate()', () => {
   it('parses dates in the ISO format', () => {
     const dateStr = '1999-12-30';
-    const date = parseDate(dateStr);
+    const { date, hasYear } = parseDate(dateStr);
     expect(date.get('day')).toEqual(30);
     expect(date.get('month')).toEqual(12);
     expect(date.get('year')).toEqual(1999);
+    expect(hasYear).toEqual(true);
   });
 
   it.each([['1999-12-30'], ['30-12-1999'], ['30/12/1999']])(
     'parses dates in other sensible formats too: %s',
     (dateStr) => {
-      const date = parseDate(dateStr);
+      const { date, hasYear } = parseDate(dateStr);
       expect(date.get('day')).toEqual(30);
       expect(date.get('month')).toEqual(12);
       expect(date.get('year')).toEqual(1999);
+      expect(hasYear).toEqual(true);
     }
   );
 
   it.each([['1999-12-1'], ['1-12-1999'], ['1/12/1999']])(
     'parses dates in other sensible formats too: %s',
     (dateStr) => {
-      const date = parseDate(dateStr);
+      const { date, hasYear } = parseDate(dateStr);
       expect(date.get('day')).toEqual(1);
       expect(date.get('month')).toEqual(12);
       expect(date.get('year')).toEqual(1999);
+      expect(hasYear).toEqual(true);
     }
   );
 
   it.each([['1999-1-30'], ['30-1-1999'], ['30/1/1999']])(
     'parses dates in other sensible formats too: %s',
     (dateStr) => {
-      const date = parseDate(dateStr);
+      const { date, hasYear } = parseDate(dateStr);
       expect(date.get('day')).toEqual(30);
       expect(date.get('month')).toEqual(1);
       expect(date.get('year')).toEqual(1999);
+      expect(hasYear).toEqual(true);
     }
   );
 
   it.each([['1999-1-1'], ['1-1-1999'], ['1/1/1999']])(
     'parses dates in other sensible formats too: %s',
     (dateStr) => {
-      const date = parseDate(dateStr);
+      const { date, hasYear } = parseDate(dateStr);
       expect(date.get('day')).toEqual(1);
       expect(date.get('month')).toEqual(1);
       expect(date.get('year')).toEqual(1999);
+      expect(hasYear).toEqual(true);
+    }
+  );
+
+  it.each([['12-30'], ['12/30'], ['30-12'], ['30/12']])(
+    'parses dates without year: %s',
+    (dateStr) => {
+      const { date, hasYear } = parseDate(dateStr);
+      expect(date.get('day')).toEqual(30);
+      expect(date.get('month')).toEqual(12);
+      expect(hasYear).toEqual(false);
+    }
+  );
+
+  it.each([['06-15'], ['6-15'], ['06/15'], ['6/15']])(
+    'parses dates without year (month-day): %s',
+    (dateStr) => {
+      const { date, hasYear } = parseDate(dateStr);
+      expect(date.get('month')).toEqual(6);
+      expect(date.get('day')).toEqual(15);
+      expect(hasYear).toEqual(false);
+    }
+  );
+
+  it.each([['15-06'], ['15/06']])(
+    'parses dates without year preferring dd-MM: %s',
+    (dateStr) => {
+      const { date, hasYear } = parseDate(dateStr);
+      expect(date.get('day')).toEqual(15);
+      expect(date.get('month')).toEqual(6);
+      expect(hasYear).toEqual(false);
     }
   );
 });

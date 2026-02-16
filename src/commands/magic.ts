@@ -56,16 +56,15 @@ async function processFunctionCall(
       return await ctx.reply(t('errors.validation.dateMissing'));
     }
 
-    if (!year) {
-      return await ctx.reply(t('errors.validation.yearMissing'));
-    }
-
     if (!name) {
       return await ctx.reply(t('errors.validation.nameMissing'));
     }
 
-    console.log('Adding', year, month, day, name);
-    const parsedDate = DateTime.fromISO(`${year}-${month}-${day}`);
+    const hasYear = !!year;
+    const dateYear = year || 1904; // placeholder year (leap year) when birth year is unknown
+
+    console.log('Adding', dateYear, month, day, name, hasYear ? '(with year)' : '(without year)');
+    const parsedDate = DateTime.fromISO(`${dateYear}-${month}-${day}`);
 
     if (!parsedDate.isValid) {
       return await ctx.reply(t('errors.validation.dateInvalid'));
@@ -79,13 +78,17 @@ async function processFunctionCall(
       date: parsedDate.toFormat('yyyy-MM-dd'),
       month: parsedDate.month,
       day: parsedDate.day,
+      year: hasYear ? parsedDate.year : undefined,
       gender,
       chatId: intChatId,
     };
 
     const record = await addRecord(params);
 
-    return await ctx.reply(t('commands.add.success', record));
+    return await ctx.reply(t('commands.add.success', {
+      name: record.name,
+      date: hasYear ? record.date : parsedDate.toFormat('dd-MM'),
+    }));
   } else if (functionCall.function === 'remove_birthday') {
     // Removing an existing birthday
     const { name } = functionCall.args;
@@ -141,8 +144,10 @@ async function processFunctionCall(
         )} with args year: ${year} month: ${month} day: ${day}`
       );
 
-      const newDate = parseDate(
-        `${year || recordToChange.year}-${month || recordToChange.month}-${
+      const newYear = year || recordToChange.year;
+      const dateYear = newYear || 1904; // placeholder for unknown year
+      const { date: newDate } = parseDate(
+        `${dateYear}-${month || recordToChange.month}-${
           day || recordToChange.day
         }`
       );
@@ -156,7 +161,7 @@ async function processFunctionCall(
         date: newDate.toFormat('yyyy-MM-dd'),
         day: newDate.day,
         month: newDate.month,
-        year: newDate.year,
+        year: newYear,
       };
 
       const removedRecord = await removeRecord(record);
