@@ -1,5 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { Bot, Context, GrammyError, HttpError, webhookCallback } from 'grammy';
+import { limit } from '@grammyjs/ratelimiter';
 import proxy from 'express-http-proxy';
 import {
   birthdaysCommand,
@@ -98,10 +99,23 @@ bot.on('message:new_chat_members:me', async (ctx) => {
 
 bot.on(
   'message:text',
+  limit({
+    timeFrame: 60,
+    limit: 5,
+    onLimitExceeded: async (ctx) => {
+      console.warn(
+        `[rate-limit] User ${ctx.from?.id} (${ctx.from?.username || 'unknown'}) exceeded rate limit in chat ${ctx.chat.id}`
+      );
+      await ctx.reply('Too many messages. Please wait a minute before trying again.');
+    },
+  }),
   withChatId,
   withReply,
   async function (ctx, next) {
     if (isGroup(ctx.chat)) return;
+    console.log(
+      `[message:text] userId=${ctx.from?.id} username=${ctx.from?.username || 'unknown'} chatId=${ctx.chat.id} text="${ctx.message?.text}"`
+    );
     return await next();
   },
   magicCommand // only runs on pvt
