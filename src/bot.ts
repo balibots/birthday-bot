@@ -50,6 +50,12 @@ BigInt.prototype['toJSON'] = function () {
 /** ---- ignore, proceed ---- **/
 
 bot.use(setLanguage);
+bot.use(
+  limit({
+    timeFrame: 60000,
+    limit: 5,
+  })
+);
 
 bot.command(['aniversarios', 'birthdays'], withChatId, birthdaysCommand);
 bot.command(['idades', 'list', 'ages'], withChatId, listCommand);
@@ -99,21 +105,6 @@ bot.on('message:new_chat_members:me', async (ctx) => {
 
 bot.on(
   'message:text',
-  limit({
-    // 8 per minute
-    timeFrame: 60000,
-    limit: 8,
-    onLimitExceeded: async (ctx) => {
-      console.warn(
-        `[rate-limit] User ${ctx.from?.id} (${
-          ctx.from?.username || 'unknown'
-        }) exceeded rate limit in chat ${ctx.chat.id}`
-      );
-      await ctx.reply(
-        'Too many messages. Please wait a minute before trying again.'
-      );
-    },
-  }),
   withChatId,
   withReply,
   async function (ctx, next) {
