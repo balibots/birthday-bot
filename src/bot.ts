@@ -100,13 +100,18 @@ bot.on('message:new_chat_members:me', async (ctx) => {
 bot.on(
   'message:text',
   limit({
-    timeFrame: 60,
-    limit: 5,
+    // 8 per minute
+    timeFrame: 60000,
+    limit: 8,
     onLimitExceeded: async (ctx) => {
       console.warn(
-        `[rate-limit] User ${ctx.from?.id} (${ctx.from?.username || 'unknown'}) exceeded rate limit in chat ${ctx.chat.id}`
+        `[rate-limit] User ${ctx.from?.id} (${
+          ctx.from?.username || 'unknown'
+        }) exceeded rate limit in chat ${ctx.chat.id}`
       );
-      await ctx.reply('Too many messages. Please wait a minute before trying again.');
+      await ctx.reply(
+        'Too many messages. Please wait a minute before trying again.'
+      );
     },
   }),
   withChatId,
@@ -114,7 +119,9 @@ bot.on(
   async function (ctx, next) {
     if (isGroup(ctx.chat)) return;
     console.log(
-      `[message:text] userId=${ctx.from?.id} username=${ctx.from?.username || 'unknown'} chatId=${ctx.chat.id} text="${ctx.message?.text}"`
+      `[message:text] userId=${ctx.from?.id} username=${
+        ctx.from?.username || 'unknown'
+      } chatId=${ctx.chat.id} text="${ctx.message?.text}"`
     );
     return await next();
   },
