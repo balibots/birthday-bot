@@ -49,13 +49,24 @@ BigInt.prototype['toJSON'] = function () {
 };
 /** ---- ignore, proceed ---- **/
 
-bot.use(setLanguage);
 bot.use(
   limit({
-    timeFrame: 60000,
-    limit: 5,
+    timeFrame: 4000,
+    limit: 1,
+    onLimitExceeded: async (ctx) => {
+      console.warn(
+        `[rate-limit] User ${ctx.from?.id} (${
+          ctx.from?.username || 'unknown'
+        }) exceeded rate limit in chat ${ctx.chat?.id}`
+      );
+      await ctx.reply(
+        'Too many messages. Please wait a minute before trying again.'
+      );
+    },
   })
 );
+
+bot.use(setLanguage);
 
 bot.command(['aniversarios', 'birthdays'], withChatId, birthdaysCommand);
 bot.command(['idades', 'list', 'ages'], withChatId, listCommand);
