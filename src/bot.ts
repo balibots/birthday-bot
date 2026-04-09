@@ -223,7 +223,9 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 const server = app.listen(PORT, async () => {
-  await bot.init();
+  if (process.env.NODE_ENV === 'production') {
+    await bot.init();
+  }
   console.log('HTTP server started');
   console.log(`Bot listening on port ${PORT}`);
 });
