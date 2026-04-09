@@ -1,5 +1,5 @@
 import express, { NextFunction, Request, Response } from 'express';
-import { Bot, Context, GrammyError, HttpError, webhookCallback } from 'grammy';
+import { Bot, Context, GrammyError, HttpError } from 'grammy';
 import { limit } from '@grammyjs/ratelimiter';
 import proxy from 'express-http-proxy';
 import {
@@ -163,12 +163,16 @@ if (!process.env.IS_DEV) {
   app.get('/web*', proxy('localhost:5173'));
 }
 
-app.post('/trigger', async (req, res) => {
-  const birthdays = await triggerEndpoint({
-    sendMessage: async (id: number, msg: string, opts?: any) =>
-      await bot.api.sendMessage(id, msg, opts),
-  });
-  res.json({ birthdays });
+app.post('/trigger', async (req, res, next) => {
+  try {
+    const birthdays = await triggerEndpoint({
+      sendMessage: async (id: number, msg: string, opts?: any) =>
+        await bot.api.sendMessage(id, msg, opts),
+    });
+    res.json({ birthdays });
+  } catch (err) {
+    next(err);
+  }
 });
 
 // error handling
@@ -201,8 +205,17 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 // Start the bot
 if (process.env.NODE_ENV === 'production') {
   // Using Webhook in production
+  // We handle the webhook manually instead of using webhookCallback so we can
+  // respond 200 immediately and process the update in the background.
+  // This prevents Telegram from retrying when slow commands (e.g. magicCommand
+  // calling OpenAI) take longer than Telegram's timeout.
   console.log('Using webhooks');
-  app.use(webhookCallback(bot, 'express'));
+  app.use((req, res) => {
+    res.status(200).end();
+    bot.handleUpdate(req.body).catch((err) => {
+      console.error('Error handling update:', err);
+    });
+  });
 } else {
   // Use Long Polling for development
   console.log('Using long polling');
