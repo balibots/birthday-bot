@@ -51,7 +51,7 @@ BigInt.prototype['toJSON'] = function () {
 
 bot.use(
   limit({
-    timeFrame: 4000,
+    timeFrame: 6000,
     limit: 1,
     onLimitExceeded: async (ctx) => {
       console.warn(
@@ -223,6 +223,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 const server = app.listen(PORT, async () => {
+  await bot.init();
   console.log('HTTP server started');
   console.log(`Bot listening on port ${PORT}`);
 });

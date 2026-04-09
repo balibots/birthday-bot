@@ -177,7 +177,7 @@ export async function getFunctionCall(
           },
         },
       ],
-      model: 'gpt-5-mini',
+      model: 'gpt-5-nano',
     });
 
     if (
