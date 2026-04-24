@@ -84,7 +84,7 @@ export async function addRecordFromMessage(ctx: MyContext) {
     }
   }
 
-  const parsedDate = parseDate(date);
+  const { date: parsedDate, hasYear } = parseDate(date);
 
   if (!parsedDate.isValid) {
     return ctx.reply(t('commands.add.errorParsingDate'), {
@@ -100,6 +100,7 @@ export async function addRecordFromMessage(ctx: MyContext) {
     date: parsedDate.toFormat('yyyy-MM-dd'),
     month: parsedDate.month,
     day: parsedDate.day,
+    year: hasYear ? parsedDate.year : undefined,
     gender,
     chatId: intChatId,
     chatName: !isGroup(ctx.chat) ? 'BirthdayBot DMs' : undefined,
@@ -111,7 +112,9 @@ export async function addRecordFromMessage(ctx: MyContext) {
     return ctx.reply(
       t('commands.add.success', {
         name: record.name,
-        date: record.date,
+        date: hasYear
+          ? record.date
+          : parsedDate.toFormat('dd-MM'),
       })
     );
   } catch (e) {

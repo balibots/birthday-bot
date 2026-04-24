@@ -151,6 +151,8 @@ const Birthday = ({
   today: Date;
 }) => {
   const isBirthdayToday = isBirthdayDate(today, birthday.date);
+  const hasYear = birthday.year != null;
+  const ageStr = hasYear ? ` (${getTurningAge(birthday.date, mode)})` : '';
 
   return (
     <Text
@@ -164,13 +166,13 @@ const Birthday = ({
       {mode === 'group' ? (
         <>
           {formatDate(birthday.date)} - {isBirthdayToday && '🎉 '}
-          {birthday.name} ({getTurningAge(birthday.date, mode)})
+          {birthday.name}{ageStr}
         </>
       ) : (
         <>
           {padDay(birthday.day)} - {isBirthdayToday && '🎉 '}
-          {birthday.name} ({getTurningAge(birthday.date, mode)}
-          ) <GroupOrGroups birthday={birthday} />
+          {birthday.name}{ageStr}
+          {' '}<GroupOrGroups birthday={birthday} />
         </>
       )}
     </Text>

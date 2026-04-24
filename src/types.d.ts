@@ -18,5 +18,5 @@ export interface BirthdayRecord {
 // so we pick only the ones we need
 export type BirthdayListEntry = Pick<
   BirthdayRecord,
-  'id' | 'name' | 'date' | 'gender' | 'chatId' | 'tgId'
+  'id' | 'name' | 'date' | 'gender' | 'chatId' | 'tgId' | 'year'
 >;

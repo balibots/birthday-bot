@@ -19,10 +19,10 @@ export interface GroupInfo {
 export async function addRecord({
   ...params
 }: BirthdayRecord & { chatName?: string }) {
-  // extract year. doing this here to avoid changing code upstream but
-  // should be refactored at some point.
-  const year = parseInt(params.date.split('-')[0]);
-  const isoDate = DateTime.utc(year, params.month, params.day).toISO();
+  // Use the provided year, or a placeholder (1904, a leap year) for the date field
+  // when birth year is unknown. The `year` column stores the actual birth year (or null).
+  const dateYear = params.year ?? 1904;
+  const isoDate = DateTime.utc(dateYear, params.month, params.day).toISO();
 
   if (!isoDate) {
     throw new Error(`Could not parse date ${params.date}`);
@@ -35,7 +35,7 @@ export async function addRecord({
       date: isoDate,
       day: params.day,
       month: params.month,
-      year: year,
+      year: params.year ?? null,
       gender: params.gender,
       GroupChat: {
         connectOrCreate: {
@@ -172,6 +172,6 @@ const parseRecord = (dbRecord: any): BirthdayRecord => {
     chatId: Number(groupChatId),
     day,
     month,
-    year,
+    year: year ?? undefined,
   };
 };

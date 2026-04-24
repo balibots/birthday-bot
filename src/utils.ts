@@ -28,9 +28,11 @@ export const sortAbsoluteDate = (
   a: BirthdayListEntry,
   b: BirthdayListEntry
 ) => {
-  let dateA = DateTime.fromISO(a.date);
-  let dateB = DateTime.fromISO(b.date);
-  return dateA > dateB ? 1 : dateA === dateB ? 0 : -1;
+  // Normalize to same year so sorting is by month/day only,
+  // avoiding placeholder years (e.g. 1904) from skewing the order.
+  let dateA = DateTime.fromISO(a.date).set({ year: 2000 });
+  let dateB = DateTime.fromISO(b.date).set({ year: 2000 });
+  return dateA > dateB ? 1 : dateA < dateB ? -1 : 0;
 };
 
 export const daysToBirthday = (strdate: string) => {
@@ -88,7 +90,8 @@ export const isGroup = (
 export const buildRecord = async (
   name: string,
   date: string,
-  chatId: number
+  chatId: number,
+  year?: number
 ): Promise<BirthdayRecord> => {
   if (!name || !date || !chatId || isNaN(chatId)) {
     throw new Error('Invalid params');
@@ -107,16 +110,26 @@ export const buildRecord = async (
     date: parsedDate.toFormat('yyyy-MM-dd'),
     month: parsedDate.month,
     day: parsedDate.day,
+    year,
     gender,
     chatId: chatId,
   };
 };
 
-export const parseDate = (dateStr: string) => {
-  const isoDate = DateTime.fromISO(dateStr);
-  if (isoDate.isValid) return isoDate;
+export interface ParsedDate {
+  date: DateTime;
+  hasYear: boolean;
+}
 
-  const otherFormats = [
+export const parseDate = (dateStr: string): ParsedDate => {
+  // Only try ISO parsing if the string looks like it has a year (4+ digit prefix)
+  // to avoid ambiguity with short strings like "12-30" being parsed as times
+  if (/^\d{4}/.test(dateStr)) {
+    const isoDate = DateTime.fromISO(dateStr);
+    if (isoDate.isValid) return { date: isoDate, hasYear: true };
+  }
+
+  const formatsWithYear = [
     'dd-MM-yyyy',
     'd-M-yyyy',
     'dd/MM/yyyy',
@@ -124,13 +137,30 @@ export const parseDate = (dateStr: string) => {
     'yyyy-M-d',
   ];
 
-  for (let format of otherFormats) {
+  for (let format of formatsWithYear) {
     const date = DateTime.fromFormat(dateStr, format);
-    if (date.isValid) return date;
+    if (date.isValid) return { date, hasYear: true };
+  }
+
+  // Try formats without year (day-month first, as it's the more natural format)
+  const formatsWithoutYear = [
+    'dd-MM',
+    'd-M',
+    'dd/MM',
+    'd/M',
+    'MM-dd',
+    'M-d',
+    'MM/dd',
+    'M/d',
+  ];
+
+  for (let format of formatsWithoutYear) {
+    const date = DateTime.fromFormat(dateStr, format);
+    if (date.isValid) return { date, hasYear: false };
   }
 
   // returning an invalid date if we cant parse it
-  return isoDate;
+  return { date: DateTime.invalid('unparsable'), hasYear: true };
 };
 
 export async function isMemberOfGroup(

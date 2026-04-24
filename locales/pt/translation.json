@@ -10,13 +10,13 @@
     },
     "add": {
       "success": "Aniversariante adicionado: {{name}} — {{date}}.",
-      "missingData": "Por favor indica o nome e data de aniversario no seguinte formato: `/add Jonas, 1984-03-30`",
+      "missingData": "Por favor indica o nome e data de aniversario no seguinte formato: `/add Jonas, 1984-03-30` (o ano é opcional, p.ex. `/add Jonas, 30-03`)",
       "missingDataWithGroupId": "Por favor indica o nome, data de aniversario e ID do grupo no seguinte formato: `/add Jonas, 1984-03-30, -12345`",
-      "errorParsingDate": "O formato da data e' invalido. Por favor usa YYYY-MM-DD, por exemplo: `/add Saul, 1989-01-31`",
+      "errorParsingDate": "O formato da data e' invalido. Por favor usa YYYY-MM-DD (ou DD-MM sem o ano), por exemplo: `/add Saul, 1989-01-31` ou `/add Saul, 31-01`",
       "success": "Aniversariante adicionado: {{name}} — {{date}}.",
       "restrictedToAdmins": "Apenas administratores do grupo podem adicionar e remover aniversariantes.",
       "alreadyExists": "Ja existe um aniversariante com esse nome",
-      "askForData": "Por favor response com o nome e data (ano-mes-dia) do aniversariante para adicionar (p.ex. `Samuel, 1986-06-11`):"
+      "askForData": "Por favor response com o nome e data do aniversariante para adicionar. O ano é opcional (p.ex. `Samuel, 1986-06-11` ou `Samuel, 11-06`):"
     },
     "modify": {
       "errorNotFound": "Não encontrei esse aniversariante.",
@@ -32,7 +32,8 @@
     },
     "birthdays": {
       "sentence_one": "`{{name}}`, faz *{{count}}* ano no dia {{day}} ({{daysToBirthdayStr}})",
-      "sentence_other": "`{{name}}`, faz *{{count}}* anos no dia {{day}} ({{daysToBirthdayStr}})"
+      "sentence_other": "`{{name}}`, faz *{{count}}* anos no dia {{day}} ({{daysToBirthdayStr}})",
+      "sentenceNoAge": "`{{name}}`, aniversário no dia {{day}} ({{daysToBirthdayStr}})"
     },
     "all": {
       "intro": "Aqui podes ver todos os aniversários dos grupos onde estás:",
@@ -73,6 +74,19 @@
     "🎂 Vamos festejar! Hoje {{pronoun}} {{name}} completa {{age}} anos! 🥳🎉 Parabéns, {{name}} ❤️",
     "🎂 Viva {{pronoun}} {{name}}! Hoje é o seu aniversário de {{age}} anos! 🥳🎉 Felicidades, {{name}} ❤️"
   ],
+  "messagesNoAge": [
+    "🎂 Hoje é o dia d{{pronoun}} *{{name}}*! 🥳🎉 Parabéns {{name}} ❤️",
+    "🎂 Que dia épico! É o aniversário d{{pronoun}} *{{name}}*! 🥳🎉 Parabéns {{name}} ❤️",
+    "🎂 Hoje é um dia especial para {{pronoun}} {{name}}! 🥳🎉 Felicidades, {{name}} ❤️",
+    "🎂 Vamos comemorar! Hoje é o aniversário d{{pronoun}} {{name}}! 🥳🎉 Parabéns, {{name}} ❤️",
+    "🎂 Um brinde a {{name}}, que celebra hoje o seu aniversário! 🥳🎉 Muitos parabéns, {{name}} ❤️",
+    "🎂 Hoje é dia de festa! Feliz aniversário {{name}}! 🥳🎉 Felicidades, {{name}} ❤️",
+    "🎂 Parabéns para {{pronoun}} {{name}}, que hoje faz aniversário! 🥳🎉 Muitos parabéns, {{name}} ❤️",
+    "🎂 Que alegria! Hoje é o aniversário d{{pronoun}} {{name}}! 🥳🎉 Parabéns, {{name}} ❤️",
+    "🎂 Feliz aniversário, {{name}}! Hoje é o teu dia! 🥳🎉 Muitas felicidades, {{name}} ❤️",
+    "🎂 Vamos festejar! Hoje é o aniversário d{{pronoun}} {{name}}! 🥳🎉 Parabéns, {{name}} ❤️",
+    "🎂 Viva {{pronoun}} {{name}}! Hoje é o seu aniversário! 🥳🎉 Felicidades, {{name}} ❤️"
+  ],
   "words": {
     "days": "dias",
     "day": "dia",
@@ -83,8 +97,8 @@
 
   "startMessage": "🎂 *Bem-vindo ao BirthdayBot!* 🎂\nExisto para te ajudar a lembrar dos aniversários de todos os teus amigos. 🤖\n\nPodes-me adicionar a um Chat de Grupo para que todos no grupo possam adicionar aniversários colaborativamente, ou guardar as tuas datas importantes de forma privada usando mensagens diretas.\n\nAdiciona aniversários usando o comando /add e eu enviarei mensagens de parabéns quando os aniversários chegarem! 🎉.\n\nVe que outros comandos estão disponíveis escrevendo /help e, por favor, envia-nos feedback usando o comando /feedback. 🎈",
   "startMessageOnDm": "🎂 *Bem-vindo ao BirthdayBot!* 🎂\nExisto para te ajudar a lembrar dos aniversários de todos os teus amigos. 🤖\n\nPodes-me adicionar a um Chat de Grupo para que todos no grupo possam adicionar aniversários colaborativamente, ou guardar as tuas datas importantes de forma privada usando mensagens diretas, como estás a fazer agora.\n\nPara comecar a adicionar aniversários, basta me dizer o nome e a data completa de nascimento (ex: `adicionar o aniversário do Sam em 11 de junho de 1986`) e eu enviarei mensagens de parabéns quando os aniversários chegarem! 🎉. (num chat de grupo, adiciona e remove aniversários usando os comandos /add e /remove).\n\nVe que outros comandos estao disponiveis escrevendo /help e, por favor, envia-nos o teu feedback usando o comando /feedback. 🎈",
-  "helpMessage": "💡 Aqui estão alguns dos comandos que podes usar num chat de grupo:\n\n - /add - Adiciona um novo aniversário com o nome e a data separados por uma vírgula (ex: `/add Samuel, 1994-03-21`)\n - /remove - Remove um aniversário (ex: `/remove David`)\n - /birthdays - Lista os aniversários de todos, ordenado pela data mais próxima.\n - /ages - Lista todos, ordenados por idade.\n - /next - Mostra quem tem o próximo aniversário!\n - /birthdaybot - Comando ligeiramente mágico, basta dizer ao bot o que queres que ele faça (ex: `/birthdaybot adicionar Pedro em 15 de abril de 1980`).\n - /config - Mostra a configuração atual para este grupo. Se fores um administrador, podes alterar a configuracao separando a campo e o valor com uma vírgula. (ex: `/config language, pt`)\n - /calendar - Abre a pagina do Calendário de Aniversários.\n - /feedback - Envia-nos o teu feedback!",
-  "helpMessageOnDm": "💡 Quando a usar mensagens diretas, podes simplesmente dizer o que precisas que eu faça, por exemplo, `adicionar o aniversário do Pedro em 11 de junho de 1986`, ou, `remover o aniversário do Julio` - não há necessidade de usar comandos!\n\nSe realmente quiseres, aqui estão os comandos que podes usar: (os comandos sao necessarios quando num chat de grupo!):\n\n - /add - Adiciona um novo aniversário com o nome e a data separados por uma vírgula (ex: `/add Samuel, 1994-03-21`)\n - /remove - Remove um aniversário (ex: `/remove David`)\n - /birthdays - Lista os aniversários de todos, ordenado pela data mais próxima.\n - /ages - Lista todos, ordenados por idade.\n - /next - Mostra quem tem o próximo aniversário!\n - /birthdaybot - Comando ligeiramente mágico, basta dizer ao bot o que queres que ele faça (ex: `/birthdaybot adicionar Pedro em 15 de abril de 1980`).\n - /config - Mostra a configuração atual para este grupo. Se fores um administrador, podes alterar a configuracao separando a campo e o valor com uma vírgula. (ex: `/config language, pt`)\n - /calendar - Abre a pagina do Calendário de Aniversários.\n - /feedback - Envia-nos o teu feedback!",
+  "helpMessage": "💡 Aqui estão alguns dos comandos que podes usar num chat de grupo:\n\n - /add - Adiciona um novo aniversário com o nome e a data separados por uma vírgula. O ano é opcional! (ex: `/add Samuel, 1994-03-21` ou `/add Samuel, 21-03`)\n - /remove - Remove um aniversário (ex: `/remove David`)\n - /birthdays - Lista os aniversários de todos, ordenado pela data mais próxima.\n - /ages - Lista todos, ordenados por idade.\n - /next - Mostra quem tem o próximo aniversário!\n - /birthdaybot - Comando ligeiramente mágico, basta dizer ao bot o que queres que ele faça (ex: `/birthdaybot adicionar Pedro em 15 de abril` ou `/birthdaybot adicionar Pedro em 15 de abril de 1980`).\n - /config - Mostra a configuração atual para este grupo. Se fores um administrador, podes alterar a configuracao separando a campo e o valor com uma vírgula. (ex: `/config language, pt`)\n - /calendar - Abre a pagina do Calendário de Aniversários.\n - /feedback - Envia-nos o teu feedback!",
+  "helpMessageOnDm": "💡 Quando a usar mensagens diretas, podes simplesmente dizer o que precisas que eu faça, por exemplo, `adicionar o aniversário do Pedro em 11 de junho de 1986`, ou `adicionar o aniversário do Pedro em 11 de junho` (o ano é opcional!), ou, `remover o aniversário do Julio` - não há necessidade de usar comandos!\n\nSe realmente quiseres, aqui estão os comandos que podes usar: (os comandos sao necessarios quando num chat de grupo!):\n\n - /add - Adiciona um novo aniversário com o nome e a data separados por uma vírgula. O ano é opcional! (ex: `/add Samuel, 1994-03-21` ou `/add Samuel, 21-03`)\n - /remove - Remove um aniversário (ex: `/remove David`)\n - /birthdays - Lista os aniversários de todos, ordenado pela data mais próxima.\n - /ages - Lista todos, ordenados por idade.\n - /next - Mostra quem tem o próximo aniversário!\n - /birthdaybot - Comando ligeiramente mágico, basta dizer ao bot o que queres que ele faça (ex: `/birthdaybot adicionar Pedro em 15 de abril` ou `/birthdaybot adicionar Pedro em 15 de abril de 1980`).\n - /config - Mostra a configuração atual para este grupo. Se fores um administrador, podes alterar a configuracao separando a campo e o valor com uma vírgula. (ex: `/config language, pt`)\n - /calendar - Abre a pagina do Calendário de Aniversários.\n - /feedback - Envia-nos o teu feedback!",
 
 
 

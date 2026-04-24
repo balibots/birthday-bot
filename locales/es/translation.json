@@ -9,9 +9,9 @@
     },
     "add": {
       "success": "Cumpleañero añadido: {{name}} — {{date}}.",
-      "missingData": "Por favor, proporciona el nombre y la fecha de cumpleaños en el siguiente formato: `/add Jonas, 1984-03-30`",
+      "missingData": "Por favor, proporciona el nombre y la fecha de cumpleaños en el siguiente formato: `/add Jonas, 1984-03-30` (el año es opcional, p.ej. `/add Jonas, 30-03`)",
       "missingDataWithGroupId": "Por favor, proporciona el nombre, la fecha de cumpleaños y el ID del grupo en el siguiente formato: `/add Jonas, 1984-03-30, -12345`",
-      "errorParsingDate": "El formato de la fecha es inválido. Por favor, usa YYYY-MM-DD, por ejemplo: `/add Saul, 1989-01-31`",
+      "errorParsingDate": "El formato de la fecha es inválido. Por favor, usa YYYY-MM-DD (o DD-MM sin el año), por ejemplo: `/add Saul, 1989-01-31` o `/add Saul, 31-01`",
       "success": "Cumpleañero añadido: {{name}} — {{date}}.",
       "restrictedToAdmins": "Solo los administradores del grupo pueden añadir y eliminar cumpleañeros.",
       "alreadyExists": "Ya existe un cumpleañero con ese nombre."
@@ -25,7 +25,8 @@
     },
     "birthdays": {
       "sentence_one": "`{{name}}`, cumple *{{count}}* año el día {{day}} ({{daysToBirthdayStr}})",
-      "sentence_other": "`{{name}}`, cumple *{{count}}* años el día {{day}} ({{daysToBirthdayStr}})"
+      "sentence_other": "`{{name}}`, cumple *{{count}}* años el día {{day}} ({{daysToBirthdayStr}})",
+      "sentenceNoAge": "`{{name}}`, cumpleaños el día {{day}} ({{daysToBirthdayStr}})"
     }
   },
   "errors": {
@@ -50,6 +51,12 @@
     "🎂 ¡Qué día épico! {{pronounUp}} *{{name}}* cumple hoy {{age}} años! 🥳🎉 Felicidades {{name}} ❤️",
     "🎂 {{pronounUp}} nuestro *{{name}}* cumple hoy {{age}} años! 🥳🎉 Felicidades {{name}} ❤️"
   ],
+  "messagesNoAge": [
+    "🎂 ¡Hoy es el cumpleaños de *{{name}}*! 🥳🎉 Felicidades {{name}} ❤️",
+    "🎂 ¡Hoy es el día de *{{name}}*! 🥳🎉 Muchas felicidades {{name}} ❤️",
+    "🎂 ¡Qué día épico! ¡Es el cumpleaños de *{{name}}*! 🥳🎉 Felicidades {{name}} ❤️",
+    "🎂 ¡Hoy es un día especial para {{name}}! 🥳🎉 Felicidades, {{name}} ❤️"
+  ],
   "words": {
     "days": "días",
     "day": "día",
@@ -57,7 +64,7 @@
     "tomorrow": "mañana!"
   },
   "welcomeGroup": "👋 *{{chatTitle}}*!\nSoy un bot 🤖 que te ayuda a registrar todos los cumpleaños de los miembros de este grupo. Para saber más sobre los comandos disponibles, escribe /help.",
-  "helpMessage": "Estos son los comandos que puedes usar:\n - /add - Para añadir un cumpleañero, con nombre y fecha separados por comas (por ejemplo, `/add Samuel, 1994-03-21`)\n - /remove - Para eliminar un cumpleañero (`/remove Pedro`)\n - /birthdays - Lista de cumpleañeros, ordenados por el próximo en cumplir años.\n - /ages - Lista por edades.\n - /next - Muestra más información sobre el próximo cumpleaños.\n - /birthdaybot - Para decirle al bot lo que quieres que haga (por ejemplo, `/birthdaybot añade a Pedro el 15 de abril de 1980`).",
+  "helpMessage": "Estos son los comandos que puedes usar:\n - /add - Para añadir un cumpleañero, con nombre y fecha separados por comas. El año es opcional! (por ejemplo, `/add Samuel, 1994-03-21` o `/add Samuel, 21-03`)\n - /remove - Para eliminar un cumpleañero (`/remove Pedro`)\n - /birthdays - Lista de cumpleañeros, ordenados por el próximo en cumplir años.\n - /ages - Lista por edades.\n - /next - Muestra más información sobre el próximo cumpleaños.\n - /birthdaybot - Para decirle al bot lo que quieres que haga (por ejemplo, `/birthdaybot añade a Pedro el 15 de abril` o `/birthdaybot añade a Pedro el 15 de abril de 1980`).",
   "unborn": "no nacido",
   "inputNeeded": "¿Sí?..."
 }
